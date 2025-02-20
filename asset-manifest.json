@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/CMSC447-4Year-Planner-Group02/static/css/main.f855e6bc.css",
+    "main.js": "/CMSC447-4Year-Planner-Group02/static/js/main.4dbf108b.js",
+    "static/js/488.3545f45c.chunk.js": "/CMSC447-4Year-Planner-Group02/static/js/488.3545f45c.chunk.js",
+    "static/media/logo.svg": "/CMSC447-4Year-Planner-Group02/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/CMSC447-4Year-Planner-Group02/index.html",
+    "main.f855e6bc.css.map": "/CMSC447-4Year-Planner-Group02/static/css/main.f855e6bc.css.map",
+    "main.4dbf108b.js.map": "/CMSC447-4Year-Planner-Group02/static/js/main.4dbf108b.js.map",
+    "488.3545f45c.chunk.js.map": "/CMSC447-4Year-Planner-Group02/static/js/488.3545f45c.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f855e6bc.css",
+    "static/js/main.4dbf108b.js"
+  ]
+}
