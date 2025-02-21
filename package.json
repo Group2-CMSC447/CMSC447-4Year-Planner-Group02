@@ -1,7 +1,7 @@
 {
   "name": "4-year-planner",
   "version": "0.1.0",
-  "homepage": "https://Group2-CMSC447.github.io/CMSC447-4Year-Planner-Group02",
+  "homepage": "https://group2-cmsc447.github.io/CMSC447-4Year-Planner-Group02",
   "private": true,
   "dependencies": {
     "cra-template": "1.2.0",
