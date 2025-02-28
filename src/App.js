@@ -1,24 +1,20 @@
-import logo from './logo.svg';
 import './App.css';
+import Year from './components/Year'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload. This is a change being made to test site.
-        </p>
+    <div className="App" data-testid="callYear">
+        <Year/>   
         <a
-          className="App-link"
-          href="https://reactjs.org"
+          className="Github-Link"
+          href="https://github.com/Group2-CMSC447/CMSC447-4Year-Planner-Group02"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          Check Our Github
         </a>
-      </header>
     </div>
+    
   );
 }
 
