@@ -10,7 +10,7 @@ function EditCourse() {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
+          <Button variant="primary" onClick={handleShow} className="shadow-md">
         Add Course
       </Button>
 
