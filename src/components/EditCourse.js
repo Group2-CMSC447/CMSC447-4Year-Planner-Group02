@@ -14,7 +14,7 @@ function EditCourse({onConfirm}) { //Takes a prop from semester which is an on c
   const handleConfirm = () => { //runs after clicking add in the modal
     if(selectedValue){ //ensures a course was actually clicked
       onConfirm(selectedValue); //uses the passed prop from semester to send the selected value to a function called add course which gets the selected value as a prop newCourse
-      console.log(selectedValue); //test
+      //console.log(selectedValue); //test
       //setSelectedValue(''); //reset the selected value
       handleClose(); //closes the modal just like when you cancel
     }
@@ -36,7 +36,7 @@ function EditCourse({onConfirm}) { //Takes a prop from semester which is an on c
         setSelectCourse(res.data) // set the select course array to whatever we got from api call
       }
     })
-    .catch(err => console.log(err))
+    //.catch(err => console.log(err))
   }
 
   const SelectInSearch = () => {
