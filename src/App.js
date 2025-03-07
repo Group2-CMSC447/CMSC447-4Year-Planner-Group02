@@ -25,12 +25,12 @@ function App() {
           {
               //This displays all the year objects stored in the years array
           }
-          <div className="flex flex-col justify-center items-center min-h-screen">
+          <div className="flex flex-col justify-center items-center min-h-screen" key="year">
           
               {
                   years.map((year) => {     
                       return (
-                          <Year name={year.name} className="flex-grow w-full" />
+                          <Year name={year.name} className="flex-grow w-full" key={year.name} />
 
                       );
                   })
