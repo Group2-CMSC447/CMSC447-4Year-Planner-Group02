@@ -30,14 +30,26 @@ function EditCourse({onConfirm}) { //Takes a prop from semester which is an on c
   },[]) //lets it know to only run once
 
   const axiosFetchCourses = async(processing) =>{ //api call to get data [async = a function that can wait]
-    await axios.get('http://localhost:4000/courses') //request data from our backend running on port 4000
-    .then(res => {
-      if (processing){
-        setSelectCourse(res.data) // set the select course array to whatever we got from api call
-      }
-    })
-    //.catch(err => console.log(err))
+    try{
+        const res = await axios.get('http://localhost:4000/courses') //request data from our backend running on port 4000
+        if (processing){
+          setSelectCourse(res.data) // set the select course array to whatever we got from api call
+        }
+      } 
+    catch(err) {err => console.log(err.res.data)}
   }
+    
+  
+
+  // const axiosFetchCourses = async(processing) =>{ //api call to get data [async = a function that can wait]
+  //   await axios.get('http://localhost:4000/courses') //request data from our backend running on port 4000
+  //   .then(res => {
+  //     if (processing){
+  //       setSelectCourse(res.data) // set the select course array to whatever we got from api call
+  //     }
+  //   })
+  //   .catch(err => console.log(err))
+  // }
 
   const SelectInSearch = () => {
     //This is a prop created to get all courses from an api then create an option for each
