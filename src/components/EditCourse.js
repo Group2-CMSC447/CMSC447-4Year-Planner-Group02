@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import axios from "axios";
+import axios from 'axios';
 
 function EditCourse({onConfirm}) { //Takes a prop from semester which is an on confirm event that calls add course
   const [show, setShow] = useState(false); //for the model
