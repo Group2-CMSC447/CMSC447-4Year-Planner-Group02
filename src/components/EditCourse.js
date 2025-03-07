@@ -36,7 +36,7 @@ function EditCourse({onConfirm}) { //Takes a prop from semester which is an on c
           setSelectCourse(res.data) // set the select course array to whatever we got from api call
         }
       } 
-    catch(err) {console.log(err.res.data)}
+    catch(error) {console.error(error)}
   }
     
   
