@@ -25,7 +25,7 @@ function Semester(props) {
                     {
                         courses.map((course) => { //iterates through courses and lists their name
                             return (
-                                <Course name={course.name}/>
+                                <Course key={course.name} name={course.name}/>
 
                             );
                         })
