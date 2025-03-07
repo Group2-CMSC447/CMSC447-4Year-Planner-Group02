@@ -1,6 +1,7 @@
 import './App.css';
 import { useState } from "react";
 import Year from './components/Year'
+import CreditRange from './components/CreditRange'
 
 function App() {
     const [years, setYears] = useState([
@@ -21,6 +22,7 @@ function App() {
             <div>
                 <h1 className="text-center text-xl font-semibold">4 Year Plan</h1>
             </div>
+            <CreditRange></CreditRange>
 
           {
               //This displays all the year objects stored in the years array
