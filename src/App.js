@@ -29,18 +29,21 @@ function App() {
     return (
       <div className="flex flex-col" data-testid="callYear">
 
-          <div className="flex flex-col justify-center items-center min-h-screen">
+          <div className="flex flex-col justify-center items-center">
 
                 <h1 className="text-center text-xl font-semibold">4 Year Plan</h1>
-                {
-                    //Credit slider, change vals pushes changes to the min and max variables
-                }
-                <CreditRange changeVals={changeVals}></CreditRange>
-                {
-                  //Map years out to create the objects
+                <CreditRange changeVals = {changeVals}></CreditRange>
+            </div>
+
+          {
+              //This displays all the year objects stored in the years array
+          }
+          <div className="flex flex-col justify-center items-center min-h-screen" key="year">
+          
+              {
                   years.map((year) => {     
                       return (
-                          <Year name={year.name} className="flex-grow w-full" />
+                          <Year name={year.name} className="flex-grow w-full" key={year.name} />
 
                       );
                   })

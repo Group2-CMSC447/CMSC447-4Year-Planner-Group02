@@ -4,6 +4,7 @@
   "homepage": "https://group2-cmsc447.github.io/CMSC447-4Year-Planner-Group02",
   "private": true,
   "dependencies": {
+    "axios": "^1.8.2",
     "bootstrap": "^5.3.3",
     "cra-template": "1.2.0",
     "rc-slider": "^11.1.8",
@@ -17,9 +18,10 @@
     "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!axios)/\"",
     "eject": "react-scripts eject"
   },
+  "proxy": "https://localhost:4000/",
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -41,6 +43,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
+    "ajv": "^8.17.1",
     "tailwindcss": "^3.4.17",
     "web-vitals": "^4.2.4"
   }

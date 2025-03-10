@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Slider, { Range } from "rc-slider";
+import Slider from "rc-slider";
 import 'rc-slider/assets/index.css';
 function CreditRange(props) {
     //Needed for the paragraph element displaying the range

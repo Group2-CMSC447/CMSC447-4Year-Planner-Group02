@@ -38,7 +38,7 @@ function Year(props) {
                         {
                             semesters.map((sem) => {
                                 return (
-                                    <Semester name={sem.name} />
+                                    <Semester key={sem.name} name={sem.name} />
 
                                 );
                             })
