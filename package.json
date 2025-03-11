@@ -4,6 +4,7 @@
   "homepage": "https://group2-cmsc447.github.io/CMSC447-4Year-Planner-Group02",
   "private": true,
   "dependencies": {
+    "@testing-library/dom": "^10.4.0",
     "axios": "^1.8.2",
     "bootstrap": "^5.3.3",
     "cra-template": "1.2.0",
