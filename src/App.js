@@ -24,15 +24,19 @@ function App() {
         console.log("Changed Vals to: " + value[0] + " and " + value[1])
         setMin(value[0]);
         setMax(value[1]);
+
+        {/*Console log for preventing errors*/}
+        console.log("Console log for preventing warnings. Min: " + { min } +" Max:" + { max } )
     };
 
     return (
       <div className="flex flex-col" data-testid="callYear">
 
-          <div className="flex flex-col justify-center items-center">
+            <div className="flex flex-col justify-center items-center">
 
                 <h1 className="text-center text-xl font-semibold">4 Year Plan</h1>
-                <CreditRange changeVals = {changeVals}></CreditRange>
+                <CreditRange changeVals={changeVals}></CreditRange>
+                
             </div>
 
           {
