@@ -14,9 +14,14 @@ function CreditRange(props) {
     };
     return (
         
-        <div style={{ width: "25%" }}>
+        <div className="flex w-full gap-4">
+            <div>
+                <p className="text-left font-semibold text-black  mb-0"> Preferred Semester Credit Range ({low} - { high}):</p>
+            </div>
+            <div className="flex-grow">
             {/* ^^ Controls the size of the slider and box for text*/}
             <Slider range
+                
                 min={0}
                 max={24}
                 defaultValue={[12, 20]}
@@ -28,12 +33,12 @@ function CreditRange(props) {
                 trackStyle={{
                     //stone 400
                     backgroundColor: "#a1a1aa",
-                    height: 10
+                    height: 15
                 }}
                 railStyle={{
                     // stone-100
                     backgroundColor: "#f4f4f5",
-                    height: 10
+                    height: 15
                 }}
                 handleStyle={{
                     // stone-500
@@ -42,11 +47,10 @@ function CreditRange(props) {
                     height: 15,
                     width: 15,
                     marginLeft: 0,
-                    marginTop: -2.5
+                    marginTop: 0
                 }}
             />
-
-            <p className="text-md font-semibold text-black text-center"> Preferred Semester Credit Range: {low} - { high}</p>
+            </div>
 
         </div>
         
