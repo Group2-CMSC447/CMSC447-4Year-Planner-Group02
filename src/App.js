@@ -25,7 +25,7 @@ function App() {
         setMin(value[0]);
         setMax(value[1]);
 
-        {/*Console log for preventing errors*/}
+        /*Console log for preventing errors*/
         console.log("Console log for preventing warnings. Min: " + { min } +" Max:" + { max } )
     };
 
