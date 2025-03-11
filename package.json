@@ -4,13 +4,16 @@
   "homepage": "https://group2-cmsc447.github.io/CMSC447-4Year-Planner-Group02",
   "private": true,
   "dependencies": {
-    "axios": "^1.8.1",
+    "@testing-library/dom": "^10.4.0",
+    "axios": "^1.8.2",
     "bootstrap": "^5.3.3",
     "cra-template": "1.2.0",
+    "rc-slider": "^11.1.8",
     "react": "^19.0.0",
     "react-bootstrap": "^2.10.9",
     "react-dom": "^19.0.0",
-    "react-scripts": "5.0.1"
+    "react-scripts": "5.0.1",
+    "typescript": "^4.9.5"
   },
   "scripts": {
     "predeploy": "npm run build",
@@ -42,6 +45,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
+    "ajv": "^8.17.1",
     "tailwindcss": "^3.4.17",
     "web-vitals": "^4.2.4"
   }

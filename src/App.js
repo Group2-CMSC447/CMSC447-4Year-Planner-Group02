@@ -1,25 +1,42 @@
 import './App.css';
 import { useState } from "react";
 import Year from './components/Year'
+import CreditRange from './components/CreditRange'
 
 function App() {
     const [years, setYears] = useState([
-        { name: "Year 1" },
-        { name: "Year 2" },
-        { name: "Year 3" },
-        { name: "Year 4" }
+        { name: "Year 1"},
+        { name: "Year 2"},
+        { name: "Year 3"},
+        { name: "Year 4"}
     ]);
 
     const addYear = () => {
         const newYear = years.length + 1;
-        setYears([...years, { name: 'Year ' + newYear }]);
+        setYears([...years, { name: 'Year ' + newYear}]);
  
+    };
+    //Use for the credit range checks
+    const [min, setMin] = useState();
+    const [max, setMax] = useState();
+
+    const changeVals = (value) => {
+        console.log("Changed Vals to: " + value[0] + " and " + value[1])
+        setMin(value[0]);
+        setMax(value[1]);
+
+        /*Console log for preventing errors*/
+        console.log("Console log for preventing warnings. Min: " + { min } +" Max:" + { max } )
     };
 
     return (
-      <div className="flex flex flex-col" data-testid="callYear">
-            <div>
+      <div className="flex flex-col" data-testid="callYear">
+
+            <div className="flex flex-col justify-center items-center">
+
                 <h1 className="text-center text-xl font-semibold">4 Year Plan</h1>
+                <CreditRange changeVals={changeVals}></CreditRange>
+                
             </div>
 
           {
@@ -34,7 +51,7 @@ function App() {
 
                       );
                   })
-              }
+                }
           </div>
             
             <button onClick={addYear} className="px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
