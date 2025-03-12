@@ -2,6 +2,7 @@ import './App.css';
 import { useState } from "react";
 import Year from './components/Year'
 import CreditRange from './components/CreditRange'
+import MajorDropdown from './components/MajorDropdown'
 
 function App() {
     const [years, setYears] = useState([
@@ -29,16 +30,32 @@ function App() {
         console.log("Console log for preventing warnings. Min: " + { min } +" Max:" + { max } )
     };
 
+    //Used for major dropdown and data population
+    const [majorName, setMajorName] = useState("Hello");
+
+    const onConfirmMajor = (value) => {
+        setMajorName(value);
+        console.log("Major name set to: " + majorName);
+
+        //IMPLEMENT LOGIC FOR POPULATING BASIC 4YEAR PLAN HERE
+        //
+        //
+        //
+        //
+    }
+
     return (
-      <div className="flex flex-col" data-testid="callYear">
-
-            <div className="flex flex-col justify-center items-center">
-
-                <h1 className="text-center text-xl font-semibold">4 Year Plan</h1>
-                <CreditRange changeVals={changeVals}></CreditRange>
-                
-            </div>
-
+        <div className="flex flex-col ml-4 mr-4" data-testid="callYear">
+            <h1 className="text-center text-xl font-semibold">4 Year Plan</h1>
+            <h3 className="text-left text-lg font-semibold">Planner Options:</h3>
+                <div className="flex justify-center item-center gap-4">
+                    <div className="">
+                        <MajorDropdown onConfirm={onConfirmMajor}></MajorDropdown>
+                    </div>
+                    <div className="flex-auto">
+                        <CreditRange changeVals={changeVals}></CreditRange>
+                    </div>
+                </div>
           {
               //This displays all the year objects stored in the years array
           }
@@ -58,7 +75,7 @@ function App() {
                 Add Empty Year
             </button>
         <a
-          className="Github-Link"
+          className="Github-Link text-center font-semibold"
           href="https://github.com/Group2-CMSC447/CMSC447-4Year-Planner-Group02"
           target="_blank"
           rel="noopener noreferrer"
