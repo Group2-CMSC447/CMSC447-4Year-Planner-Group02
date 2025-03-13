@@ -1,6 +1,6 @@
 import Course from './Course';
 import EditCourse from './EditCourse';
-import { useState} from "react";
+import { useState } from "react";
 
 
 function Semester(props) {
@@ -12,6 +12,12 @@ function Semester(props) {
         console.log(newCourse) // test
         setCourses([ ...courses, {name: newCourse + newCourseNum}]); // get whats in courses and add a new course to it and the number of courses
     }
+
+    const removeCourse = (index) => {//index is the index in the courses array to remove
+        //console.log(index); //test
+        setCourses(courses => courses.filter((_, i) => i !== index)); //set the new array to filter in every index but the one to remove
+    }
+
         
 
     return (
@@ -23,9 +29,9 @@ function Semester(props) {
                 <div className="flex flex-col justify-center items-center">
 
                     {
-                        courses.map((course) => { //iterates through courses and lists their name
+                        courses.map((course, i) => { //iterates through courses and lists their name
                             return (
-                                <Course key={course.name} name={course.name}/>
+                                <Course key={course.name} name={course.name} remove={() => removeCourse(i)}/>
 
                             );
                         })
@@ -33,7 +39,6 @@ function Semester(props) {
                 </div>
                 
                 <EditCourse onConfirm={addCourse}/> {/* call the component which handles listing course options and adding the selected course*/} 
-
             </div>
         </div>
 
