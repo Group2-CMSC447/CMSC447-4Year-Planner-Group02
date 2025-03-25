@@ -1,8 +1,8 @@
 import Semester from './Semester';
 import Button from 'react-bootstrap/Button';
-import { useState } from "react";
+
 function Year(props) {
-    const { name, semesters } = props;
+    const { semesters } = props;
 
     const addSemester = () => {
         const newSemNum = semesters.length + 1;

@@ -4,7 +4,7 @@ import EditCourse from './EditCourse';
 
 function Semester(props) {
     //Promote prop details to variables
-    const { name, courses } = props;
+    const {courses } = props;
     
     const addCourse = (newCourse) => { //newcourses is a prop sent to editCourses and it comes back witht e selected course name 
         
