@@ -34,6 +34,16 @@ courseData = [
         attributes : null,
         preReqs : null,
         typicalSem : 0
+    },
+    {
+        id: 'Course 1',
+        name: 'Course 1',
+        description: 'This is an introductory course on UNIX intended primarily for incoming students new to UNIX and to computing at UMBC. Topics include an introduction to the UMBC computing environment, basics of the UNIX environment, e-mail using Pine and the emacs/Xemacs editor. Students are required to obtain a UMBC GL account prior to the first day of class.',
+        credits: 1,
+        workload: 1,
+        attributes: null,
+        preReqs: null,
+        typicalSem: 0
     }
 ]
 async function addToDB(){
