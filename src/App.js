@@ -7,15 +7,16 @@ import MajorDropdown from './components/MajorDropdown'
 function App() {
     //Basic year setup, organized by Year Name, the semesters (semester name, then courses, (course name))
     const [years, setYears] = useState([
-        { name: "Year 1", semesters: [{ name: "Fall", courses: [] }, { name: "Spring", courses: [] }] },
-        { name: "Year 2", semesters: [{ name: "Fall", courses: [] }, { name: "Spring", courses: [] }] },
-        { name: "Year 3", semesters: [{ name: "Fall", courses: [] }, { name: "Spring", courses: [] }] },
-        { name: "Year 4", semesters: [{ name: "Fall", courses: [] }, { name: "Spring", courses: [] }] },
+        { name: "Before UMBC", preUMBC: true, semesters: [{ name: "Test Credit", courses: []}, { name: "Transfer Credit", courses: [] }] },
+        { name: "Year 1", preUMBC: false, semesters: [{ name: "Fall", courses: [] }, { name: "Spring", courses: [] }] },
+        { name: "Year 2", preUMBC: false, semesters: [{ name: "Fall", courses: [] }, { name: "Spring", courses: [] }] },
+        { name: "Year 3", preUMBC: false, semesters: [{ name: "Fall", courses: [] }, { name: "Spring", courses: [] }] },
+        { name: "Year 4", preUMBC: false, semesters: [{ name: "Fall", courses: [] }, { name: "Spring", courses: [] }] },
     ]);
     //Adds basic empty year object
     const addYear = () => {
         const newYear = years.length + 1;
-        setYears([...years, { name: "Year " + newYear, semesters: [{ name: "Fall", courses: [] }, { name: "Spring", courses: [] }] }]);
+        setYears([...years, { name: "Year " + newYear, preUMBC: false, semesters: [{ name: "Fall", courses: [] }, { name: "Spring", courses: [] }] }]);
  
     };
     //Use for the credit range checks
@@ -90,6 +91,12 @@ function App() {
         );
     };
 
+    const removeYear = (yearName) => {
+        setYears(newYears => years.filter(
+            (year) => year.name !== yearName
+        ))
+    }
+
     return (
         <div className="flex flex-col ml-4 mr-4" data-testid="callYear">
 
@@ -110,13 +117,22 @@ function App() {
           <div className="flex flex-col justify-center items-center min-h-screen" key="year">
           
               {
-                  years.map((year) => {     
+                  years.map((year, index) => {     
                       return (
-                          <Year name={year.name} semesters={year.semesters} removeFromSemester={removeFromSemester} updateYear={ updateYear} className="flex-grow w-full" key={year.name} />
+                          <Year name = {index === 0 ? "Before UMBC" : `Year ${index}`} 
+                              removeYear={removeYear }
+                              preUMBC={year.preUMBC}
+                              semesters={year.semesters}
+                              removeFromSemester={removeFromSemester}
+                              updateYear={updateYear}
+                              className="flex-grow w-full"
+                              key={year.name}
+                          />
 
                       );
                   })
                 }
+                
           </div>
             
             <button onClick={addYear} className="px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">

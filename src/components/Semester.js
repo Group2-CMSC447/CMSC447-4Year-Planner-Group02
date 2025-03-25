@@ -1,17 +1,17 @@
 import Course from './Course';
 import EditCourse from './EditCourse';
-
+import { v4 as uuid } from "uuid";
 
 function Semester(props) {
     //Promote prop details to variables
-    const {courses } = props;
+    const {name, courses } = props;
     
     const addCourse = (newCourse) => { //newcourses is a prop sent to editCourses and it comes back witht e selected course name 
         
         // get whats in courses and add a new course to it and the number of courses
-        const newCourses = [...courses, { name: newCourse }];
+        const newCourses = [...courses, { name: newCourse, key: uuid() }];
         //CALLBACK FUNCTION
-        props.updateSemester({ name: props.name, courses: newCourses });
+        props.updateSemester({ name: props.name, courses: newCourses, preUMBC: props.preUMBC  });
     }
 
     const removeCourse = (index) => {//index is the index in the courses array to remove
@@ -51,21 +51,32 @@ function Semester(props) {
             onDragOver={handleDragOver }
         >
             <div className="m-2 space-y-0.5">
-                <p className="text-lg font-semibold text-black">{props.name}</p> {/*display semester name */}
+                <div className="relative">
+                    <p className="text-lg font-semibold text-black">{name}</p> {/*display semester name */}
+                    {
+                        //Necessary for hiding the button if pre-umbc year
+                        !props.preUMBC && <button
+                            className="absolute top-0 right-0 text-right font-semibold  hover:text-red-600"
+                            onClick={() => props.removeSemester(name)}>
+                            X
+                        </button>
+                    }
+                </div>
                         
                 <div className="flex flex-col justify-center items-center">
 
                     {
                         courses.map((course, i) => { //iterates through courses and lists their name
                             return (
-                                <Course key={course.name} name={course.name} semesterName={props.name} yearName={ props.yearName} remove={() => removeCourse(i)}/>
+                                <Course key={uuid()} name={course.name} semesterName={name} yearName={ props.yearName} remove={() => removeCourse(i)}/>
 
                             );
                         })
                     }
                 </div>
                 
-                <EditCourse onConfirm={addCourse}/> {/* call the component which handles listing course options and adding the selected course*/} 
+                <EditCourse onConfirm={addCourse} /> {/* call the component which handles listing course options and adding the selected course*/} 
+                
             </div>
         </div>
 
