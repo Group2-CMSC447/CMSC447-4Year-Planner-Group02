@@ -61,6 +61,24 @@ majorData = [
         credits: 78,
         degreeType: 'B.S.',
         required_courses: ['CMSC 201', 'CMSC 202', 'CMSC 203', 'CMSC 304', 'CMSC 313', 'CMSC 331', 'CMSC 341', 'CMSC 411', 'CMSC 421', 'CMSC 441', 'CMSC 447', 'MATH 151', 'MATH 152', 'MATH 221', 'STAT 355']
+    },
+    {
+        name: 'Information Systems - B.S.',
+        credits: 65,
+        degreeType: 'B.S.',
+        required_courses: ['IS 300', 'IS 310', 'IS 410', 'IS 420', 'IS 425', 'IS 436', 'IS 450', 'IS 451', 'STAT 351', 'MGMT 210', 'ECON 101', 'ECON 102', 'ECON 121', 'ECON 122']
+    },
+    {
+        name: 'Chemical Engineering - Traditional - B.S.',
+        credits: 101,
+        degreeType: 'B.S.',
+        required_courses: []
+    },
+    {
+        name: 'Business Technology Administration - B.A.',
+        credits: 65,
+        degreeType: 'B.A.',
+        required_courses: []
     }
 ]
 async function addToDB(){
