@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 function MajorDropdown({ onConfirm }) { //Takes a prop from semester which is an on confirm event that calls add course
-    const [selectCourse, setSelectCourse] = useState([]) //collect course options from database
+    const [selectMajor, setSelectMajor] = useState([]) //collect course options from database
     const [selectedValue, setSelectedValue] = useState('') //get the selected course
 
     const handleConfirm = (e) => { //runs after clicking add in the modal
@@ -18,7 +18,7 @@ function MajorDropdown({ onConfirm }) { //Takes a prop from semester which is an
 
         //CHANGE LATER CHANGE LATER CHANGE LATER
         //             NEED MAJOR BACKEND SUPPORT
-        axiosFetchCourses(processing)
+        axiosFetchMajors(processing)
 
         return () => {
             processing = false
@@ -28,11 +28,11 @@ function MajorDropdown({ onConfirm }) { //Takes a prop from semester which is an
     //REPLACE WITH MAJOR NAME FUNCTION CALL
     //CHANGE LATER CHANGE LATER CHANGE LATER
     //             NEED MAJOR BACKEND SUPPORT
-    const axiosFetchCourses = async (processing) => { //api call to get data [async = a function that can wait]
+    const axiosFetchMajors = async (processing) => { //api call to get data [async = a function that can wait]
         try {
-            const res = await axios.get('http://localhost:4000/courses') //request data from our backend running on port 4000
+            const res = await axios.get('http://localhost:4000/majors') //request data from our backend running on port 4000
             if (processing) {
-                setSelectCourse(res.data) // set the select course array to whatever we got from api call
+                setSelectMajor(res.data) // set the select course array to whatever we got from api call
             }
         }
         catch (error) { console.error(error) }
@@ -43,8 +43,8 @@ function MajorDropdown({ onConfirm }) { //Takes a prop from semester which is an
         return (
             <select value={selectedValue} onChange={(e) => handleConfirm(e)}> {/* the value for the select gets set once the option is picked*/}
                 {
-                    selectCourse?.map((item) => ( //The map function iterates through the array selectCourse as long as there is something in there
-                        <option value={item.name} key={item.id}> {item.name} </option> //displays options by the courses.name, the value of the object is the objects.name and is passed to the value of selectedValue so it only has the string value
+                    selectMajor?.map((item) => ( //The map function iterates through the array selectCourse as long as there is something in there
+                        <option value={item.name}> {item.name} </option> //displays options by the courses.name, the value of the object is the objects.name and is passed to the value of selectedValue so it only has the string value
                     ))
                 }
             </select>

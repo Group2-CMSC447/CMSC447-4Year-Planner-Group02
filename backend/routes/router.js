@@ -18,7 +18,7 @@ const schemas = require('../models/schemas')
 //   res.end()
 // })
 
-router.get('/courses', async(req, res) => {//async might be wrongly placed
+router.get('/courses', async(req, res) => {
     const courses = schemas.Courses
 
     const courseData = await courses.find({}).exec()
@@ -31,6 +31,12 @@ router.get('/courses', async(req, res) => {//async might be wrongly placed
     // res.end()
 
     res.send(JSON.stringify(courseData))
+})
+
+router.get('/majors', async(req, res) => {
+    const majors = schemas.Majors
+    const majorData = await majors.find({}).exec()
+    res.send(JSON.stringify(majorData))
 })
 
 module.exports = router
