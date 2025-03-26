@@ -10,9 +10,17 @@ const coursesSchema = new Schema({
     attributes: {type:String},
     preReqs: {type:Map, of:String},
     typicalSem: {type:Number}
-})
+});
 
-const Courses = mongoose.model('Courses', coursesSchema, 'courses')
+const majorSchema = new Schema({
+    name: {type:String, required:true},
+    credits: {type: Number},
+    degreeType: {type:String},
+    required_courses: {type: [String]}
+});
+
+const Courses = mongoose.model('Courses', coursesSchema, 'courses');
+const Majors = mongoose.model('Majors', majorSchema, 'majors');
 
 courseData = [
     {
@@ -46,13 +54,24 @@ courseData = [
         typicalSem: 0
     }
 ]
+
+majorData = [
+    {
+        name: 'Computer Science - B.S.',
+        credits: 78,
+        degreeType: 'B.S.',
+        required_courses: ['CMSC 201', 'CMSC 202', 'CMSC 203', 'CMSC 304', 'CMSC 313', 'CMSC 331', 'CMSC 341', 'CMSC 411', 'CMSC 421', 'CMSC 441', 'CMSC 447', 'MATH 151', 'MATH 152', 'MATH 221', 'STAT 355']
+    }
+]
 async function addToDB(){
     await Courses.deleteMany();
+    await Majors.deleteMany();
     await Courses.insertMany(courseData);
+    await Majors.insertMany(majorData);
     console.log("Data added to Mongo DB")
 }
 addToDB()
 
-const mySchemas = {'Courses': Courses}
+const mySchemas = {'Courses': Courses, 'Majors': Majors}
 
 module.exports = mySchemas
