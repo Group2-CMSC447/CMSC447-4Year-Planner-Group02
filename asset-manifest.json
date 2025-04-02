@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/CMSC447-4Year-Planner-Group02/static/css/main.7727f0fb.css",
-    "main.js": "/CMSC447-4Year-Planner-Group02/static/js/main.3e50559c.js",
+    "main.css": "/CMSC447-4Year-Planner-Group02/static/css/main.0c70393c.css",
+    "main.js": "/CMSC447-4Year-Planner-Group02/static/js/main.734dc256.js",
     "static/js/488.3545f45c.chunk.js": "/CMSC447-4Year-Planner-Group02/static/js/488.3545f45c.chunk.js",
     "index.html": "/CMSC447-4Year-Planner-Group02/index.html",
-    "main.7727f0fb.css.map": "/CMSC447-4Year-Planner-Group02/static/css/main.7727f0fb.css.map",
-    "main.3e50559c.js.map": "/CMSC447-4Year-Planner-Group02/static/js/main.3e50559c.js.map",
+    "main.0c70393c.css.map": "/CMSC447-4Year-Planner-Group02/static/css/main.0c70393c.css.map",
+    "main.734dc256.js.map": "/CMSC447-4Year-Planner-Group02/static/js/main.734dc256.js.map",
     "488.3545f45c.chunk.js.map": "/CMSC447-4Year-Planner-Group02/static/js/488.3545f45c.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.7727f0fb.css",
-    "static/js/main.3e50559c.js"
+    "static/css/main.0c70393c.css",
+    "static/js/main.734dc256.js"
   ]
 }
