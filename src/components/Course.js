@@ -1,4 +1,4 @@
-import {useState,useEffect} from 'react';
+import {useState,useEffect,useCallback} from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios'
@@ -43,7 +43,7 @@ function Course(props) {
     }
 
     // waits for api to populate course array
-    const findCourse = () => {
+    const findCourse = useCallback(() => { // has to use callBack to ensure react knows function is the same so useEffect doesn't throw a warning
         // if course not empty, finds desired course, gets details
         if(selectCourse){
             try{
@@ -64,14 +64,14 @@ function Course(props) {
             // prints an error if course is not found in db
             catch(error) {console.log("not found")}
         }
-    }
+    },[props.name,selectCourse]);
 
     // UseEffect to run findCourse when selectCourse updates
     useEffect(() => {
         if (selectCourse.length > 0) {
             findCourse(); // Only runs when selectCourse has data
         }
-    }, [selectCourse]); // Runs every time selectCourse updates
+    }, [selectCourse,findCourse]); // Runs every time selectCourse updates
 
     return (
         <div className="relative bg-white border border-gray-300 rounded-lg shadow-md space-y-2  flex-grow w-full max-h-sm"
