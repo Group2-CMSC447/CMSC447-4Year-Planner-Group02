@@ -6,10 +6,10 @@ function Semester(props) {
     //Promote prop details to variables
     const {name, courses } = props;
     
-    const addCourse = (newCourse) => { //newcourses is a prop sent to editCourses and it comes back witht e selected course name 
+    const addCourse = (newCourse, ID) => { //newcourses is a prop sent to editCourses and it comes back witht e selected course name 
         
         // get whats in courses and add a new course to it and the number of courses
-        const newCourses = [...courses, { name: newCourse, key: uuid() }];
+        const newCourses = [...courses, { name: newCourse, courseID: ID, key: uuid(), prevCourses: props.prevCourses }];
         //CALLBACK FUNCTION
         props.updateSemester({ name: props.name, courses: newCourses, preUMBC: props.preUMBC  });
     }
@@ -30,10 +30,11 @@ function Semester(props) {
         const courseName = e.dataTransfer.getData("courseName");
         const fromYear = e.dataTransfer.getData("currYear");
         const fromSem = e.dataTransfer.getData("currSemester");
+        const ID = e.dataTransfer.getData("courseID");
         //Only add the course if the drag was successful and not to the same semester
         if (courseName && !((fromYear === props.yearName) && (fromSem===props.name)) ){
             //Add the copy
-            addCourse(courseName);
+            addCourse(courseName, ID);
             //Remove the original
             props.removeFromSemester(fromYear, fromSem, courseName);
         }
@@ -68,7 +69,7 @@ function Semester(props) {
                     {
                         courses.map((course, i) => { //iterates through courses and lists their name
                             return (
-                                <Course key={uuid()} name={course.name} semesterName={name} yearName={ props.yearName} remove={() => removeCourse(i)}/>
+                                <Course key={uuid()} name={course.name} semesterName={name} prevCourses={props.prevCourses} yearName={props.yearName} preUMBC={ props.preUMBC} remove={() => removeCourse(i)}/>
 
                             );
                         })
