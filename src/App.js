@@ -150,12 +150,13 @@ function App() {
             <h3 className="text-left text-lg font-semibold">Planner Options:</h3>
                 <div className="flex justify-center item-center gap-4">
                     <div className="">
-                        <MajorDropdown onConfirm={onConfirmMajor}></MajorDropdown>
+                           <MajorDropdown onConfirm={onConfirmMajor}></MajorDropdown>
                     </div>
+                
+
                     <div className="flex-auto">
-                        <CreditRange changeVals={changeVals}></CreditRange>
-                </div>
-                <button onClick={() =>getPrevCourses("Year 1", "Spring")}>Test Get Previous Courses</button>
+                            <CreditRange changeVals={changeVals}></CreditRange>
+                    </div>
                 </div>
           {
               //This displays all the year objects stored in the years array

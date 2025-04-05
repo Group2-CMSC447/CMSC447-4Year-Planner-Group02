@@ -93,7 +93,7 @@ function Course(props) {
         };
 
         getMissingPreReqs();
-    }, [props]);
+    });
 
     //Drag function, collects needed data to pass to semester
     const onDragStart = (e) => {
@@ -154,7 +154,7 @@ function Course(props) {
         >
 
             {/*Used for showing the popups for missing prereqs*/}
-            {missingPreReqs.length > 0 ? (
+            {!props.preUMBC &&missingPreReqs.length > 0 ? (
                 //only show red text and popups if theres missing prereqs
                 <OverlayTrigger
                     placement="top"
