@@ -4,6 +4,7 @@ import Year from './components/Year'
 import CreditRange from './components/CreditRange'
 import MajorDropdown from './components/MajorDropdown'
 
+
 function App() {
     //Basic year setup, organized by Year Name, the semesters (semester name, then courses, (course name))
     const [years, setYears] = useState([
@@ -32,18 +33,28 @@ function App() {
         console.log("Console log for preventing warnings. Min: " + { min } +" Max:" + { max } )
     };
 
-    //Used for major dropdown and data population
+
     const [majorName, setMajorName] = useState("Hello");
 
-    const onConfirmMajor = (value) => {
+    const onConfirmMajor = (value, confirmChoice) => {
+        //Used for major dropdown and data population
         setMajorName(value);
         console.log("Major name set to: " + majorName);
+        let choiceTest = ""
+        confirmChoice ? choiceTest = "Reset" : choiceTest = "maintain"
+        console.log("The Choice is:", choiceTest )
 
-        //IMPLEMENT LOGIC FOR POPULATING BASIC 4YEAR PLAN HERE
-        //
-        //
-        //
-        //
+        confirmChoice ? resetSchedule(value) : addToSchedule(value)
+
+    }
+
+    const resetSchedule = (value) =>{
+        console.log("inside of reset schedule value is: ", value)
+
+    }
+
+    const addToSchedule = (value) =>{
+        console.log("Inside add to schedule, value is:", value)
     }
 
     //Long winded callback function used at the semester level for drag and drop cleanup
