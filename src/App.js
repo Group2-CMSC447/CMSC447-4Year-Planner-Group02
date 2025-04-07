@@ -15,7 +15,7 @@ function App() {
     ]);
     //Adds basic empty year object
     const addYear = () => {
-        const newYear = years.length + 1;
+        const newYear = years.length;
         setYears([...years, { name: "Year " + newYear, preUMBC: false, semesters: [{ name: "Fall", courses: [] }, { name: "Spring", courses: [] }] }]);
  
     };
@@ -79,6 +79,51 @@ function App() {
         );
     };
 
+    //Determine the classes completed prior to the specified semester
+    const getPrevCourses = (currYear, currSem) => {
+        //return value of all course names
+        const completed = [];
+
+        //loop through all semesters in each leading up to desired year and semester
+        //add all before the current year
+        let yearFlag = false;
+        for (let i = 0; i < years.length; i++) {
+            const year = years[i];
+
+
+            if (yearFlag) {
+                //exit the loop if its a year after the desired one
+                break;
+            }
+            else if (year.name === currYear) {
+                //break when at current year, cant just blind add courses
+                yearFlag = true;
+
+                let semFlag = false
+                year.semesters.forEach((sem) => {
+                    //loop over all semesters in the year, only adding the ones before the current semester
+                    if (sem.name !== currSem && !semFlag) {
+                        completed.push(...sem.courses.map(course => course.courseID));
+                    }
+                    else {
+                        //if at current semester, break out loop
+                        semFlag = true;
+                    }
+                });
+            }
+            else {
+                //otherwise if year before current, just add all the courses you find
+                year.semesters.forEach((sem) => {
+                    //loop over all semesters in the year, adding all courses
+
+                    completed.push(...sem.courses.map(course => course.courseID));
+                });
+            }
+        }
+
+        return completed;
+    }
+
     //callback function used by year components to update their values
     //must be called from year to pass back changes
     //WILL BREAK IF TWO YEARS HAVE THE SAME NAME
@@ -105,10 +150,12 @@ function App() {
             <h3 className="text-left text-lg font-semibold">Planner Options:</h3>
                 <div className="flex justify-center item-center gap-4">
                     <div className="">
-                        <MajorDropdown onConfirm={onConfirmMajor}></MajorDropdown>
+                           <MajorDropdown onConfirm={onConfirmMajor}></MajorDropdown>
                     </div>
+                
+
                     <div className="flex-auto">
-                        <CreditRange changeVals={changeVals}></CreditRange>
+                            <CreditRange changeVals={changeVals}></CreditRange>
                     </div>
                 </div>
           {
@@ -119,14 +166,15 @@ function App() {
               {
                   years.map((year, index) => {     
                       return (
-                          <Year name = {index === 0 ? "Before UMBC" : `Year ${index}`} 
-                              removeYear={removeYear }
+                          <Year name={index === 0 ? "Before UMBC" : `Year ${index}`}
+                              removeYear={removeYear}
                               preUMBC={year.preUMBC}
                               semesters={year.semesters}
                               removeFromSemester={removeFromSemester}
                               updateYear={updateYear}
                               className="flex-grow w-full"
                               key={year.name}
+                              prevCourses={getPrevCourses}
                           />
 
                       );

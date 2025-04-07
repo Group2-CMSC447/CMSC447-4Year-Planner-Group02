@@ -85,14 +85,14 @@ function Year(props) {
                 <div className="space-y-0.35">
                     <div className="relative">
                     <p className="text-lg font-semibold text-black text-center ">{props.name}</p>
-                        {/*
+                        {
                             //Necessary for hiding the button if pre-umbc year
                             !preUMBC && <button
                                 className="absolute top-0 right-0 text- font-semibold  hover:text-red-600"
                                 onClick={() => props.removeYear(props.name)}>
                                 X
                             </button>
-                        */}
+                        }
                     </div>
                     <div className="m-2 border border-gray-300 rounded-xl py-6 px-4 w-full space-y-2 bg-white rounded-xlsm:py-4 sm:flex sm:items-center sm:space-y-0 sm:gap-x-6">
                         
@@ -113,7 +113,8 @@ function Year(props) {
                                         removeFromSemester={props.removeFromSemester}
                                         updateSemester={updateSemester}
                                         removeSemester={removeSemester}
-                                        preUMBC={preUMBC }
+                                        preUMBC={preUMBC}
+                                        prevCourses={props.prevCourses}
                                     />
 
                                 );
