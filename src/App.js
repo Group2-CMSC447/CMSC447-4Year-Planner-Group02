@@ -1,8 +1,9 @@
 import './App.css';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Year from './components/Year'
 import CreditRange from './components/CreditRange'
 import MajorDropdown from './components/MajorDropdown'
+import axios from 'axios';
 //import LoadMajor from './components/LoadMajor';
 
 
@@ -63,51 +64,80 @@ function App() {
         loadMajorCourses(years, value, majorList)
     }
 
+    // holds course objects that api call returns
+    const [courseObjects, setCourseObjects] = useState([]);
+    //Determine if courses are missing that are needed for this class to be taken
+    //Must be called when courses are added /removed in the semester before the current one
+    const axiosFetchCourses = async() =>{ //api call to get data [async = a function that can wait]
+        try{
+            const res = await axios.get('http://localhost:4000/courses') //request data from our backend running on port 4000
+            if (res){
+                setCourseObjects(res.data) // set the select course array to whatever we got from api call
+            }
+        } 
+        catch(error) {console.error(error)}
+    }
+
+    useEffect(() => {  //runs whenever there is a change in the rendering of screen but for our project it only runs once
+            let processing = true //used to fix some bug with react
+            //CHANGE LATER CHANGE LATER CHANGE LATER
+            //             NEED MAJOR BACKEND SUPPORT
+            axiosFetchCourses(processing)
+    
+            return () => {
+                processing = false
+            }
+        }, []) //lets it know to only run once
+
     const loadMajorCourses = (newYearForMajor, selectedMajorName, majorList) =>{
         console.log("inside of load Major Courses")        
         const selectedMajorObject = majorList.find(major => major.name === selectedMajorName);
         console.log("the found major is:", selectedMajorName, "the object selected is", selectedMajorObject.name)
         const listOfMajorReqCourses = selectedMajorObject.required_courses;
         for (let i = 0; i < listOfMajorReqCourses.length; i++){
-            console.log("Iteration:", i, "the list for major is: ", listOfMajorReqCourses[i])
-            console.log("testing testing")
-            const course = Object.keys(listOfMajorReqCourses[i]);
-            console.log("course is: ", course[0])
-            const defaultLocation = listOfMajorReqCourses[i][course[0]]
-            console.log("the list of year and semester is:", defaultLocation)
+            const courseName = Object.keys(listOfMajorReqCourses[i]);
+            console.log("test1")
+            const defaultLocation = listOfMajorReqCourses[i][courseName[0]]
+            console.log("test2")
+        
+            const courseObject = courseObjects.find(object => object.id === courseName[0])
+
+            console.log("test3")
+            console.log("")
+
             for (let j = 0; j < newYearForMajor.length; j++){
                 if (newYearForMajor[j].name === "Year 1" && defaultLocation[0] === "Y1"){
                     if (defaultLocation[1] === "S1"){
-                        newYearForMajor[j].semesters[0].courses.push(course[0])
+                        newYearForMajor[j].semesters[0].courses.push(courseObject)
                         console.log("the new semester is:", newYearForMajor[j])
                     }
                     else if (defaultLocation[1] === "S2"){
-                        newYearForMajor[j].semesters[1].courses.push(course[0])
+                        newYearForMajor[j].semesters[1].courses.push(courseObject)
                         
                     }
                 }
                 else if (newYearForMajor[j].name === "Year 2" && defaultLocation[0] === "Y2"){
                     if (defaultLocation[1] === "S1"){
-                        newYearForMajor[j].semesters[0].courses.push(course[0])
+                        newYearForMajor[j].semesters[0].courses.push(courseObject)
                     }
                     else if (defaultLocation[1] === "S2"){
-                        newYearForMajor[j].semesters[1].courses.push(course[0])
+                        newYearForMajor[j].semesters[1].courses.push(courseObject)
                     }
                 }
                 else if (newYearForMajor[j].name === "Year 3" && defaultLocation[0] === "Y3"){
                     if (defaultLocation[1] === "S1"){
-                        newYearForMajor[j].semesters[0].courses.push(course[0])
+                        newYearForMajor[j].semesters[0].courses.push(courseObject)
                     }
                     else if (defaultLocation[1] === "S2"){
-                        newYearForMajor[j].semesters[1].courses.push(course[0])
+                        newYearForMajor[j].semesters[1].courses.push(courseObject)
                     }
                 }
                 else if (newYearForMajor[j].name === "Year 4" && defaultLocation[0] === "Y4"){
                     if (defaultLocation[1] === "S1"){
-                        newYearForMajor[j].semesters[0].courses.push(course[0])
+                        newYearForMajor[j].semesters[0].courses.push(courseObject)
                     }
                     else if (defaultLocation[1] === "S2"){
-                        newYearForMajor[j].semesters[1].courses.push(course[0])
+                        newYearForMajor[j].semesters[1].courses.push(courseObject)
                         
                     }
                 }
