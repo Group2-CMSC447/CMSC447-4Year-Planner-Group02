@@ -6,14 +6,14 @@ import axios from 'axios';
 function EditCourse({onConfirm}) { //Takes a prop from semester which is an on confirm event that calls add course
   const [show, setShow] = useState(false); //for the model
   const [selectCourse, setSelectCourse] = useState([]) //collect course options from database
-  const [selectedValue, setSelectedValue] = useState('') //get the selected course
+  const [selectedCourse, setSelectedCourse] = useState(null) //get the selected course, need the whole course for returning the name and course id
 
 
   const handleClose = () => setShow(false); //when model has to close set show to false
   const handleShow = () => setShow(true); //when model has to open set show to true
   const handleConfirm = () => { //runs after clicking add in the modal
-    if(selectedValue){ //ensures a course was actually clicked
-      onConfirm(selectedValue); //uses the passed prop from semester to send the selected value to a function called add course which gets the selected value as a prop newCourse
+      if (selectedCourse) { //ensures a course was actually clicked
+      onConfirm(selectedCourse.name, selectedCourse.id); //uses the passed prop from semester to send the selected value to a function called add course which gets the selected value as a prop newCourse
       //console.log(selectedValue); //test
       //setSelectedValue(''); //reset the selected value
       handleClose(); //closes the modal just like when you cancel
@@ -53,14 +53,29 @@ function EditCourse({onConfirm}) { //Takes a prop from semester which is an on c
 
   const SelectInSearch = () => {
     //This is a prop created to get all courses from an api then create an option for each
-    return(
-      <select value={selectedValue} onChange={(e) => setSelectedValue(e.target.value)}> {/* the value for the select gets set once the option is picked*/}
-        {
-          selectCourse?.map( (item) => ( //The map function iterates through the array selectCourse as long as there is something in there
-            <option value={item.name} key={item.id}> {item.name} </option> //displays options by the courses.name, the value of the object is the objects.name and is passed to the value of selectedValue so it only has the string value
-          ))
-        }
-      </select>
+    
+      return (
+          //Must return entire course to access the id and name!
+        //course is extracted by its ID in the on change function using the id from the course selected in the dropdown
+          <select value={selectedCourse?.id || ''}
+              onChange={(e) => {
+                   const course = selectCourse.find(c => c.id === e.target.value)
+                   setSelectedCourse(course)
+
+               }}> {/* the value for the select gets set once the option is picked*/}
+
+              {/*Default Option*/}
+              {/*spread out the options from the large course database, display courses one at a time*/}
+              <option value="" disabled>Select a course</option>{
+                  selectCourse?.map((item) => (
+                      <option value={item.id} key={item.id}> {item.name}</option>
+                  ))
+              }
+        
+          </select>
+
+
+
     )
   }
 
