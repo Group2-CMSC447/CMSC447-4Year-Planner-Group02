@@ -12,6 +12,7 @@ function Year(props) {
     const [winter, setWinter] = useState(preUMBC ? false : true); //show only if not preUMBC year
     const [summer, setSummer] = useState(preUMBC ? false : true); //show only if not preUMBC year
 
+    
     const addSemester = (semesterID) => {
         const newSemNum = semesterID + 1;
         //Don't add any semesters past summer
@@ -47,6 +48,14 @@ function Year(props) {
         //pass back the updated list of semesters to app.js to format
         props.updateYear({ name: props.name, semesters: updatedSemesters, preUMBC: props.preUMBC });
     };
+
+
+    // const defaultMajorYear = (semesters) => {
+    //     const newSems = semesters.map(sem => 
+    //         sem.name === newSem.name ? newSem : sem
+    //     );
+    //     props.updateYear({ name: props.name, semesters: newSems, preUMBC: props.preUMBC });
+    // }
 
     const updateSemester = (newSem) => {
         const newSems = semesters.map(sem =>

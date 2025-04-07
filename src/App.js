@@ -3,6 +3,7 @@ import { useState } from "react";
 import Year from './components/Year'
 import CreditRange from './components/CreditRange'
 import MajorDropdown from './components/MajorDropdown'
+//import LoadMajor from './components/LoadMajor';
 
 
 function App() {
@@ -34,27 +35,86 @@ function App() {
     };
 
 
+    
     const [majorName, setMajorName] = useState("Hello");
+    // const [majorList, setMajorList] = useState([])
 
-    const onConfirmMajor = (value, confirmChoice) => {
+    const onConfirmMajor = (value, confirmChoice, majorList) => {
         //Used for major dropdown and data population
         setMajorName(value);
+        // setMajorList(majorList)
         console.log("Major name set to: " + majorName);
         let choiceTest = ""
         confirmChoice ? choiceTest = "Reset" : choiceTest = "maintain"
         console.log("The Choice is:", choiceTest )
 
-        confirmChoice ? resetSchedule(value) : addToSchedule(value)
+        //confirmChoice ? resetSchedule(value) : addToSchedule(value)
 
+        if (confirmChoice) {
+            setYears([
+                { name: "Before UMBC", preUMBC: true, semesters: [{ name: "Test Credit", courses: []}, { name: "Transfer Credit", courses: [] }] },
+                { name: "Year 1", preUMBC: false, semesters: [{ name: "Fall", courses: [] }, { name: "Spring", courses: [] }] },
+                { name: "Year 2", preUMBC: false, semesters: [{ name: "Fall", courses: [] }, { name: "Spring", courses: [] }] },
+                { name: "Year 3", preUMBC: false, semesters: [{ name: "Fall", courses: [] }, { name: "Spring", courses: [] }] },
+                { name: "Year 4", preUMBC: false, semesters: [{ name: "Fall", courses: [] }, { name: "Spring", courses: [] }] },
+            ])
+
+        } 
+        loadMajorCourses(years, value, majorList)
     }
 
-    const resetSchedule = (value) =>{
-        console.log("inside of reset schedule value is: ", value)
+    const loadMajorCourses = (newYearForMajor, selectedMajorName, majorList) =>{
+        console.log("inside of load Major Courses")        
+        const selectedMajorObject = majorList.find(major => major.name === selectedMajorName);
+        console.log("the found major is:", selectedMajorName, "the object selected is", selectedMajorObject.name)
+        const listOfMajorReqCourses = selectedMajorObject.required_courses;
+        for (let i = 0; i < listOfMajorReqCourses.length; i++){
+            console.log("Iteration:", i, "the list for major is: ", listOfMajorReqCourses[i])
+            console.log("testing testing")
+            const course = Object.keys(listOfMajorReqCourses[i]);
+            console.log("course is: ", course[0])
+            const defaultLocation = listOfMajorReqCourses[i][course[0]]
+            console.log("the list of year and semester is:", defaultLocation)
+            for (let j = 0; j < newYearForMajor.length; j++){
+                if (newYearForMajor[j].name === "Year 1" && defaultLocation[0] === "Y1"){
+                    if (defaultLocation[1] === "S1"){
+                        newYearForMajor[j].semesters[0].courses.push(course[0])
+                        console.log("the new semester is:", newYearForMajor[j])
+                    }
+                    else if (defaultLocation[1] === "S2"){
+                        newYearForMajor[j].semesters[1].courses.push(course[0])
+                        
+                    }
+                }
+                else if (newYearForMajor[j].name === "Year 2" && defaultLocation[0] === "Y2"){
+                    if (defaultLocation[1] === "S1"){
+                        newYearForMajor[j].semesters[0].courses.push(course[0])
+                    }
+                    else if (defaultLocation[1] === "S2"){
+                        newYearForMajor[j].semesters[1].courses.push(course[0])
+                    }
+                }
+                else if (newYearForMajor[j].name === "Year 3" && defaultLocation[0] === "Y3"){
+                    if (defaultLocation[1] === "S1"){
+                        newYearForMajor[j].semesters[0].courses.push(course[0])
+                    }
+                    else if (defaultLocation[1] === "S2"){
+                        newYearForMajor[j].semesters[1].courses.push(course[0])
+                    }
+                }
+                else if (newYearForMajor[j].name === "Year 4" && defaultLocation[0] === "Y4"){
+                    if (defaultLocation[1] === "S1"){
+                        newYearForMajor[j].semesters[0].courses.push(course[0])
+                    }
+                    else if (defaultLocation[1] === "S2"){
+                        newYearForMajor[j].semesters[1].courses.push(course[0])
+                        
+                    }
+                }
+            }
+        }
+        setYears(newYearForMajor)
 
-    }
-
-    const addToSchedule = (value) =>{
-        console.log("Inside add to schedule, value is:", value)
     }
 
     //Long winded callback function used at the semester level for drag and drop cleanup

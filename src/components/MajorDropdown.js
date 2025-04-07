@@ -12,13 +12,13 @@ function MajorDropdown({ onConfirm }) { //Takes a prop from semester which is an
     
     const handleReset = () => {
         setIsModalOpen(false)
-        onConfirm(selectedValue, true)
+        onConfirm(selectedValue, true, selectMajor)
     }
     const handleLeaveAsIs = () => {
         setIsModalOpen(false)
         console.log("maintain")
         //choice? console.log("True") : console.log("false")
-        onConfirm(selectedValue, false)
+        onConfirm(selectedValue, false, selectMajor)
     }
 
     useEffect(() => {

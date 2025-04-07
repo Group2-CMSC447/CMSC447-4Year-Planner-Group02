@@ -11,7 +11,7 @@ function Course(props) {
         attributes: "N/A",
         preReqs: "N/A"
     })
-
+    
     //Drag function, collects needed data to pass to semester
     const onDragStart = (e) => {
         //Store all data needed by semester object
@@ -41,6 +41,8 @@ function Course(props) {
     const openModal = () => {
         axiosFetchCourses() //function call to get actuall data from api
     }
+
+    
 
     // waits for api to populate course array
     const findCourse = useCallback(() => { // has to use callBack to ensure react knows function is the same so useEffect doesn't throw a warning
