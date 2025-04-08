@@ -14,7 +14,8 @@ fetch(sheetURL)
 function convertCSVCourseText(csvText){
     //console.log(csvText);
     let courseObjects = csvToCourseObjects(csvText);
-    console.log(courseObjects);
+    //console.log(courseObjects);
+    addCSVToDB(courseObjects);
 }
 
 function csvToCourseObjects(csvText){
@@ -32,7 +33,7 @@ function csvToCourseObjects(csvText){
                 curr[columnNames[j]] = Number(row[j]);
             } else if(columnNames[j] === "preReqs"){
                 if(row[j] === "null"){
-                    curr[columnNames[j]] = null;
+                    curr[columnNames[j]] = [];
                 }else{
                     curr[columnNames[j]] = row[j].split(", ");
                 }
@@ -60,38 +61,31 @@ function splitCSVline(line){
     return splitLine;
 }
 
-function addCSVToDB(objs){
-    const axiosFetchCourses = async() => {
-        const res = await axios.get('http://localhost:4000/courses');
-        return res;
-    }
-
-    const axiosAddCourse = async() => {
-        const res = await axios.get('http://localhost:4000/addCourse');
-
-    }
-
-    currDB = axiosFetchCourses();
+async function addCSVToDB(objs){
+    const courses = schemas.Courses
+    const courseData = await courses.find({}).exec()
     for(let i = 0; i < objs.length; ++i){
         let flag = false;
         let obj = objs[i];
-        for(let j = 0; j < currDB.length; ++j){
-            if(obj === currDB[j]){
-                flag = true;
+
+        for(let j = 0; j < courseData.length; ++j){
+            if(obj.id === courseData[j].id){
+                flag = true
             }
         }
+        
         if(!flag){
-
+            courses.insertOne(obj);
         }
     }
+        
 }
 
 
 // //will be needed later if we do webscraping to actually put the data into the DB instead of inputting it manually
 router.post('/addCourse', async(req, res) => {
-    let collection = await db.collection("Courses");
     let newDocument = req.body;
-    await collection.insertOne(newDocument);
+    await schemas.Courses.insertOne(newDocument);
 //   res.end()
 })
 

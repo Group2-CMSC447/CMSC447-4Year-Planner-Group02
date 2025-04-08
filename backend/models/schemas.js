@@ -76,7 +76,7 @@ courseData = [
     {
         id: 'CMSC 313',
         name: 'CMSC 313 - Assembly Language Programming',
-        description: 'This course introduces the student to the low-level abstraction of a computer system from a programmer’s point of view, with an emphasis on low-level programming. Topics include data representation, assembly language programming, C programming, the process of compiling and linking, low-level memory management, exceptional control flow, and basic processor architecture.',
+        description: 'This course introduces the student to the low-level abstraction of a computer system from a programmerï¿½s point of view, with an emphasis on low-level programming. Topics include data representation, assembly language programming, C programming, the process of compiling and linking, low-level memory management, exceptional control flow, and basic processor architecture.',
         credits: 3,
         workload: 1,
         attributes: null,
