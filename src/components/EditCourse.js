@@ -13,7 +13,7 @@ function EditCourse({onConfirm}) { //Takes a prop from semester which is an on c
   const handleShow = () => setShow(true); //when model has to open set show to true
   const handleConfirm = () => { //runs after clicking add in the modal
       if (selectedCourse) { //ensures a course was actually clicked
-      onConfirm(selectedCourse.name, selectedCourse.id); //uses the passed prop from semester to send the selected value to a function called add course which gets the selected value as a prop newCourse
+          onConfirm(selectedCourse.name, selectedCourse.id, selectedCourse.credits); //uses the passed prop from semester to send the selected value to a function called add course which gets the selected value as a prop newCourse
       //console.log(selectedValue); //test
       //setSelectedValue(''); //reset the selected value
       handleClose(); //closes the modal just like when you cancel
