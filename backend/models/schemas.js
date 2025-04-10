@@ -190,7 +190,7 @@ courseData = [
         credits: 1,
         workload: 1,
         attributes: null,
-        preReqs: [],
+        preReqs: ["CMSC 313", "CMSC 341"],
         typicalSem: 0
     },
     {
@@ -220,7 +220,7 @@ courseData = [
         credits: 1,
         workload: 1,
         attributes: null,
-        preReqs: [],
+        preReqs: ["CMSC 341"],
         typicalSem: 0
     }
 ]
@@ -236,10 +236,10 @@ majorData = [
         name: 'Computer Science - B.S.',
         credits: 78,
         degreeType: 'B.S.',
-        required_courses: [{'CMSC 201': ['Y1', 'S1']}, {'MATH 151': ['Y1', 'S1']}, {'CMSC 202': ['Y1', 'S2']}, {'MATH 152': ['Y1', 'S2']}, {'CMSC 203': ['Y1', 'S2']},
-        {'CMSC 331': ['Y2', 'S1']}, {'CMSC 341': ['Y2', 'S1']}, {'CMSC 313': ['Y2', 'S2']}, {'MATH 221': ['Y2', 'S2']}, 
-        {'CMSC 304': ['Y3', 'S1']}, {'CMSC 411': ['Y3', 'S1']}, {'CMSC 421': ['Y3', 'S2']}, 
-        {'CMSC 441': ['Y4', 'S1']}, {'CMSC 447': ['Y4', 'S1']}]
+        required_courses: [{'CMSC 201': ['Year 1', 'Fall']}, {'MATH 151': ['Year 1', 'Fall']}, {'CMSC 202': ['Year 1', 'Spring']}, {'MATH 152': ['Year 1', 'Spring']}, {'CMSC 203': ['Year 1', 'Spring']},
+        {'CMSC 331': ['Year 2', 'Fall']}, {'CMSC 341': ['Year 2', 'Fall']}, {'CMSC 313': ['Year 2', 'Spring']}, {'MATH 221': ['Year 2', 'Spring']}, 
+        {'CMSC 304': ['Year 3', 'Fall']}, {'CMSC 411': ['Year 3', 'Fall']}, {'CMSC 421': ['Year 3', 'Spring']}, 
+        {'CMSC 441': ['Year 4', 'Fall']}, {'CMSC 447': ['Year 4', 'Fall']}]
     }
 
     // {

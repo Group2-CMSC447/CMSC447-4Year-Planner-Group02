@@ -4,6 +4,7 @@ import Year from './components/Year'
 import CreditRange from './components/CreditRange'
 import MajorDropdown from './components/MajorDropdown'
 import axios from 'axios';
+import { v4 as uuid } from "uuid";
 //import LoadMajor from './components/LoadMajor';
 
 
@@ -96,55 +97,12 @@ function App() {
         const listOfMajorReqCourses = selectedMajorObject.required_courses;
         for (let i = 0; i < listOfMajorReqCourses.length; i++){
             const courseName = Object.keys(listOfMajorReqCourses[i]);
-            console.log("test1")
             const defaultLocation = listOfMajorReqCourses[i][courseName[0]]
-            console.log("test2")
         
-            const courseObject = courseObjects.find(object => object.id === courseName[0])
+            const course = courseObjects.find(object => object.id === courseName[0])
 
-            console.log("test3")
-            console.log("")
-
-            for (let j = 0; j < newYearForMajor.length; j++){
-                if (newYearForMajor[j].name === "Year 1" && defaultLocation[0] === "Y1"){
-                    if (defaultLocation[1] === "S1"){
-                        newYearForMajor[j].semesters[0].courses.push(courseObject)
-                        console.log("the new semester is:", newYearForMajor[j])
-                    }
-                    else if (defaultLocation[1] === "S2"){
-                        newYearForMajor[j].semesters[1].courses.push(courseObject)
-                        
-                    }
-                }
-                else if (newYearForMajor[j].name === "Year 2" && defaultLocation[0] === "Y2"){
-                    if (defaultLocation[1] === "S1"){
-                        newYearForMajor[j].semesters[0].courses.push(courseObject)
-                    }
-                    else if (defaultLocation[1] === "S2"){
-                        newYearForMajor[j].semesters[1].courses.push(courseObject)
-                    }
-                }
-                else if (newYearForMajor[j].name === "Year 3" && defaultLocation[0] === "Y3"){
-                    if (defaultLocation[1] === "S1"){
-                        newYearForMajor[j].semesters[0].courses.push(courseObject)
-                    }
-                    else if (defaultLocation[1] === "S2"){
-                        newYearForMajor[j].semesters[1].courses.push(courseObject)
-                    }
-                }
-                else if (newYearForMajor[j].name === "Year 4" && defaultLocation[0] === "Y4"){
-                    if (defaultLocation[1] === "S1"){
-                        newYearForMajor[j].semesters[0].courses.push(courseObject)
-                    }
-                    else if (defaultLocation[1] === "S2"){
-                        newYearForMajor[j].semesters[1].courses.push(courseObject)
-                        
-                    }
-                }
-            }
+            addToSemester(defaultLocation[0], defaultLocation[1], course.name, course.id);
         }
-        setYears(newYearForMajor)
-
     }
 
     //Long winded callback function used at the semester level for drag and drop cleanup
@@ -180,6 +138,43 @@ function App() {
         );
     };
 
+
+    //Long winded callback function used at the semester level for drag and drop cleanup
+    //Quite literally restructured the whole code just to implement this function
+    const addToSemester = (yearName, semesterName, courseName, ID) => {
+        setYears((oldYears) =>
+            //update current years
+            oldYears.map((currYear) => {
+                //find the year we are looking for
+                if (currYear.name === yearName) {
+                    //return a modified version of it
+
+                    return {
+                        ...currYear,
+                        semesters: currYear.semesters.map((currSem) => {
+
+                            //loop the semester for the corrrect semester
+                            if (currSem.name === semesterName) {
+                                //Add course logic
+                                const oldCourses = currSem.courses;
+                                const newCourses = [...oldCourses, { name: courseName, courseID: ID, key: uuid(), prevCourses: getPrevCourses }];
+                                
+                                return {
+                                    ...currSem,
+                                    courses: newCourses
+                                };
+                            }
+
+                            //if not it, return as is
+                            return currSem;
+                        }),
+                    };
+                }
+                //If not the desired year, dont modify
+                return currYear;
+            })
+        );
+    };
     //Determine the classes completed prior to the specified semester
     const getPrevCourses = (currYear, currSem) => {
         //return value of all course names
