@@ -1,7 +1,7 @@
 import Course from './Course';
 import EditCourse from './EditCourse';
 import { v4 as uuid } from "uuid";
-import { useEffect } from 'react';
+
 function Semester(props) {
     //Promote prop details to variables
     const {name, courses } = props;
