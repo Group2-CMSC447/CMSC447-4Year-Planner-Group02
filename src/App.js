@@ -1,8 +1,12 @@
 import './App.css';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Year from './components/Year'
 import CreditRange from './components/CreditRange'
 import MajorDropdown from './components/MajorDropdown'
+import axios from 'axios';
+import { v4 as uuid } from "uuid";
+//import LoadMajor from './components/LoadMajor';
+
 
 function App() {
     //Basic year setup, organized by Year Name, the semesters (semester name, then courses, (course name))
@@ -32,18 +36,73 @@ function App() {
         console.log("Console log for preventing warnings. Min: " + { min } +" Max:" + { max } )
     };
 
-    //Used for major dropdown and data population
+
+    
     const [majorName, setMajorName] = useState("Hello");
+    // const [majorList, setMajorList] = useState([])
 
-    const onConfirmMajor = (value) => {
+    const onConfirmMajor = (value, confirmChoice, majorList) => {
+        //Used for major dropdown and data population
         setMajorName(value);
+        // setMajorList(majorList)
         console.log("Major name set to: " + majorName);
+        let choiceTest = ""
+        confirmChoice ? choiceTest = "Reset" : choiceTest = "maintain"
+        console.log("The Choice is:", choiceTest )
 
-        //IMPLEMENT LOGIC FOR POPULATING BASIC 4YEAR PLAN HERE
-        //
-        //
-        //
-        //
+        //confirmChoice ? resetSchedule(value) : addToSchedule(value)
+
+        if (confirmChoice) {
+            setYears([
+                { name: "Before UMBC", preUMBC: true, semesters: [{ name: "Test Credit", courses: []}, { name: "Transfer Credit", courses: [] }] },
+                { name: "Year 1", preUMBC: false, semesters: [{ name: "Fall", courses: [] }, { name: "Spring", courses: [] }] },
+                { name: "Year 2", preUMBC: false, semesters: [{ name: "Fall", courses: [] }, { name: "Spring", courses: [] }] },
+                { name: "Year 3", preUMBC: false, semesters: [{ name: "Fall", courses: [] }, { name: "Spring", courses: [] }] },
+                { name: "Year 4", preUMBC: false, semesters: [{ name: "Fall", courses: [] }, { name: "Spring", courses: [] }] },
+            ])
+
+        } 
+        loadMajorCourses(years, value, majorList)
+    }
+
+    // holds course objects that api call returns
+    const [courseObjects, setCourseObjects] = useState([]);
+    //Determine if courses are missing that are needed for this class to be taken
+    //Must be called when courses are added /removed in the semester before the current one
+    const axiosFetchCourses = async() =>{ //api call to get data [async = a function that can wait]
+        try{
+            const res = await axios.get('http://localhost:4000/courses') //request data from our backend running on port 4000
+            if (res){
+                setCourseObjects(res.data) // set the select course array to whatever we got from api call
+            }
+        } 
+        catch(error) {console.error(error)}
+    }
+
+    useEffect(() => {  //runs whenever there is a change in the rendering of screen but for our project it only runs once
+            let processing = true //used to fix some bug with react
+            //CHANGE LATER CHANGE LATER CHANGE LATER
+            //             NEED MAJOR BACKEND SUPPORT
+            axiosFetchCourses(processing)
+    
+            return () => {
+                processing = false
+            }
+        }, []) //lets it know to only run once
+
+    const loadMajorCourses = (newYearForMajor, selectedMajorName, majorList) =>{
+        console.log("inside of load Major Courses")        
+        const selectedMajorObject = majorList.find(major => major.name === selectedMajorName);
+        console.log("the found major is:", selectedMajorName, "the object selected is", selectedMajorObject.name)
+        const listOfMajorReqCourses = selectedMajorObject.required_courses;
+        for (let i = 0; i < listOfMajorReqCourses.length; i++){
+            const courseName = Object.keys(listOfMajorReqCourses[i]);
+            const defaultLocation = listOfMajorReqCourses[i][courseName[0]]
+        
+            const course = courseObjects.find(object => object.id === courseName[0])
+
+            addToSemester(defaultLocation[0], defaultLocation[1], course.name, course.id);
+        }
     }
 
     //Long winded callback function used at the semester level for drag and drop cleanup
@@ -79,6 +138,43 @@ function App() {
         );
     };
 
+
+    //Long winded callback function used at the semester level for drag and drop cleanup
+    //Quite literally restructured the whole code just to implement this function
+    const addToSemester = (yearName, semesterName, courseName, ID) => {
+        setYears((oldYears) =>
+            //update current years
+            oldYears.map((currYear) => {
+                //find the year we are looking for
+                if (currYear.name === yearName) {
+                    //return a modified version of it
+
+                    return {
+                        ...currYear,
+                        semesters: currYear.semesters.map((currSem) => {
+
+                            //loop the semester for the corrrect semester
+                            if (currSem.name === semesterName) {
+                                //Add course logic
+                                const oldCourses = currSem.courses;
+                                const newCourses = [...oldCourses, { name: courseName, courseID: ID, key: uuid(), prevCourses: getPrevCourses }];
+                                
+                                return {
+                                    ...currSem,
+                                    courses: newCourses
+                                };
+                            }
+
+                            //if not it, return as is
+                            return currSem;
+                        }),
+                    };
+                }
+                //If not the desired year, dont modify
+                return currYear;
+            })
+        );
+    };
     //Determine the classes completed prior to the specified semester
     const getPrevCourses = (currYear, currSem) => {
         //return value of all course names

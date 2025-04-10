@@ -113,6 +113,8 @@ function Course(props) {
         axiosFetchCourses() //function call to get actuall data from api
     }
 
+    
+
     // waits for api to populate course array
     const findCourse = useCallback(() => { // has to use callBack to ensure react knows function is the same so useEffect doesn't throw a warning
         // if course not empty, finds desired course, gets details

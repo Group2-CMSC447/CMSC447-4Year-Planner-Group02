@@ -5,6 +5,8 @@ import { v4 as uuid } from "uuid";
 function Semester(props) {
     //Promote prop details to variables
     const {name, courses } = props;
+
+    
     
     const addCourse = (newCourse, ID) => { //newcourses is a prop sent to editCourses and it comes back witht e selected course name 
         
