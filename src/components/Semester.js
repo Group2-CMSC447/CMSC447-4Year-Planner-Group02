@@ -1,26 +1,37 @@
 import Course from './Course';
 import EditCourse from './EditCourse';
 import { v4 as uuid } from "uuid";
-
+import { useState, useEffect } from 'react';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 function Semester(props) {
     //Promote prop details to variables
     const {name, courses } = props;
-
+    const [credits, setCredits] = useState(0);
+    const { min, max } = props.GetCreditRange();
+    const outsideCreditRange = credits < min || credits > max;
     
-    
-    const addCourse = (newCourse, ID) => { //newcourses is a prop sent to editCourses and it comes back witht e selected course name 
+    const addCourse = (newCourse, ID, credits) => { //newcourses is a prop sent to editCourses and it comes back witht e selected course name 
         
         // get whats in courses and add a new course to it and the number of courses
-        const newCourses = [...courses, { name: newCourse, courseID: ID, key: uuid(), prevCourses: props.prevCourses }];
+        const newCourses = [...courses, { name: newCourse, courseID: ID, key: uuid(), prevCourses: props.prevCourses, credits: credits }];
         //CALLBACK FUNCTION
         props.updateSemester({ name: props.name, courses: newCourses, preUMBC: props.preUMBC  });
     }
 
+    //Always make the credits value the combination of all the credits of the course objects
+    useEffect(() => {
+        //basically, go through each course and add the credit value if there is one
+        const total = courses.reduce((sum, course) => sum + (course.credits || 0), 0);
+        setCredits(total);
+    }, [courses]);
+
     const removeCourse = (index) => {//index is the index in the courses array to remove
         //console.log(index); //test
         const newCourses = courses.filter((_, i) => i !== index); //Use the filter function to take out desired course
+        
         //CALLBACK FUNCTION
-        props.updateSemester({ name: props.name, courses: newCourses }); //needed to pass the updates to the screen (year then to app.js)
+        props.updateSemester({ name: props.name, courses: newCourses, preUMBC: props.preUMBC });
 
     }
 
@@ -33,10 +44,11 @@ function Semester(props) {
         const fromYear = e.dataTransfer.getData("currYear");
         const fromSem = e.dataTransfer.getData("currSemester");
         const ID = e.dataTransfer.getData("courseID");
+        const credits = (Number(e.dataTransfer.getData("courseCredits")));
         //Only add the course if the drag was successful and not to the same semester
         if (courseName && !((fromYear === props.yearName) && (fromSem===props.name)) ){
             //Add the copy
-            addCourse(courseName, ID);
+            addCourse(courseName, ID, credits);
             //Remove the original
             props.removeFromSemester(fromYear, fromSem, courseName);
         }
@@ -64,6 +76,30 @@ function Semester(props) {
                             X
                         </button>
                     }
+
+                    {/*Show the credit counter with errors if too low*/}
+                    
+                    {
+                        !props.preUMBC && outsideCreditRange ? (
+                        //only show red text and popups if theres missing prereqs
+                        <OverlayTrigger
+                            placement="top"
+                            overlay={
+                                //info to be displayed about missing pre reqs
+                                <Tooltip id={`tooltip-${props.name}`}>
+                                    The total amount of credits ({credits}) does not fall within the range of ({min}, {max})
+                                </Tooltip>
+                            }
+                        >
+                            <p className="text font-semibold text-red-600 cursor-help">
+                                Credits: {credits}
+                            </p>
+                        </OverlayTrigger>
+                    ) : (
+                        <p className="text-center font-semibold">Credits: {credits}</p>
+                    )}
+
+
                 </div>
                         
                 <div className="flex flex-col justify-center items-center">

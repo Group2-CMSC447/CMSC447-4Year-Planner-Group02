@@ -8,6 +8,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 function Course(props) {
     const [courseID, setCourseID] = useState("NO ID");
+    const [credits, setCredits] = useState(0);
     // declares local vars to hold course data for display.
     const [courseData, setCourseData] = useState({
         id: "N/A",
@@ -57,6 +58,7 @@ function Course(props) {
 
             //needed for passing back to semester object
             setCourseID(currCourse.id);
+            setCredits(currCourse.credits);
 
             return currCourse.preReqs;
         } catch (error) {
@@ -102,6 +104,7 @@ function Course(props) {
         e.dataTransfer.setData("currSemester", props.semesterName);
         e.dataTransfer.setData("currYear", props.yearName);
         e.dataTransfer.setData("courseID", courseID);
+        e.dataTransfer.setData("courseCredits", credits);
         //Drop handling is done in the semester component only
     }
     // Shows modal when details button is clicked, hides when Close button is clicked

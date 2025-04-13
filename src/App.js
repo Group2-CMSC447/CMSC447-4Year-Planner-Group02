@@ -24,8 +24,8 @@ function App() {
  
     };
     //Use for the credit range checks
-    const [min, setMin] = useState();
-    const [max, setMax] = useState();
+    const [min, setMin] = useState(12);
+    const [max, setMax] = useState(20);
     //used by the credit range slider
     const changeVals = (value) => {
         console.log("Changed Vals to: " + value[0] + " and " + value[1])
@@ -36,7 +36,9 @@ function App() {
         console.log("Console log for preventing warnings. Min: " + { min } +" Max:" + { max } )
     };
 
-
+    const GetCreditRange = () => {
+        return { min, max };
+    }
     
     const [majorName, setMajorName] = useState("Hello");
     // const [majorList, setMajorList] = useState([])
@@ -101,7 +103,7 @@ function App() {
         
             const course = courseObjects.find(object => object.id === courseName[0])
 
-            addToSemester(defaultLocation[0], defaultLocation[1], course.name, course.id);
+            addToSemester(defaultLocation[0], defaultLocation[1], course.name, course.id, course.credits);
         }
     }
 
@@ -141,7 +143,7 @@ function App() {
 
     //Long winded callback function used at the semester level for drag and drop cleanup
     //Quite literally restructured the whole code just to implement this function
-    const addToSemester = (yearName, semesterName, courseName, ID) => {
+    const addToSemester = (yearName, semesterName, courseName, ID, credits) => {
         setYears((oldYears) =>
             //update current years
             oldYears.map((currYear) => {
@@ -157,7 +159,7 @@ function App() {
                             if (currSem.name === semesterName) {
                                 //Add course logic
                                 const oldCourses = currSem.courses;
-                                const newCourses = [...oldCourses, { name: courseName, courseID: ID, key: uuid(), prevCourses: getPrevCourses }];
+                                const newCourses = [...oldCourses, { name: courseName, courseID: ID, key: uuid(), prevCourses: getPrevCourses, credits: credits }];
                                 
                                 return {
                                     ...currSem,
@@ -271,6 +273,7 @@ function App() {
                               className="flex-grow w-full"
                               key={year.name}
                               prevCourses={getPrevCourses}
+                              GetCreditRange={GetCreditRange}
                           />
 
                       );
