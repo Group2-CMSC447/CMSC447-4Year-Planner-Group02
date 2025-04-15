@@ -16,7 +16,7 @@ const majorSchema = new Schema({
     name: {type:String, required:true},
     credits: {type: Number},
     degreeType: {type:String},
-    required_courses: {type: [String]}
+    required_courses: {type: [{type: Map, of: String}]}
 });
 
 const Courses = mongoose.model('Courses', coursesSchema, 'courses');
@@ -82,22 +82,150 @@ courseData = [
         attributes: null,
         preReqs: [],
         typicalSem: 0
+    },
+    { // ADDING THE COURSES NEEDED FOR DEFAULT OF COMPUTER SCIENCE ALL DATA IS WRONG
+        id: 'CMSC 201',
+        name: 'CMSC 201',
+        description: '',
+        credits: 1,
+        workload: 1,
+        attributes: null,
+        preReqs : [],
+        typicalSem: 0
+    },
+    {
+        id: 'MATH 151',
+        name: 'MATH 151',
+        description: '',
+        credits: 1,
+        workload: 1,
+        attributes: null,
+        preReqs: [],
+        typicalSem: 0
+    },
+    {
+        id: 'CMSC 202',
+        name: 'CMSC 202',
+        description: '',
+        credits: 1,
+        workload: 1,
+        attributes: null,
+        preReqs: [],
+        typicalSem: 0
+    },
+    {
+        id: 'MATH 152',
+        name: 'MATH 152',
+        description: '',
+        credits: 1,
+        workload: 1,
+        attributes: null,
+        preReqs: [],
+        typicalSem: 0
+    },
+    {
+        id: 'CMSC 203',
+        name: 'CMSC 203',
+        description: '',
+        credits: 1,
+        workload: 1,
+        attributes: null,
+        preReqs: [],
+        typicalSem: 0
+    },
+    {
+        id: 'CMSC 331',
+        name: 'CMSC 331',
+        description: '',
+        credits: 1,
+        workload: 1,
+        attributes: null,
+        preReqs: [],
+        typicalSem: 0
+    },
+    {
+        id: 'CMSC 341',
+        name: 'CMSC 341',
+        description: '',
+        credits: 1,
+        workload: 1,
+        attributes: null,
+        preReqs: [],
+        typicalSem: 0
+    },
+    {
+        id: 'CMSC 313',
+        name: 'CMSC 313',
+        description: '',
+        credits: 1,
+        workload: 1,
+        attributes: null,
+        preReqs: [],
+        typicalSem: 0
+    },
+    {
+        id: 'MATH 221',
+        name: 'Course 1',
+        description: '',
+        credits: 1,
+        workload: 1,
+        attributes: null,
+        preReqs: [],
+        typicalSem: 0
+    },
+    {
+        id: 'CMSC 304',
+        name: 'CMSC 304',
+        description: '',
+        credits: 1,
+        workload: 1,
+        attributes: null,
+        preReqs: [],
+        typicalSem: 0
+    },
+    {
+        id: 'CMSC 411',
+        name: 'CMSC 411',
+        description: '',
+        credits: 1,
+        workload: 1,
+        attributes: null,
+        preReqs: ["CMSC 313", "CMSC 341"],
+        typicalSem: 0
+    },
+    {
+        id: 'CMSC 421',
+        name: 'CMSC 421',
+        description: '',
+        credits: 1,
+        workload: 1,
+        attributes: null,
+        preReqs: [],
+        typicalSem: 0
+    },
+    {
+        id: 'CMSC 441',
+        name: 'CMSC 441',
+        description: '',
+        credits: 1,
+        workload: 1,
+        attributes: null,
+        preReqs: [],
+        typicalSem: 0
+    },
+    {
+        id: 'CMSC 447',
+        name: 'CMSC 447',
+        description: '',
+        credits: 1,
+        workload: 1,
+        attributes: null,
+        preReqs: ["CMSC 341"],
+        typicalSem: 0
     }
 ]
 
 majorData = [
-    {
-        name: 'Computer Science - B.S.',
-        credits: 78,
-        degreeType: 'B.S.',
-        required_courses: ['CMSC 201', 'CMSC 202', 'CMSC 203', 'CMSC 304', 'CMSC 313', 'CMSC 331', 'CMSC 341', 'CMSC 411', 'CMSC 421', 'CMSC 441', 'CMSC 447', 'MATH 151', 'MATH 152', 'MATH 221', 'STAT 355']
-    },
-    {
-        name: 'Information Systems - B.S.',
-        credits: 65,
-        degreeType: 'B.S.',
-        required_courses: ['IS 300', 'IS 310', 'IS 410', 'IS 420', 'IS 425', 'IS 436', 'IS 450', 'IS 451', 'STAT 351', 'MGMT 210', 'ECON 101', 'ECON 102', 'ECON 121', 'ECON 122']
-    },
     {
         name: 'Chemical Engineering - Traditional - B.S.',
         credits: 101,
@@ -105,11 +233,27 @@ majorData = [
         required_courses: []
     },
     {
-        name: 'Business Technology Administration - B.A.',
-        credits: 65,
-        degreeType: 'B.A.',
-        required_courses: []
+        name: 'Computer Science - B.S.',
+        credits: 78,
+        degreeType: 'B.S.',
+        required_courses: [{'CMSC 201': ['Year 1', 'Fall']}, {'MATH 151': ['Year 1', 'Fall']}, {'CMSC 202': ['Year 1', 'Spring']}, {'MATH 152': ['Year 1', 'Spring']}, {'CMSC 203': ['Year 1', 'Spring']},
+        {'CMSC 331': ['Year 2', 'Fall']}, {'CMSC 341': ['Year 2', 'Fall']}, {'CMSC 313': ['Year 2', 'Spring']}, {'MATH 221': ['Year 2', 'Spring']}, 
+        {'CMSC 304': ['Year 3', 'Fall']}, {'CMSC 411': ['Year 3', 'Fall']}, {'CMSC 421': ['Year 3', 'Spring']}, 
+        {'CMSC 441': ['Year 4', 'Fall']}, {'CMSC 447': ['Year 4', 'Fall']}]
     }
+
+    // {
+    //     name: 'Information Systems - B.S.',
+    //     credits: 65,
+    //     degreeType: 'B.S.',
+    //     required_courses: ['IS 300', 'IS 310', 'IS 410', 'IS 420', 'IS 425', 'IS 436', 'IS 450', 'IS 451', 'STAT 351', 'MGMT 210', 'ECON 101', 'ECON 102', 'ECON 121', 'ECON 122']
+    // },
+    // {
+    //     name: 'Business Technology Administration - B.A.',
+    //     credits: 65,
+    //     degreeType: 'B.A.',
+    //     required_courses: []
+    // }
 ]
 async function addToDB(){
     //await Courses.deleteMany();

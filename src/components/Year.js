@@ -12,6 +12,7 @@ function Year(props) {
     const [winter, setWinter] = useState(preUMBC ? false : true); //show only if not preUMBC year
     const [summer, setSummer] = useState(preUMBC ? false : true); //show only if not preUMBC year
 
+    
     const addSemester = (semesterID) => {
         const newSemNum = semesterID + 1;
         //Don't add any semesters past summer
@@ -45,14 +46,22 @@ function Year(props) {
         updatedSemesters.sort((a, b) => order[a.name] - order[b.name]);
 
         //pass back the updated list of semesters to app.js to format
-        props.updateYear({ name: props.name, semesters: updatedSemesters, preUMBC: props.preUMBC });
+        props.updateYear({ name: props.name, semesters: updatedSemesters, preUMBC: props.preUMBC, GetCreditRange: props.GetCreditRange });
     };
+
+
+    // const defaultMajorYear = (semesters) => {
+    //     const newSems = semesters.map(sem => 
+    //         sem.name === newSem.name ? newSem : sem
+    //     );
+    //     props.updateYear({ name: props.name, semesters: newSems, preUMBC: props.preUMBC });
+    // }
 
     const updateSemester = (newSem) => {
         const newSems = semesters.map(sem =>
             sem.name === newSem.name ? newSem : sem
         );
-        props.updateYear({ name: props.name, semesters: newSems, preUMBC: props.preUMBC });
+        props.updateYear({ name: props.name, semesters: newSems, preUMBC: props.preUMBC, GetCreditRange: props.GetCreditRange });
     }
     //Function for when the x is clicked on a semester, is a callback function used by semester
     const removeSemester = (semName) => {
@@ -76,7 +85,7 @@ function Year(props) {
             setSummer(true);
         }
         //Pass back changes to the year's semester to app.js
-        props.updateYear({ name: props.name, semesters: newSems });
+        props.updateYear({ name: props.name, semesters: newSems, preUMBC: props.preUMBC, GetCreditRange: props.GetCreditRange });
     }
 
     return (
@@ -115,6 +124,7 @@ function Year(props) {
                                         removeSemester={removeSemester}
                                         preUMBC={preUMBC}
                                         prevCourses={props.prevCourses}
+                                        GetCreditRange={props.GetCreditRange}
                                     />
 
                                 );
