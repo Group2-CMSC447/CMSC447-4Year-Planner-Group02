@@ -20,6 +20,18 @@ fetch(sheetURLDefault)
 .then((response) => response.text())
 .then((csvText) => convertCSVDefaultText(csvText));
 
+fetch(sheetURLDepartments)
+.then((response) => response.text())
+.then((csvText) => convertCSVDepartmentsText(csvText));
+
+//conversion and add function
+function convertCSVDepartmentsText(csvText){
+    //console.log(csvText);
+    let departmentObjects = csvToDepartmentObjects(csvText);
+    //console.log(departmentObjects);
+    addDepartmentCSVToDB(departmentObjects);
+}
+
 //conversion and add function
 function convertCSVDefaultText(csvText){
     //console.log(csvText);
@@ -34,6 +46,22 @@ function convertCSVCourseText(csvText){
     let courseObjects = csvToCourseObjects(csvText);
     //console.log(courseObjects);
     addCourseCSVToDB(courseObjects);
+}
+
+//parse csv text for department names
+function csvToDepartmentObjects(csvText){
+    const csvRows = csvText.split("\n"); //split each row at newline
+    const majorInfo = splitCSVline(csvRows[0]); //get label
+    const startofData = 1; //index at one to ignore row with other info
+    let objects = []; //where to put complete objects
+
+    for(i = startofData; i < csvRows.length; ++i){
+        let curr = {}; //current object
+        let row = splitCSVline(csvRows[i]);
+        curr["name"] = row[0];
+        objects.push(curr);
+    }
+    return objects;
 }
 
 //parse csv text for default schedule
@@ -118,10 +146,35 @@ function splitCSVline(line){
     return splitLine;
 }
 
+
+async function addDepartmentCSVToDB(objs){
+    const departments = schemas.Departments;
+    const departmentData = await departments.find({}).exec();
+
+    //through each object from csv
+    for(let i = 0; i < objs.length; ++i){
+        let obj = objs[i];
+        let flag = false;
+        
+        //loop through each obj in DB
+        for(let j = 0; j < departmentData.length; ++j){
+            if(obj.name === departmentData[j].name){
+                //nothing to update because only name
+                flag = true;
+            }
+        }
+
+        //add if not in DB
+        if(!flag){
+            await departments.insertOne(obj);
+        }
+    }
+}
+
 async function addDefaultCSVToDB(objs){
     //get the existing major data
-    const defaultSched = schemas.Majors
-    const defaultData = await defaultSched.find({}).exec()
+    const defaultSched = schemas.Majors;
+    const defaultData = await defaultSched.find({}).exec();
 
     //through each object from csv
     for(let i = 0; i < objs.length; ++i){
@@ -150,7 +203,6 @@ async function addDefaultCSVToDB(objs){
 
         //new major
         if(!flag){
-            console.log(obj);
             await defaultSched.insertOne(obj);
         }
 
@@ -214,11 +266,12 @@ async function addCourseCSVToDB(objs){
 
 
 //will be needed later if we move the CSV stuff to front end
+/*
 router.post('/addCourse', async(req, res) => {
     let newDocument = req.body;
     await schemas.Courses.insertOne(newDocument);
 //   res.end()
-})
+})*/
 
 router.get('/courses', async(req, res) => {
     const courses = schemas.Courses
@@ -239,6 +292,12 @@ router.get('/majors', async(req, res) => {
     const majors = schemas.Majors
     const majorData = await majors.find({}).exec()
     res.send(JSON.stringify(majorData))
+})
+
+router.get('/departments', async(req, res) => {
+    const departments = schemas.Departments
+    const departmentsData = await departments.find({}).exec()
+    res.send(JSON.stringify(departmentData))
 })
 
 module.exports = router

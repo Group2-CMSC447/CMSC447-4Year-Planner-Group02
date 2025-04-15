@@ -19,8 +19,13 @@ const majorSchema = new Schema({
     required_courses: {type: [{type: Map, of: String}]}
 });
 
+const departmentSchema = new Schema({
+    name: {type:String, required:true}
+})
+
 const Courses = mongoose.model('Courses', coursesSchema, 'courses');
 const Majors = mongoose.model('Majors', majorSchema, 'majors');
+const Departments = mongoose.model('Departments', departmentSchema, 'departments')
 
 courseData = [
     {
@@ -257,13 +262,13 @@ majorData = [
 ]
 async function addToDB(){
     //await Courses.deleteMany();
-    await Majors.deleteMany();
+    //await Majors.deleteMany();
     //await //Courses.insertMany(courseData);
-    await Majors.insertMany(majorData);
+    //await Majors.insertMany(majorData);
     console.log("Data added to Mongo DB")
 }
 addToDB()
 
-const mySchemas = {'Courses': Courses, 'Majors': Majors}
+const mySchemas = {'Courses': Courses, 'Majors': Majors, 'Departments': Departments}
 
 module.exports = mySchemas
