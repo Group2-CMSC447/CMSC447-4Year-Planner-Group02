@@ -19,8 +19,13 @@ const majorSchema = new Schema({
     required_courses: {type: [{type: Map, of: String}]}
 });
 
+const departmentSchema = new Schema({
+    name: {type:String, required:true}
+})
+
 const Courses = mongoose.model('Courses', coursesSchema, 'courses');
 const Majors = mongoose.model('Majors', majorSchema, 'majors');
+const Departments = mongoose.model('Departments', departmentSchema, 'departments')
 
 courseData = [
     {
@@ -232,7 +237,7 @@ majorData = [
         degreeType: 'B.S.',
         required_courses: []
     },
-    {
+    /*{
         name: 'Computer Science - B.S.',
         credits: 78,
         degreeType: 'B.S.',
@@ -240,7 +245,7 @@ majorData = [
         {'CMSC 331': ['Year 2', 'Fall']}, {'CMSC 341': ['Year 2', 'Fall']}, {'CMSC 313': ['Year 2', 'Spring']}, {'MATH 221': ['Year 2', 'Spring']}, 
         {'CMSC 304': ['Year 3', 'Fall']}, {'CMSC 411': ['Year 3', 'Fall']}, {'CMSC 421': ['Year 3', 'Spring']}, 
         {'CMSC 441': ['Year 4', 'Fall']}, {'CMSC 447': ['Year 4', 'Fall']}]
-    }
+    }*/
 
     // {
     //     name: 'Information Systems - B.S.',
@@ -256,14 +261,14 @@ majorData = [
     // }
 ]
 async function addToDB(){
-    await Courses.deleteMany();
-    await Majors.deleteMany();
-    await Courses.insertMany(courseData);
-    await Majors.insertMany(majorData);
+    //await Courses.deleteMany();
+    //await Majors.deleteMany();
+    //await //Courses.insertMany(courseData);
+    //await Majors.insertMany(majorData);
     console.log("Data added to Mongo DB")
 }
 addToDB()
 
-const mySchemas = {'Courses': Courses, 'Majors': Majors}
+const mySchemas = {'Courses': Courses, 'Majors': Majors, 'Departments': Departments}
 
 module.exports = mySchemas
