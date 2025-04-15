@@ -1,70 +1,60 @@
-# Getting Started with Create React App
+# UMBC 4 Year Planner
+Authors: Rick Jenkins, Jason Rojas, Caleb Sparks, Ryan Barnes
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Project Description
 
-## Available Scripts
+This application is an interactive 4 year planner to replace the current static document.
+It is designed to help students and administators by simplifying the planning process and providing a more flexible setup that gives feedback.
 
-In the project directory, you can run:
+## Technical Details
+This project uses React and Tailwind CSS for the UI on the website.
+MongoDB is used for the database which holds the course/major data.
+The website is deployed using Github Pages.
 
-### `npm start`
+## Using the Application
+This application has different functions for administators and users.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Administrative Functions
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+#### `Update Database`
+Administators can update the database by editing the data in following document. Format must be followed for proper data parsing.
+https://docs.google.com/spreadsheets/d/1_FpGoQveJlv1Egrse9kBKIOoEvJdk-6I3-dqA0mv20E/edit?usp=sharing
 
-### `npm test`
+#### `Run in Developer mode`
+To test changes before applying them to the deployed website, run in developer mode.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Open the project folder in an IDE, make sure it has node.js installed.
+Open two terminals in the IDE.
 
-### `npm run build`
+In terminal 1, do `npm install` to install the required dependencies.
+Do `cd backend` to enter the backend folder.
+Run `npm start` to connect to the database.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+In terminal 2, do `npm start` to start the react website locally.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+The website will then open and allow changes to be made without affecting the deployed version.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### User Functions
 
-### `npm run eject`
+#### `Create 4 Year Plan`
+To create a four year plan, start by selecting your major. 
+This will populate the planner with the default schedule for the selected major.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Then, select your preferred semester credit range using the slider.
+This will give warnings if a semester has too many credits.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+If you have test credit or transfer courses, add the corresponding course into those sections by clicking add course.
+After this, you can modify your plan as desired.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Years, semesters, and courses can be added or removed by hitting their corresponding buttons(add -- or X)
+Courses can be dragged and dropped between semesters.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+If something is red after a change to your plan there is a conflict.
+To see what the problem is, hover over the red text.
 
-## Learn More
+If all required courses have been added and there are no conflicts, the plan is complete.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## More Details
+For more information on this project, refer to the SRS document: https://docs.google.com/document/d/1YtmRHmeYTleUbFyIAmgSTdPdA52_UEbD3C89hBE3tuM/edit?usp=sharing
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
