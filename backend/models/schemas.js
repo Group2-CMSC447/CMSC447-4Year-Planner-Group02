@@ -232,7 +232,7 @@ majorData = [
         degreeType: 'B.S.',
         required_courses: []
     },
-    {
+    /*{
         name: 'Computer Science - B.S.',
         credits: 78,
         degreeType: 'B.S.',
@@ -240,7 +240,7 @@ majorData = [
         {'CMSC 331': ['Year 2', 'Fall']}, {'CMSC 341': ['Year 2', 'Fall']}, {'CMSC 313': ['Year 2', 'Spring']}, {'MATH 221': ['Year 2', 'Spring']}, 
         {'CMSC 304': ['Year 3', 'Fall']}, {'CMSC 411': ['Year 3', 'Fall']}, {'CMSC 421': ['Year 3', 'Spring']}, 
         {'CMSC 441': ['Year 4', 'Fall']}, {'CMSC 447': ['Year 4', 'Fall']}]
-    }
+    }*/
 
     // {
     //     name: 'Information Systems - B.S.',

@@ -5,19 +5,60 @@ const schemas = require('../models/schemas')
 //get CSV from the google sheet
 const sheetID = "1_FpGoQveJlv1Egrse9kBKIOoEvJdk-6I3-dqA0mv20E";
 const sheetName = encodeURIComponent("CMSC Courses");
+const sheetName2 = encodeURIComponent("CMSC Default");
+const sheetName3 = encodeURIComponent("Departments");
 const sheetURL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv&sheet=${sheetName}`;
+const sheetURLDefault = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv&sheet=${sheetName2}`;
+const sheetURLDepartments = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv&sheet=${sheetName3}`;
 
 //grabs csv from google sheets
 fetch(sheetURL)
 .then((response) => response.text())
 .then((csvText) => convertCSVCourseText(csvText));
 
+fetch(sheetURLDefault)
+.then((response) => response.text())
+.then((csvText) => convertCSVDefaultText(csvText));
+
+//conversion and add function
+function convertCSVDefaultText(csvText){
+    //console.log(csvText);
+    let defaultObjects = csvToDefaultObjects(csvText);
+    //console.log(defaultObjects);
+    addDefaultCSVToDB(defaultObjects);
+}
+
 //runs conversion and add function
 function convertCSVCourseText(csvText){
     //console.log(csvText);
     let courseObjects = csvToCourseObjects(csvText);
     //console.log(courseObjects);
-    addCSVToDB(courseObjects);
+    addCourseCSVToDB(courseObjects);
+}
+
+//parse csv text for default schedule
+function csvToDefaultObjects(csvText){
+    const csvRows = csvText.split("\n"); //split each row at newline
+    const majorInfo = splitCSVline(csvRows[0]); //get first 3 inputs of major
+    const startofData = 1; //index at one to ignore row with other info
+    let objects = []; //where to put complete objects
+
+    let curr = {}; //current object
+
+    curr["name"] = majorInfo[0];
+    curr["credits"] = Number(majorInfo[1]);
+    curr["degreeType"] = majorInfo[2];
+
+    let required_courses = [];
+
+    for(i = startofData; i < csvRows.length; ++i){
+        let row = splitCSVline(csvRows[i]);
+        let name = row[0];
+        required_courses.push({[row[0]]: [row[1], row[2]]});
+    }
+    curr["required_courses"] = required_courses;
+    objects.push(curr);
+    return objects;
 }
 
 //parse csv text
@@ -77,8 +118,47 @@ function splitCSVline(line){
     return splitLine;
 }
 
+async function addDefaultCSVToDB(objs){
+    //get the existing major data
+    const defaultSched = schemas.Majors
+    const defaultData = await defaultSched.find({}).exec()
+
+    //through each object from csv
+    for(let i = 0; i < objs.length; ++i){
+        let obj = objs[i];
+        let flag = false;
+        
+        //loop through each obj in DB
+        for(let j = 0; j < defaultData.length; ++j){
+            if(obj.name === defaultData[j].name){
+                flag = true;
+
+                //check and update variables
+                if(obj.credits !== defaultData[j].credits){
+                    await defaultSched.updateOne({"name": defaultData[j].name}, {$set: {"credits": obj.credits}});
+                }
+
+                if(obj.degreeType !== defaultData[j].degreeType){
+                    await defaultSched.updateOne({"name": defaultData[j].name}, {$set: {"degreeType": obj.degreeType}});
+                }
+
+                if(obj.required_courses !== defaultData[j].required_courses){
+                    await defaultSched.updateOne({"name": defaultData[j].name}, {$set: {"required_courses": obj.required_courses}});
+                }
+            }
+        }
+
+        //new major
+        if(!flag){
+            console.log(obj);
+            await defaultSched.insertOne(obj);
+        }
+
+    }
+}
+
 //function that adds each object if it is not in the database
-async function addCSVToDB(objs){
+async function addCourseCSVToDB(objs){
     //get the existing course data from the DB
     const courses = schemas.Courses
     const courseData = await courses.find({}).exec()
