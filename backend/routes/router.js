@@ -297,7 +297,7 @@ router.get('/majors', async(req, res) => {
 router.get('/departments', async(req, res) => {
     const departments = schemas.Departments
     const departmentsData = await departments.find({}).exec()
-    res.send(JSON.stringify(departmentData))
+    res.send(JSON.stringify(departmentsData))
 })
 
 module.exports = router
