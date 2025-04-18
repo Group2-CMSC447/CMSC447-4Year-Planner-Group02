@@ -293,6 +293,15 @@ function App() {
         >
           Check Our Github
         </a>
+        <a
+          className="Link text-center font-semibold"
+          href="https://docs.google.com/forms/d/e/1FAIpQLSfYgcY6GL_0GiXPl_83X5HK3IzYM4eMkZxksv5kI8GUSUCr8g/viewform?usp=dialog"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+            Give Your Feedback
+        </a>
+
     </div>
     
   );
