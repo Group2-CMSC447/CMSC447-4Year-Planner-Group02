@@ -81,7 +81,7 @@ function EditCourse({onConfirm}) { //Takes a prop from semester which is an on c
         
         
       
-          <select value={selectedCourse?.id || ''}
+          <select style={{ width: '300px' }} value={selectedCourse?.id || ''}
               onChange={(e) => {
                    const course = selectCourse.find(c => c.id === e.target.value)
                    setSelectedCourse(course)
