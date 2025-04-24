@@ -38,14 +38,12 @@ function Course(props) {
 
 
     //grabs the course's pre reqs as specified by the database
-    const fetchPreReqs = async (courseName) => {
+    const fetchPreReqs = useCallback(async (courseName) => {
         try {
             const response = await axios.get(`http://localhost:4000/courses`);
             const courseDetails = response.data;
-
             //grab the data about this current course
             let currCourse = courseDetails.find(item => item.name === props.name);
-
             // sets variables to be printed within the modal
             setCourseData({
                 id: currCourse.id,
@@ -64,11 +62,11 @@ function Course(props) {
         } catch (error) {
             return [];
         }
-    };
+    }, [props.name]);
 
 
     //function for updating the value of missingPreReqs
-    const checkMissingPreReqs = async () => {
+    const checkMissingPreReqs = useCallback(async () => {
 
         //ensure the database is updated on creation
 
@@ -84,8 +82,9 @@ function Course(props) {
         
         //return a list of any course that does not appear in the previous semesters
         return preReqs.filter(req => !prevCourses.includes(req));
-    }
+    }, [fetchPreReqs, props]);
 
+    
     //needed for updating and checking for pre reqs on changes to the courses in the planner
     useEffect(() => {
         // Update missing prerequisites whenever courseData changes
@@ -95,7 +94,7 @@ function Course(props) {
         };
 
         getMissingPreReqs();
-    });
+    }, [checkMissingPreReqs]);
 
     //Drag function, collects needed data to pass to semester
     const onDragStart = (e) => {
