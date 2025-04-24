@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/CMSC447-4Year-Planner-Group02/static/css/main.9565ea27.css",
-    "main.js": "/CMSC447-4Year-Planner-Group02/static/js/main.cee93500.js",
+    "main.js": "/CMSC447-4Year-Planner-Group02/static/js/main.d4f19b2b.js",
     "static/js/488.3545f45c.chunk.js": "/CMSC447-4Year-Planner-Group02/static/js/488.3545f45c.chunk.js",
     "index.html": "/CMSC447-4Year-Planner-Group02/index.html",
     "main.9565ea27.css.map": "/CMSC447-4Year-Planner-Group02/static/css/main.9565ea27.css.map",
-    "main.cee93500.js.map": "/CMSC447-4Year-Planner-Group02/static/js/main.cee93500.js.map",
+    "main.d4f19b2b.js.map": "/CMSC447-4Year-Planner-Group02/static/js/main.d4f19b2b.js.map",
     "488.3545f45c.chunk.js.map": "/CMSC447-4Year-Planner-Group02/static/js/488.3545f45c.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.9565ea27.css",
-    "static/js/main.cee93500.js"
+    "static/js/main.d4f19b2b.js"
   ]
 }
