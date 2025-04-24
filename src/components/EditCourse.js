@@ -68,11 +68,11 @@ function EditCourse({onConfirm}) { //Takes a prop from semester which is an on c
 
   const SelectInSearch = (department) => {
     //This is a prop created to get all courses from an api then create an option for each
-    console.log("inside of course list", department.department)
+    //console.log("inside of course list", department.department)
     if (department.department !== null){
         setDepartmentFilter(department.department.name)
       }
-      console.log("checks if string starts with", departmentFilter)
+      //console.log("checks if string starts with", departmentFilter)
       const filteredCourses = selectCourse.filter((item) => (item.id.startsWith(departmentFilter)));
       //console.log(filteredCourses)
       return (

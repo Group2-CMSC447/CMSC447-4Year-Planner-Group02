@@ -125,6 +125,7 @@ function Year(props) {
                                         preUMBC={preUMBC}
                                         prevCourses={props.prevCourses}
                                         GetCreditRange={props.GetCreditRange}
+                                        GetSemesterCourses={props.GetSemesterCourses }
                                     />
 
                                 );
