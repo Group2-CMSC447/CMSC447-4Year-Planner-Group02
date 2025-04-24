@@ -73,24 +73,29 @@ function EditCourse({onConfirm}) { //Takes a prop from semester which is an on c
         setDepartmentFilter(department.department.name)
       }
       console.log("checks if string starts with", departmentFilter)
-      const filteredCourses = selectCourse.filter((item) => (item.name.startsWith(departmentFilter)));
-      console.log(filteredCourses)
+      const filteredCourses = selectCourse.filter((item) => (item.id.startsWith(departmentFilter)));
+      //console.log(filteredCourses)
       return (
           //Must return entire course to access the id and name!
         //course is extracted by its ID in the on change function using the id from the course selected in the dropdown
-        
-        
-      
           <select style={{ width: '300px' }} value={selectedCourse?.id || ''}
               onChange={(e) => {
-                   const course = selectCourse.find(c => c.id === e.target.value)
-                   setSelectedCourse(course)
+                if(e){
+                    if(e.target.value){
+                        const course = selectCourse.find(c => c.id === e.target.value)
+                        setSelectedCourse(course)
+                    }else{
+                        setSelectedCourse(null)
+                    }
+                }
+                   
+                   
 
                }}> {/* the value for the select gets set once the option is picked*/}
 
               {/*Default Option*/}
               {/*spread out the options from the large course database, display courses one at a time*/}
-              <option value="" disabled>Select a course</option>{
+              <option value="" >Select a course</option>{
                   filteredCourses?.map((item) => (
                       <option value={item.id} key={item.id}> {item.name}</option>
                   ))
@@ -104,15 +109,22 @@ function EditCourse({onConfirm}) { //Takes a prop from semester which is an on c
     return (
       <select value={selectedDepartment?.name || ''}
         onChange={(e) => {
-            const department = selectDepartment.find(c => c.name === e.target.value)
-            setSelectedDepartment(department)
+            if(e){
+                if(e.target.value){
+                    const department = selectDepartment.find(c => c.name === e.target.value)
+                    setSelectedDepartment(department)
+                }else{
+                    setSelectedDepartment({name: ""})
+                }
+            }
+            
             console.log("The selected department is ", selectedDepartment)
 
         }}> {/* the value for the select gets set once the option is picked*/}
 
         {/*Default Option*/}
         {/*spread out the options from the large course database, display courses one at a time*/}
-        <option value="" disabled>Select a department</option>{
+        <option value="" >Select a department</option>{
             selectDepartment?.map((item) => (
                 <option value={item.name} key={item.name}> {item.name}</option>
             ))

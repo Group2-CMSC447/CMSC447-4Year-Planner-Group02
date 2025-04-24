@@ -104,11 +104,11 @@ function csvToCourseObjects(csvText){
         //loop through each cell of a row
         for(let j = 0; j < row.length; ++j){
             //check if variable should be a number
-            if(columnNames[j] === "credits" || columnNames[j] === "workload" || columnNames[j] === "typicalSem"){
+            if(columnNames[j] === "credits" || columnNames[j] === "workload"){
                 curr[columnNames[j]] = Number(row[j]);
 
             //check for preReqs parsing
-            } else if(columnNames[j] === "preReqs"){
+            } else if(columnNames[j] === "preReqs" || columnNames[j] === "typicalSem" || columnNames[j] === "coReqs"){
                 if(row[j] === "null"){
                     curr[columnNames[j]] = [];
                 }else{
@@ -258,7 +258,7 @@ async function addCourseCSVToDB(objs){
         
         //if it's not in the DB, add it
         if(!flag){
-            courses.insertOne(obj);
+            await courses.insertOne(obj);
         }
     }
         

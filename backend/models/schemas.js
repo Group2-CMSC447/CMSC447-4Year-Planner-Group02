@@ -9,7 +9,8 @@ const coursesSchema = new Schema({
     workload: {type:Number},
     attributes: {type:String},
     preReqs: {type: [String]},
-    typicalSem: {type:Number}
+    typicalSem: {type: [String]},
+    coReqs: {type: [String]}
 });
 
 const majorSchema = new Schema({
