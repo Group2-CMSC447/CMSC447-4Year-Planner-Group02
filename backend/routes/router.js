@@ -250,6 +250,10 @@ async function addCourseCSVToDB(objs){
                     await courses.updateOne({"id": courseData[j].id}, {$set: {"preReqs": obj.preReqs}});
                 }
 
+                if (obj.coReqs !== courseData[j].coReqs) {
+                    await courses.updateOne({ "id": courseData[j].id }, { $set: { "coReqs": obj.coReqs } });
+                }
+
                 if(obj.typicalSem !== courseData[j].typicalSem){
                     await courses.updateOne({"id": courseData[j].id}, {$set: {"typicalSem": obj.typicalSem}});
                 }

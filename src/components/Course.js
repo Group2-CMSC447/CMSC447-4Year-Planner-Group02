@@ -16,11 +16,13 @@ function Course(props) {
         credits: "N/A",
         workload:"N/A",
         attributes: "N/A",
-        preReqs: []
+        preReqs: [],
+        coReqs: []
     })
 
     //Used for determining whether to show tooltip or not
     const [missingPreReqs, setMissingPreReqs] = useState([]);
+    const [missingCoReqs, setMissingCoReqs] = useState([]);
 
     // holds course objects that api call returns
     const [selectCourse, setSelectCourse] = useState([]);
@@ -51,39 +53,91 @@ function Course(props) {
                 credits: currCourse.credits,
                 workload: currCourse.workload,
                 attributes: currCourse.attributes,
-                preReqs: currCourse.preReqs
+                preReqs: currCourse.preReqs,
+                coReqs: currCourse.coReqs
             })
 
             //needed for passing back to semester object
             setCourseID(currCourse.id);
             setCredits(currCourse.credits);
-
             return currCourse.preReqs;
         } catch (error) {
             return [];
         }
     }, [props.name]);
 
+    const fetchCoReqs = useCallback(async (courseName) => {
+        try {
+            const response = await axios.get(`http://localhost:4000/courses`);
+            const courseDetails = response.data;
+            //grab the data about this current course
+            let currCourse = courseDetails.find(item => item.name === props.name);
+            // sets variables to be printed within the modal
+            setCourseData({
+                id: currCourse.id,
+                description: currCourse.description,
+                credits: currCourse.credits,
+                workload: currCourse.workload,
+                attributes: currCourse.attributes,
+                preReqs: currCourse.preReqs,
+                coReqs: currCourse.coReqs
+            })
+
+            //needed for passing back to semester object
+            setCourseID(currCourse.id);
+            setCredits(currCourse.credits);
+
+            return currCourse.coReqs;
+        } catch (error) {
+            return [];
+        }
+    }, [props.name]);
 
     //function for updating the value of missingPreReqs
     const checkMissingPreReqs = useCallback(async () => {
 
         //ensure the database is updated on creation
 
-
         const preReqs = await fetchPreReqs(props.name);
 
-
+        //console.log(coReqList)
 
         //needs to be an empty array if no previous courses
         //prevents errors in array logic below
         //gets all the previous courses from the callback function in App.js 
         const prevCourses = props.prevCourses(props.yearName, props.semesterName) || [];
-        
+
+        //console.log(semesterCourses);
+
+        //look for preReqs in the previous semesters
+        const missing = preReqs.filter(req => !prevCourses.includes(req));
         //return a list of any course that does not appear in the previous semesters
-        return preReqs.filter(req => !prevCourses.includes(req));
+        return missing;
     }, [fetchPreReqs, props]);
 
+    //function for updating the value of missingPreReqs
+    const checkMissingCoReqs = useCallback(async () => {
+
+        //ensure the database is updated on creation
+        const coReqList = await fetchCoReqs(props.name);
+        //console.log(coReqList)
+
+        //needs to be an empty array if no previous courses
+        //prevents errors in array logic below
+        //gets all the previous courses from the callback function in App.js 
+        const prevCourses = props.prevCourses(props.yearName, props.semesterName) || [];
+        const semesterCourses = props.GetSemesterCourses(props.yearName, props.semesterName) || [];
+        const allCourses = prevCourses.concat(semesterCourses);
+        //console.log(semesterCourses);
+
+
+        //can the coReq be found in the current semeseter?
+        const missingCoreqs = coReqList.filter(req => !allCourses.includes(req))
+
+
+        //return a list of any course that does not appear in the previous semesters
+        return missingCoreqs;
+    }, [fetchCoReqs, props]);
     
     //needed for updating and checking for pre reqs on changes to the courses in the planner
     useEffect(() => {
@@ -95,6 +149,16 @@ function Course(props) {
 
         getMissingPreReqs();
     }, [checkMissingPreReqs]);
+
+    useEffect(() => {
+        // Update missing prerequisites whenever courseData changes
+        const getMissingCoReqs = async () => {
+            const missing = await checkMissingCoReqs();
+            setMissingCoReqs(missing);
+        };
+
+        getMissingCoReqs();
+    }, [checkMissingCoReqs]);
 
     //Drag function, collects needed data to pass to semester
     const onDragStart = (e) => {
@@ -131,7 +195,8 @@ function Course(props) {
                     credits: currCourse.credits,
                     workload: currCourse.workload,
                     attributes: currCourse.attributes,
-                    preReqs: currCourse.preReqs
+                    preReqs: currCourse.preReqs,
+                    coReqs: currCourse.coReqs
                 })
                 setCourseID(currCourse.id);
             
@@ -158,14 +223,23 @@ function Course(props) {
         >
 
             {/*Used for showing the popups for missing prereqs*/}
-            {!props.preUMBC &&missingPreReqs.length > 0 ? (
+            {!props.preUMBC &&(missingPreReqs.length > 0 || missingCoReqs.length> 0) ? (
                 //only show red text and popups if theres missing prereqs
                 <OverlayTrigger
                     placement="top"
                     overlay={
+
+
                         //info to be displayed about missing pre reqs
                         <Tooltip id={`tooltip-${props.name}`}>
-                            Missing prerequisite: {missingPreReqs.join(", ")}
+
+                            {missingPreReqs.length > 0 && (
+                                <div>Missing prerequisite: {missingPreReqs.join(", ")}</div>
+                            )}
+                            
+                            {missingCoReqs.length > 0 && (
+                                <div>Missing corequisite: {missingCoReqs.join(", ")}</div>
+                            )}
                         </Tooltip>
                     }
                 >
