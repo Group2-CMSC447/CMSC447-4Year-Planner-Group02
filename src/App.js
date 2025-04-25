@@ -5,6 +5,8 @@ import CreditRange from './components/CreditRange'
 import MajorDropdown from './components/MajorDropdown'
 import axios from 'axios';
 import { v4 as uuid } from "uuid";
+import flagImage from './images/maryland-flag-header-1280x180-black-768x108.jpg';
+import logoImage from './images/UMBC-primary-logo-CMYK-on-black.png'
 //import LoadMajor from './components/LoadMajor';
 
 
@@ -241,67 +243,80 @@ function App() {
     }
 
     return (
-        <div className="flex flex-col ml-4 mr-4" data-testid="callYear">
-
-            <h1 className="text-center text-xl font-semibold">4 Year Plan</h1>
-
-            <h3 className="text-left text-lg font-semibold">Planner Options:</h3>
-                <div className="flex justify-center item-center gap-4">
-                    <div className="">
-                           <MajorDropdown onConfirm={onConfirmMajor}></MajorDropdown>
-                    </div>
-                
-
-                    <div className="flex-auto">
-                            <CreditRange changeVals={changeVals}></CreditRange>
-                    </div>
-                </div>
-          {
-              //This displays all the year objects stored in the years array
-          }
-          <div className="flex flex-col justify-center items-center min-h-screen" key="year">
-          
-              {
-                  years.map((year, index) => {     
-                      return (
-                          <Year name={index === 0 ? "Before UMBC" : `Year ${index}`}
-                              removeYear={removeYear}
-                              preUMBC={year.preUMBC}
-                              semesters={year.semesters}
-                              removeFromSemester={removeFromSemester}
-                              updateYear={updateYear}
-                              className="flex-grow w-full"
-                              key={year.name}
-                              prevCourses={getPrevCourses}
-                              GetCreditRange={GetCreditRange}
-                          />
-
-                      );
-                  })
-                }
-                
-          </div>
+        <div>
+            {/*UMBC banner with logo*/}
+            <div className='banner' style={{
+                width: '100%',
+                height: 'auto', // height of background banned adjusts to size of logoImage
+                backgroundImage: `url(${flagImage})`, // MD flag background image
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+            }}>
+                <img src={logoImage}alt =""/>
+            </div>
             
-            <button onClick={addYear} className="px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
-                Add Empty Year
-            </button>
-        <a
-          className="Github-Link text-center font-semibold"
-          href="https://github.com/Group2-CMSC447/CMSC447-4Year-Planner-Group02"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Check Our Github
-        </a>
-        <a
-          className="Link text-center font-semibold"
-          href="https://docs.google.com/forms/d/e/1FAIpQLSfYgcY6GL_0GiXPl_83X5HK3IzYM4eMkZxksv5kI8GUSUCr8g/viewform?usp=dialog"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-            Give Your Feedback
-        </a>
+            <div className="flex flex-col ml-4 mr-4" data-testid="callYear">
+                <h1 className="text-center text-xl font-semibold">4 Year Plan</h1>
 
+                <h3 className="text-left text-lg font-semibold">Planner Options:</h3>
+                    <div className="flex justify-left item-center gap-4">
+                        <div className="">
+                            <MajorDropdown onConfirm={onConfirmMajor}></MajorDropdown>
+                        </div>
+                    
+                    </div>
+                <div className="flex-auto">
+                        <CreditRange changeVals={changeVals}></CreditRange>
+                </div>
+                    
+            {
+                //This displays all the year objects stored in the years array
+            }
+            <div className="flex flex-col justify-center items-center min-h-screen" key="year">
+            
+                {
+                    years.map((year, index) => {     
+                        return (
+                            <Year name={index === 0 ? "Before UMBC" : `Year ${index}`}
+                                removeYear={removeYear}
+                                preUMBC={year.preUMBC}
+                                semesters={year.semesters}
+                                removeFromSemester={removeFromSemester}
+                                updateYear={updateYear}
+                                className="flex-grow w-full"
+                                key={year.name}
+                                prevCourses={getPrevCourses}
+                                GetCreditRange={GetCreditRange}
+                            />
+
+                        );
+                    })
+                    }
+                    
+            </div>
+                
+                <button onClick={addYear} className="px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                    Add Empty Year
+                </button>
+            <a
+            className="Github-Link text-center font-semibold"
+            href="https://github.com/Group2-CMSC447/CMSC447-4Year-Planner-Group02"
+            target="_blank"
+            rel="noopener noreferrer"
+            >
+            Check Our Github
+            </a>
+            <a
+            className="Link text-center font-semibold"
+            href="https://docs.google.com/forms/d/e/1FAIpQLSfYgcY6GL_0GiXPl_83X5HK3IzYM4eMkZxksv5kI8GUSUCr8g/viewform?usp=dialog"
+            target="_blank"
+            rel="noopener noreferrer"
+            >
+                Give Your Feedback
+            </a>
+
+        </div>
     </div>
     
   );
