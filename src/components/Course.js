@@ -186,7 +186,7 @@ function Course(props) {
             </button>
 
             {/*course details button. Opens details modal when clicked*/}
-            <button className = "relative bottom-7 text-decoration: underline text-blue-600 text-right font-semibold hover:text-black"
+            <button className = "relative bottom-7 text-decoration: underline text-umbcTeal text-right font-semibold hover:text-black"
                  onClick = {openModal}
             >
                 details 
@@ -213,7 +213,7 @@ function Course(props) {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                <Button variant="primary" onClick={closeModal}>Close</Button>
+                <Button variant="warning" onClick={closeModal}>Close</Button>
                 </Modal.Footer>
             </Modal>
         </div>

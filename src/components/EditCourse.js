@@ -136,9 +136,9 @@ function EditCourse({onConfirm}) { //Takes a prop from semester which is an on c
 
   return (
     <>
-          <Button variant="primary" onClick={handleShow} className="shadow-md"> {/* add course button that shows modal on click */}
+      <button style = {{height:'40px'}} className="bg-umbcGold text-umbcBlack font-semibold rounded-lg shadow-md hover:bg-umbcBlack hover:text-umbcGold" onClick={handleShow}> {/* add course button that shows modal on click */}
         Add Course
-      </Button>
+      </button>
 
       <Modal
         show={show}
@@ -158,7 +158,7 @@ function EditCourse({onConfirm}) { //Takes a prop from semester which is an on c
           <Button variant="secondary" onClick={handleClose}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={handleConfirm}>Add</Button> {/* when clicked run handle confirm which will return the selected value to the semester prop */}
+          <button style = {{height:'40px'}} className="bg-umbcGold text-umbcBlack font-semibold rounded-lg shadow-md hover:bg-umbcBlack hover:text-umbcGold" onClick={handleConfirm}>Add</button> {/* when clicked run handle confirm which will return the selected value to the semester prop */}
         </Modal.Footer>
       </Modal>
     </>

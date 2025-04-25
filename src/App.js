@@ -243,7 +243,7 @@ function App() {
     }
 
     return (
-        <div>
+        <div className= "bg-umbcLightGray">
             {/*UMBC banner with logo*/}
             <div className='banner' style={{
                 width: '100%',
@@ -256,7 +256,7 @@ function App() {
                 <img src={logoImage}alt =""/>
             </div>
             
-            <div className="flex flex-col ml-4 mr-4" data-testid="callYear">
+            <div className="flex flex-col ml-4 mr-4 bg-umbcLightGray" data-testid="callYear">
                 <h1 className="text-center text-xl font-semibold">4 Year Plan</h1>
 
                 <h3 className="text-left text-lg font-semibold">Planner Options:</h3>
@@ -296,7 +296,7 @@ function App() {
                     
             </div>
                 
-                <button onClick={addYear} className="px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                <button onClick={addYear} className="px-6 py-2 bg-umbcGold  text-umbcBlack font-semibold rounded-lg shadow-md hover:bg-umbcBlack hover:text-umbcGold">
                     Add Empty Year
                 </button>
             <a

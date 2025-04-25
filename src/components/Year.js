@@ -1,5 +1,5 @@
 import Semester from './Semester';
-import Button from 'react-bootstrap/Button';
+//import Button from 'react-bootstrap/Button';
 import {useState} from "react";
 function Year(props) {
 
@@ -137,24 +137,24 @@ function Year(props) {
                             check for preUMBC to ensure the user cant add semesters to first section    
                         */}
                         {
-                            fall && !preUMBC && <Button onClick={() => addSemester(0)} variant="primary">
+                            fall && !preUMBC && <button onClick={() => addSemester(0)} style = {{height:'40px'}} className="bg-umbcGold text-umbcBlack font-semibold rounded-lg shadow-md hover:bg-umbcBlack hover:text-umbcGold">
                                 Add Fall
-                            </Button>
+                            </button>
                         }
                         {
-                            spring && !preUMBC && <Button onClick={() => addSemester(1)} variant="primary">
+                            spring && !preUMBC && <button onClick={() => addSemester(1)}  style = {{height:'40px'}} className="bg-umbcGold text-umbcBlack font-semibold rounded-lg shadow-md hover:bg-umbcBlack hover:text-umbcGold">
                                 Add Spring
-                            </Button>
+                            </button>
                         }
                         {
-                            winter && !preUMBC && <Button onClick={() => addSemester(2)} variant="primary">
+                            winter && !preUMBC && <button onClick={() => addSemester(2)} style = {{height:'40px'}} className="bg-umbcGold text-umbcBlack font-semibold rounded-lg shadow-md hover:bg-umbcBlack hover:text-umbcGold">
                                 Add Winter
-                            </Button>
+                            </button>
                         }
                         {
-                            summer && !preUMBC && <Button onClick={() => addSemester(3)} variant="primary">
+                            summer && !preUMBC && <button onClick={() => addSemester(3)} style = {{height:'40px'}} className="bg-umbcGold text-umbcBlack font-semibold rounded-lg shadow-md hover:bg-umbcBlack hover:text-umbcGold">
                                 Add Summer
-                            </Button>
+                            </button>
                         }
                     </div>
                     
