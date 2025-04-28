@@ -6,7 +6,8 @@ import MajorDropdown from './components/MajorDropdown'
 import axios from 'axios';
 import { v4 as uuid } from "uuid";
 import flagImage from './images/maryland-flag-header-1280x180-black-768x108.jpg';
-import logoImage from './images/UMBC-primary-logo-CMYK-on-black.png'
+//import logoImage from './images/UMBC-primary-logo-CMYK-on-black.png'
+import logoImage from './images/test.png'
 //import LoadMajor from './components/LoadMajor';
 
 
