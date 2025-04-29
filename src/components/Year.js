@@ -137,22 +137,22 @@ function Year(props) {
                             check for preUMBC to ensure the user cant add semesters to first section    
                         */}
                         {
-                            fall && !preUMBC && <button onClick={() => addSemester(0)} style = {{height:'40px'}} className="bg-umbcGold text-umbcBlack font-semibold rounded-lg shadow-md hover:bg-umbcBlack hover:text-umbcGold">
+                            fall && !preUMBC && <button onClick={() => addSemester(0)} style = {{height:'40px', width: '100px'}} className="bg-umbcGold text-umbcBlack font-semibold rounded-lg shadow-md hover:bg-umbcBlack hover:text-umbcGold">
                                 Add Fall
                             </button>
                         }
                         {
-                            spring && !preUMBC && <button onClick={() => addSemester(1)}  style = {{height:'40px'}} className="bg-umbcGold text-umbcBlack font-semibold rounded-lg shadow-md hover:bg-umbcBlack hover:text-umbcGold">
+                            spring && !preUMBC && <button onClick={() => addSemester(1)}  style = {{height:'40px', width: '100px'}} className="bg-umbcGold text-umbcBlack font-semibold rounded-lg shadow-md hover:bg-umbcBlack hover:text-umbcGold">
                                 Add Spring
                             </button>
                         }
                         {
-                            winter && !preUMBC && <button onClick={() => addSemester(2)} style = {{height:'40px'}} className="bg-umbcGold text-umbcBlack font-semibold rounded-lg shadow-md hover:bg-umbcBlack hover:text-umbcGold">
+                            winter && !preUMBC && <button onClick={() => addSemester(2)} style = {{height:'40px', width: '100px'}} className="bg-umbcGold text-umbcBlack font-semibold rounded-lg shadow-md hover:bg-umbcBlack hover:text-umbcGold">
                                 Add Winter
                             </button>
                         }
                         {
-                            summer && !preUMBC && <button onClick={() => addSemester(3)} style = {{height:'40px'}} className="bg-umbcGold text-umbcBlack font-semibold rounded-lg shadow-md hover:bg-umbcBlack hover:text-umbcGold">
+                            summer && !preUMBC && <button onClick={() => addSemester(3)} style = {{height:'40px', width: '100px'}} className="bg-umbcGold text-umbcBlack font-semibold rounded-lg shadow-md hover:bg-umbcBlack hover:text-umbcGold">
                                 Add Summer
                             </button>
                         }
