@@ -198,7 +198,7 @@ function Course(props) {
                 backdrop="static"
                 keyboard={false}
             >
-                <Modal.Header closeButton>
+                <Modal.Header className = "hover:text-umbcRed"closeButton>
                 <Modal.Title>{props.name}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>

@@ -258,7 +258,7 @@ function App() {
             </div>
             
             <div className="flex flex-col ml-4 mr-4 bg-umbcLightGray" data-testid="callYear">
-                <h1 className="text-center text-xl font-semibold">4 Year Plan</h1>
+                <h1 className="text-center text-xl font-semibold">Undergraduate Degree Planner</h1>
 
                 <h3 className="text-left text-lg font-semibold">Planner Options:</h3>
                     <div className="flex justify-left item-center gap-4">
