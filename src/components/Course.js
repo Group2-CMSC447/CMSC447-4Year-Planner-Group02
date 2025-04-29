@@ -169,7 +169,7 @@ function Course(props) {
                         </Tooltip>
                     }
                 >
-                    <p className="text font-semibold text-red-600 cursor-help">
+                    <p className="text font-semibold text-umbcRed cursor-help">
                         {props.name}
                     </p>
                 </OverlayTrigger>
@@ -186,7 +186,7 @@ function Course(props) {
             </button>
 
             {/*course details button. Opens details modal when clicked*/}
-            <button className = "relative bottom-7 text-decoration: underline text-umbcTeal text-right font-semibold hover:text-black"
+            <button className = "relative bottom-7 text-decoration: underline text-umbcTeal text-right font-semibold hover:text-umbcBlack"
                  onClick = {openModal}
             >
                 details 

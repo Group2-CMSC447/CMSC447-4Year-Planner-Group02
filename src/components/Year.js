@@ -97,7 +97,7 @@ function Year(props) {
                         {
                             //Necessary for hiding the button if pre-umbc year
                             !preUMBC && <button
-                                className="absolute top-0 right-0 text- font-semibold  hover:text-red-600"
+                                className="absolute top-0 right-0 text- font-semibold  hover:text-umbcRed"
                                 onClick={() => props.removeYear(props.name)}>
                                 X
                             </button>

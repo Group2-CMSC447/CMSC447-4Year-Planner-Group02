@@ -71,7 +71,7 @@ function Semester(props) {
                     {
                         //Necessary for hiding the button if pre-umbc year
                         !props.preUMBC && <button
-                            className="absolute top-0 right-0 text-right font-semibold  hover:text-red-600"
+                            className="absolute top-0 right-0 text-right font-semibold  hover:text-umbcRed"
                             onClick={() => props.removeSemester(name)}>
                             X
                         </button>
@@ -91,7 +91,7 @@ function Semester(props) {
                                 </Tooltip>
                             }
                         >
-                            <p className="text font-semibold text-red-600 cursor-help">
+                            <p className="text font-semibold text-umbcRed cursor-help">
                                 Credits: {credits}
                             </p>
                         </OverlayTrigger>
