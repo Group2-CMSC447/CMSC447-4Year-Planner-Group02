@@ -1,15 +1,17 @@
 {
   "files": {
-    "main.css": "/CMSC447-4Year-Planner-Group02/static/css/main.9565ea27.css",
-    "main.js": "/CMSC447-4Year-Planner-Group02/static/js/main.0a576d03.js",
+    "main.css": "/CMSC447-4Year-Planner-Group02/static/css/main.221481d2.css",
+    "main.js": "/CMSC447-4Year-Planner-Group02/static/js/main.cb82a157.js",
     "static/js/488.3545f45c.chunk.js": "/CMSC447-4Year-Planner-Group02/static/js/488.3545f45c.chunk.js",
+    "static/media/maryland-flag-header-1280x180-black-768x108.jpg": "/CMSC447-4Year-Planner-Group02/static/media/maryland-flag-header-1280x180-black-768x108.8a026d159dca127bd162.jpg",
+    "static/media/test.png": "/CMSC447-4Year-Planner-Group02/static/media/test.3c97ec0c7e463ca3f035.png",
     "index.html": "/CMSC447-4Year-Planner-Group02/index.html",
-    "main.9565ea27.css.map": "/CMSC447-4Year-Planner-Group02/static/css/main.9565ea27.css.map",
-    "main.0a576d03.js.map": "/CMSC447-4Year-Planner-Group02/static/js/main.0a576d03.js.map",
+    "main.221481d2.css.map": "/CMSC447-4Year-Planner-Group02/static/css/main.221481d2.css.map",
+    "main.cb82a157.js.map": "/CMSC447-4Year-Planner-Group02/static/js/main.cb82a157.js.map",
     "488.3545f45c.chunk.js.map": "/CMSC447-4Year-Planner-Group02/static/js/488.3545f45c.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.9565ea27.css",
-    "static/js/main.0a576d03.js"
+    "static/css/main.221481d2.css",
+    "static/js/main.cb82a157.js"
   ]
 }
