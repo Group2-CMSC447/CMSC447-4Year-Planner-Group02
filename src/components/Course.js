@@ -100,19 +100,28 @@ function Course(props) {
 
         const preReqs = await fetchPreReqs(props.name);
 
-        //console.log(coReqList)
 
         //needs to be an empty array if no previous courses
         //prevents errors in array logic below
         //gets all the previous courses from the callback function in App.js 
         const prevCourses = props.prevCourses(props.yearName, props.semesterName) || [];
 
-        //console.log(semesterCourses);
+        //parse the pre reqs to seperate out for conditional or cases for multiple accepted reqs
+        //split -> seperates by or/OR
+        //other split uses a regex to accept "OR" and "or"
+        //trim removes whitespace for each new section
+        const parsedPreReqs = preReqs.map(reqSet =>
+                reqSet.trim().split(/\s+or\s+/i).map(course => course.trim())
+        );
 
         //look for preReqs in the previous semesters
-        const missing = preReqs.filter(req => !prevCourses.includes(req));
+        //const missing = preReqs.filter(req => !prevCourses.includes(req));
+        //for each reqSet, check if any are found in the prev courses
+        const missing = parsedPreReqs.filter(reqSet => !reqSet.some(course => prevCourses.includes(course)));
+
+        const missingPrint = missing.map(reqSet => `(${reqSet.join(' OR ')})`);
         //return a list of any course that does not appear in the previous semesters
-        return missing;
+        return missingPrint;
     }, [fetchPreReqs, props]);
 
     //function for updating the value of missingPreReqs
@@ -120,7 +129,7 @@ function Course(props) {
 
         //ensure the database is updated on creation
         const coReqList = await fetchCoReqs(props.name);
-        //console.log(coReqList)
+
 
         //needs to be an empty array if no previous courses
         //prevents errors in array logic below
@@ -128,15 +137,25 @@ function Course(props) {
         const prevCourses = props.prevCourses(props.yearName, props.semesterName) || [];
         const semesterCourses = props.GetSemesterCourses(props.yearName, props.semesterName) || [];
         const allCourses = prevCourses.concat(semesterCourses);
-        //console.log(semesterCourses);
 
+        //parse the pre reqs to seperate out for conditional or cases for multiple accepted reqs
+        //split -> seperates by or/OR
+        //other split uses a regex to accept "OR" and "or"
+        //trim removes whitespace for each new section
+        const parsedCoReqs = coReqList.map(reqSet =>
+            reqSet.trim().split(/\s+or\s+/i).map(course => course.trim())
+        );
 
-        //can the coReq be found in the current semeseter?
-        const missingCoreqs = coReqList.filter(req => !allCourses.includes(req))
+        //look for coreqs in all semesters before and current one 
+        //const missing = preReqs.filter(req => !prevCourses.includes(req));
+        //for each reqSet, check if any are found in the prev courses
+        const missing = parsedCoReqs.filter(reqSet => !reqSet.some(course => allCourses.includes(course)));
+
+        const missingPrint = missing.map(reqSet => `(${reqSet.join(' OR ')})`);
 
 
         //return a list of any course that does not appear in the previous semesters
-        return missingCoreqs;
+        return missingPrint;
     }, [fetchCoReqs, props]);
     
     //needed for updating and checking for pre reqs on changes to the courses in the planner
