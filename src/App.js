@@ -343,6 +343,7 @@ function App() {
                                 key={year.name}
                                 prevCourses={getPrevCourses}
                                 GetCreditRange={GetCreditRange}
+                                GetSemesterCourses = {getSemesterCourses}
                             />
 
                         );
