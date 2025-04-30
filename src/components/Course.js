@@ -1,6 +1,6 @@
 import {useState,useEffect,useCallback} from 'react';
 import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
+//import Button from 'react-bootstrap/Button';
 import axios from 'axios'
 
 //For tooltip popup for missing prereq courses
@@ -262,7 +262,7 @@ function Course(props) {
                         </Tooltip>
                     }
                 >
-                    <p className="text font-semibold text-red-600 cursor-help">
+                    <p className="text font-semibold text-umbcRed cursor-help">
                         {props.name}
                     </p>
                 </OverlayTrigger>
@@ -272,14 +272,14 @@ function Course(props) {
 
 
             {/* remove button for courses */}
-            <button className= "absolute top-0 right-0 text-right font-semibold hover:text-red-600"
+            <button className= "absolute top-0 right-0 text-right font-semibold hover:text-umbcRed"
                 onClick= {props.remove}
             > 
                  X
             </button>
 
             {/*course details button. Opens details modal when clicked*/}
-            <button className = "relative bottom-7 text-decoration: underline text-blue-600 text-right font-semibold hover:text-black"
+            <button className = "relative bottom-7 text-decoration: underline text-umbcTeal text-right font-semibold hover:text-umbcBlack"
                  onClick = {openModal}
             >
                 details 
@@ -291,7 +291,7 @@ function Course(props) {
                 backdrop="static"
                 keyboard={false}
             >
-                <Modal.Header closeButton>
+                <Modal.Header className = "hover:text-umbcRed"closeButton>
                 <Modal.Title>{props.name}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -306,7 +306,7 @@ function Course(props) {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                <Button variant="primary" onClick={closeModal}>Close</Button>
+                <button style = {{height:'40px', width: '60px'}} className="bg-umbcGold text-umbcBlack font-semibold rounded-lg shadow-md hover:bg-umbcBlack hover:text-umbcGold" onClick={closeModal}>Close</button>
                 </Modal.Footer>
             </Modal>
         </div>

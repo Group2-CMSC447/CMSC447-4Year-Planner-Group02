@@ -94,7 +94,7 @@ function MajorDropdown({ onConfirm }) { //Takes a prop from semester which is an
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleReset}>  Reset Schedule  </Button>
-                        <Button variant="primary" onClick={handleLeaveAsIs}> Add To Current </Button> {/* keep courses*/}
+                        <button style = {{height:'40px', width: '130px'}} className="bg-umbcGold text-umbcBlack font-semibold rounded-lg shadow-md hover:bg-umbcBlack hover:text-umbcGold" onClick={handleLeaveAsIs}> Add To Current </button> {/* keep courses*/}
                     </Modal.Footer>
                 </Modal>
                 </>
