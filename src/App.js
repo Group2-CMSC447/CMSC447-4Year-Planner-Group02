@@ -305,9 +305,6 @@ function App() {
                         <CreditRange changeVals={changeVals}></CreditRange>
                 </div>
 
-          {
-              //This displays all the year objects stored in the years array
-          }
           <div className="flex flex-col justify-center items-center min-h-screen" key="year">
           
               {
@@ -332,7 +329,7 @@ function App() {
                 
           </div>
 
-            
+            <div>
                 {
                     years.map((year, index) => {     
                         return (
