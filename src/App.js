@@ -304,31 +304,6 @@ function App() {
                 <div className="flex-auto">
                         <CreditRange changeVals={changeVals}></CreditRange>
                 </div>
-
-          <div className="flex flex-col justify-center items-center min-h-screen" key="year">
-          
-              {
-                  years.map((year, index) => {     
-                      return (
-                          <Year name={index === 0 ? "Before UMBC" : `Year ${index}`}
-                              removeYear={removeYear}
-                              preUMBC={year.preUMBC}
-                              semesters={year.semesters}
-                              removeFromSemester={removeFromSemester}
-                              updateYear={updateYear}
-                              className="flex-grow w-full"
-                              key={year.name}
-                              prevCourses={getPrevCourses}
-                              GetCreditRange={GetCreditRange}
-                              GetSemesterCourses = {getSemesterCourses}
-                          />
-
-                      );
-                  })
-                }
-                
-          </div>
-
             <div>
                 {
                     years.map((year, index) => {     
@@ -348,7 +323,7 @@ function App() {
 
                         );
                     })
-                    }
+                }
                     
             </div>
                 
