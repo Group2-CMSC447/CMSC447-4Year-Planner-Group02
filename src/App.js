@@ -225,6 +225,40 @@ function App() {
         return completed;
     }
 
+    const getSemesterCourses = (currYear, currSem) => {
+        //return value of all course names
+        const completed = [];
+
+        //loop through all semesters in each leading up to desired year and semester
+        //add all before the current year
+        let yearFlag = false;
+        for (let i = 0; i < years.length; i++) {
+            const year = years[i];
+
+
+            if (yearFlag) {
+                //exit the loop if its a year after the desired one
+                break;
+            }
+            else if (year.name === currYear) {
+                //break when at current year, cant just blind add courses
+                yearFlag = true;
+
+                let semFlag = false
+                year.semesters.forEach((sem) => {
+                    //loop over all semesters in the year, only adding the ones before the current semester
+                    if (sem.name === currSem && !semFlag) {
+                        completed.push(...sem.courses.map(course => course.courseID));
+                        //if at current semester, break out loop
+                        semFlag = true;
+                    }
+                });
+            }
+        }
+
+        return completed;
+    }
+
     //callback function used by year components to update their values
     //must be called from year to pass back changes
     //WILL BREAK IF TWO YEARS HAVE THE SAME NAME
@@ -270,11 +304,34 @@ function App() {
                 <div className="flex-auto">
                         <CreditRange changeVals={changeVals}></CreditRange>
                 </div>
-                    
-            {
-                //This displays all the year objects stored in the years array
-            }
-            <div className="flex flex-col justify-center items-center min-h-screen" key="year">
+
+          {
+              //This displays all the year objects stored in the years array
+          }
+          <div className="flex flex-col justify-center items-center min-h-screen" key="year">
+          
+              {
+                  years.map((year, index) => {     
+                      return (
+                          <Year name={index === 0 ? "Before UMBC" : `Year ${index}`}
+                              removeYear={removeYear}
+                              preUMBC={year.preUMBC}
+                              semesters={year.semesters}
+                              removeFromSemester={removeFromSemester}
+                              updateYear={updateYear}
+                              className="flex-grow w-full"
+                              key={year.name}
+                              prevCourses={getPrevCourses}
+                              GetCreditRange={GetCreditRange}
+                              GetSemesterCourses = {getSemesterCourses}
+                          />
+
+                      );
+                  })
+                }
+                
+          </div>
+
             
                 {
                     years.map((year, index) => {     
