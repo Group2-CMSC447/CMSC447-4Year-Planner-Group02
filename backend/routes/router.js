@@ -108,7 +108,7 @@ function csvToCourseObjects(csvText){
                 curr[columnNames[j]] = Number(row[j]);
 
             //check for preReqs parsing
-            } else if(columnNames[j] === "preReqs" || columnNames[j] === "typicalSem" || columnNames[j] === "coReqs"){
+            } else if(columnNames[j] === "preReqs" || columnNames[j] === "typicalSem" || columnNames[j] === "coReqs" || columnNames[j] === "attributes"){
                 if(row[j] === "null"){
                     curr[columnNames[j]] = [];
                 }else{
@@ -116,14 +116,14 @@ function csvToCourseObjects(csvText){
                 }
             
             //check for attributes for null
-            } else if(columnNames[j] === "attributes"){
-                if(row[j] === "null"){
-                    curr[columnNames[j]] = null;
-                }else{
-                    curr[columnNames[j]] = row[j];
-                }
+            // } else if(columnNames[j] === "attributes"){
+            //     if(row[j] === "null"){
+            //         curr[columnNames[j]] = null;
+            //     }else{
+            //         curr[columnNames[j]] = row[j];
+            //     }
             
-            //add as string
+            // //add as string
             }else{
                 curr[columnNames[j]] = row[j];
             }  

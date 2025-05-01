@@ -7,7 +7,7 @@ const coursesSchema = new Schema({
     description: {type:String},
     credits: {type:Number},
     workload: {type:Number},
-    attributes: {type:String},
+    attributes: {type:[String]},
     preReqs: {type: [String]},
     typicalSem: {type: [String]},
     coReqs: {type: [String]}
