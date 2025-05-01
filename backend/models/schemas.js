@@ -7,7 +7,7 @@ const coursesSchema = new Schema({
     description: {type:String},
     credits: {type:Number},
     workload: {type:Number},
-    attributes: {type:String},
+    attributes: {type: [String]},
     preReqs: {type: [String]},
     typicalSem: {type: [String]},
     coReqs: {type: [String]}
@@ -17,6 +17,16 @@ const majorSchema = new Schema({
     name: {type:String, required:true},
     credits: {type: Number},
     degreeType: {type:String},
+    coreCourses: {type: [String]},
+    mathCount: {type: Number},
+    writingIntensive: {type: Number},
+    socialSciences: {type: Number},
+    sciences: {type: Number},
+    english: {type: Number},
+    artsAndHumanities: {type: Number},
+    cultureCount: {type: Number},
+    upperLevelCredits: {type: Number},
+    majorElective: {type: Number},
     required_courses: {type: [{type: Map, of: String}]}
 });
 
@@ -262,10 +272,10 @@ majorData = [
     // }
 ]
 async function addToDB(){
-    //await Courses.deleteMany();
-    //await Majors.deleteMany();
+    await Courses.deleteMany();
+    await Majors.deleteMany();
     //await //Courses.insertMany(courseData);
-    //await Majors.insertMany(majorData);
+    await Majors.insertMany(majorData);
     console.log("Data added to Mongo DB")
 }
 addToDB()
