@@ -68,11 +68,11 @@ function EditCourse({onConfirm}) { //Takes a prop from semester which is an on c
 
   const SelectInSearch = (department) => {
     //This is a prop created to get all courses from an api then create an option for each
-    console.log("inside of course list", department.department)
+    //console.log("inside of course list", department.department)
     if (department.department !== null){
         setDepartmentFilter(department.department.name)
       }
-      console.log("checks if string starts with", departmentFilter)
+      //console.log("checks if string starts with", departmentFilter)
       const filteredCourses = selectCourse.filter((item) => (item.id.startsWith(departmentFilter)));
       //console.log(filteredCourses)
       return (
@@ -136,9 +136,9 @@ function EditCourse({onConfirm}) { //Takes a prop from semester which is an on c
 
   return (
     <>
-          <Button variant="primary" onClick={handleShow} className="shadow-md"> {/* add course button that shows modal on click */}
+      <button style = {{height:'40px', width: '100px'}} className="bg-umbcGold text-umbcBlack font-semibold rounded-lg shadow-md hover:bg-umbcBlack hover:text-umbcGold" onClick={handleShow}> {/* add course button that shows modal on click */}
         Add Course
-      </Button>
+      </button>
 
       <Modal
         show={show}
@@ -158,7 +158,7 @@ function EditCourse({onConfirm}) { //Takes a prop from semester which is an on c
           <Button variant="secondary" onClick={handleClose}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={handleConfirm}>Add</Button> {/* when clicked run handle confirm which will return the selected value to the semester prop */}
+          <button style = {{height:'40px', width: '50px'}} className="bg-umbcGold text-umbcBlack font-semibold rounded-lg shadow-md hover:bg-umbcBlack hover:text-umbcGold" onClick={handleConfirm}>Add</button> {/* when clicked run handle confirm which will return the selected value to the semester prop */}
         </Modal.Footer>
       </Modal>
     </>

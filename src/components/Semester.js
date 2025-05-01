@@ -14,7 +14,7 @@ function Semester(props) {
     const addCourse = (newCourse, ID, credits) => { //newcourses is a prop sent to editCourses and it comes back witht e selected course name 
         
         // get whats in courses and add a new course to it and the number of courses
-        const newCourses = [...courses, { name: newCourse, courseID: ID, key: uuid(), prevCourses: props.prevCourses, credits: credits }];
+        const newCourses = [...courses, { name: newCourse, courseID: ID, key: uuid(), prevCourses: props.prevCourses, GetSemesterCourses: props.GetSemesterCourses, credits: credits }];
         //CALLBACK FUNCTION
         props.updateSemester({ name: props.name, courses: newCourses, preUMBC: props.preUMBC  });
     }
@@ -71,7 +71,7 @@ function Semester(props) {
                     {
                         //Necessary for hiding the button if pre-umbc year
                         !props.preUMBC && <button
-                            className="absolute top-0 right-0 text-right font-semibold  hover:text-red-600"
+                            className="absolute top-0 right-0 text-right font-semibold  hover:text-umbcRed"
                             onClick={() => props.removeSemester(name)}>
                             X
                         </button>
@@ -91,7 +91,7 @@ function Semester(props) {
                                 </Tooltip>
                             }
                         >
-                            <p className="text font-semibold text-red-600 cursor-help">
+                            <p className="text font-semibold text-umbcRed cursor-help">
                                 Credits: {credits}
                             </p>
                         </OverlayTrigger>
@@ -107,7 +107,15 @@ function Semester(props) {
                     {
                         courses.map((course, i) => { //iterates through courses and lists their name
                             return (
-                                <Course key={uuid()} name={course.name} semesterName={name} prevCourses={props.prevCourses} yearName={props.yearName} preUMBC={ props.preUMBC} remove={() => removeCourse(i)}/>
+                                <Course key={uuid()}
+                                    name={course.name}
+                                    semesterName={name}
+                                    prevCourses={props.prevCourses}
+                                    yearName={props.yearName}
+                                    preUMBC={props.preUMBC}
+                                    remove={() => removeCourse(i)}
+                                    GetSemesterCourses={props.GetSemesterCourses }
+                                />
 
                             );
                         })
