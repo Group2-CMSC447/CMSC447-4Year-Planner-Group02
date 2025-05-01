@@ -14,10 +14,14 @@ function Semester(props) {
     const difficultyForWarning = 10;
     const greaterThanDifficulty = difficulty >= difficultyForWarning;
     
-    const addCourse = (newCourse, ID, credits, workloadAmt) => { //newcourses is a prop sent to editCourses and it comes back witht e selected course name 
+    const addCourse = (newCourse, ID, credits, workloadAmt, semesters) => { //newcourses is a prop sent to editCourses and it comes back witht e selected course name 
         
         // get whats in courses and add a new course to it and the number of courses
-        const newCourses = [...courses, { name: newCourse, courseID: ID, key: uuid(), prevCourses: props.prevCourses, GetSemesterCourses: props.GetSemesterCourses, credits: credits, workload: workloadAmt}];
+        const newCourses = [...courses, {
+            name: newCourse, courseID: ID, key: uuid(),
+            prevCourses: props.prevCourses, GetSemesterCourses: props.GetSemesterCourses,
+            credits: credits, workload: workloadAmt, typicalSem: semesters
+        }];
         //CALLBACK FUNCTION
         props.updateSemester({ name: props.name, courses: newCourses, preUMBC: props.preUMBC  });
     }
@@ -55,12 +59,13 @@ function Semester(props) {
         const ID = e.dataTransfer.getData("courseID");
         const credits = (Number(e.dataTransfer.getData("courseCredits")));
         const workload = (Number(e.dataTransfer.getData("workload")));
+        const typicalSem = e.dataTransfer.getData("typicalSem");
         //Only add the course if the drag was successful and not to the same semester
         if (courseName && !((fromYear === props.yearName) && (fromSem===props.name)) ){
             //Add the copy
             addCourse(courseName, ID, credits, workload);
             //Remove the original
-            props.removeFromSemester(fromYear, fromSem, courseName);
+            props.removeFromSemester(fromYear, fromSem, courseName, typicalSem);
         }
     }
 
