@@ -9,6 +9,7 @@ import Tooltip from 'react-bootstrap/Tooltip';
 function Course(props) {
     const [courseID, setCourseID] = useState("NO ID");
     const [credits, setCredits] = useState(0);
+    const [workload, setWorkload] = useState(0);
     // declares local vars to hold course data for display.
     const [courseData, setCourseData] = useState({
         id: "N/A",
@@ -60,6 +61,7 @@ function Course(props) {
             //needed for passing back to semester object
             setCourseID(currCourse.id);
             setCredits(currCourse.credits);
+            setWorkload(currCourse.workload);
             return currCourse.preReqs;
         } catch (error) {
             return [];
@@ -86,6 +88,7 @@ function Course(props) {
             //needed for passing back to semester object
             setCourseID(currCourse.id);
             setCredits(currCourse.credits);
+            setWorkload(currCourse.workload);
 
             return currCourse.coReqs;
         } catch (error) {
@@ -187,6 +190,7 @@ function Course(props) {
         e.dataTransfer.setData("currYear", props.yearName);
         e.dataTransfer.setData("courseID", courseID);
         e.dataTransfer.setData("courseCredits", credits);
+        e.dataTransfer.setData("workload", workload)
         //Drop handling is done in the semester component only
     }
     // Shows modal when details button is clicked, hides when Close button is clicked
