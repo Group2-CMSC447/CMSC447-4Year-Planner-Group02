@@ -8,13 +8,16 @@ function Semester(props) {
     //Promote prop details to variables
     const {name, courses } = props;
     const [credits, setCredits] = useState(0);
+    const [difficulty, setDifficulty] = useState(0);
     const { min, max } = props.GetCreditRange();
     const outsideCreditRange = credits < min || credits > max;
+    const difficultyForWarning = 10;
+    const greaterThanDifficulty = difficulty >= difficultyForWarning;
     
-    const addCourse = (newCourse, ID, credits) => { //newcourses is a prop sent to editCourses and it comes back witht e selected course name 
+    const addCourse = (newCourse, ID, credits, workloadAmt) => { //newcourses is a prop sent to editCourses and it comes back witht e selected course name 
         
         // get whats in courses and add a new course to it and the number of courses
-        const newCourses = [...courses, { name: newCourse, courseID: ID, key: uuid(), prevCourses: props.prevCourses, GetSemesterCourses: props.GetSemesterCourses, credits: credits }];
+        const newCourses = [...courses, { name: newCourse, courseID: ID, key: uuid(), prevCourses: props.prevCourses, GetSemesterCourses: props.GetSemesterCourses, credits: credits, workload: workloadAmt}];
         //CALLBACK FUNCTION
         props.updateSemester({ name: props.name, courses: newCourses, preUMBC: props.preUMBC  });
     }
@@ -24,6 +27,12 @@ function Semester(props) {
         //basically, go through each course and add the credit value if there is one
         const total = courses.reduce((sum, course) => sum + (course.credits || 0), 0);
         setCredits(total);
+    }, [courses]);
+
+    useEffect(() => {
+        //basically, go through each course and add the credit value if there is one
+        const total = courses.reduce((sum, course) => sum + (course.workload || 0), 0);
+        setDifficulty(total);
     }, [courses]);
 
     const removeCourse = (index) => {//index is the index in the courses array to remove
@@ -45,10 +54,11 @@ function Semester(props) {
         const fromSem = e.dataTransfer.getData("currSemester");
         const ID = e.dataTransfer.getData("courseID");
         const credits = (Number(e.dataTransfer.getData("courseCredits")));
+        const workload = (Number(e.dataTransfer.getData("workload")));
         //Only add the course if the drag was successful and not to the same semester
         if (courseName && !((fromYear === props.yearName) && (fromSem===props.name)) ){
             //Add the copy
-            addCourse(courseName, ID, credits);
+            addCourse(courseName, ID, credits, workload);
             //Remove the original
             props.removeFromSemester(fromYear, fromSem, courseName);
         }
@@ -80,14 +90,25 @@ function Semester(props) {
                     {/*Show the credit counter with errors if too low*/}
                     
                     {
-                        !props.preUMBC && outsideCreditRange ? (
+                        !props.preUMBC && (outsideCreditRange || greaterThanDifficulty ) ? (
                         //only show red text and popups if theres missing prereqs
                         <OverlayTrigger
                             placement="top"
-                            overlay={
+                                overlay={
+
+
                                 //info to be displayed about missing pre reqs
                                 <Tooltip id={`tooltip-${props.name}`}>
-                                    The total amount of credits ({credits}) does not fall within the range of ({min}, {max})
+
+                                        {outsideCreditRange && (
+
+                                            <p>The total amount of credits ({credits}) does not fall within the range of ({min}, {max})</p>
+                                        )}
+
+                                        {greaterThanDifficulty && (
+
+                                            <p>This semester may prove challenging to some students, consider redistributing your difficult courses</p>
+                                        )}
                                 </Tooltip>
                             }
                         >
@@ -114,7 +135,7 @@ function Semester(props) {
                                     yearName={props.yearName}
                                     preUMBC={props.preUMBC}
                                     remove={() => removeCourse(i)}
-                                    GetSemesterCourses={props.GetSemesterCourses }
+                                    GetSemesterCourses={props.GetSemesterCourses}
                                 />
 
                             );
