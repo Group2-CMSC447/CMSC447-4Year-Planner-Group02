@@ -10,6 +10,8 @@ function Course(props) {
     const [courseID, setCourseID] = useState("NO ID");
     const [credits, setCredits] = useState(0);
     const [workload, setWorkload] = useState(0);
+    const [typicalSem, setTypicalSem] = useState([]);
+    const [matchingSemester, setMatchingSemester] = useState(true);
     // declares local vars to hold course data for display.
     const [courseData, setCourseData] = useState({
         id: "N/A",
@@ -17,6 +19,7 @@ function Course(props) {
         credits: "N/A",
         workload:"N/A",
         attributes: "N/A",
+        typicalSem: "N/A",
         preReqs: [],
         coReqs: []
     })
@@ -55,13 +58,13 @@ function Course(props) {
                 workload: currCourse.workload,
                 attributes: currCourse.attributes,
                 preReqs: currCourse.preReqs,
-                coReqs: currCourse.coReqs
+                coReqs: currCourse.coReqs,
+                typicalSem: currCourse.typicalSem
             })
-
-            //needed for passing back to semester object
             setCourseID(currCourse.id);
             setCredits(currCourse.credits);
             setWorkload(currCourse.workload);
+            setTypicalSem(currCourse.typicalSem);
             return currCourse.preReqs;
         } catch (error) {
             return [];
@@ -82,13 +85,15 @@ function Course(props) {
                 workload: currCourse.workload,
                 attributes: currCourse.attributes,
                 preReqs: currCourse.preReqs,
-                coReqs: currCourse.coReqs
+                coReqs: currCourse.coReqs,
+                typicalSem: currCourse.typicalSem
             })
 
             //needed for passing back to semester object
             setCourseID(currCourse.id);
             setCredits(currCourse.credits);
             setWorkload(currCourse.workload);
+            setTypicalSem(currCourse.typicalSem)
 
             return currCourse.coReqs;
         } catch (error) {
@@ -173,6 +178,19 @@ function Course(props) {
     }, [checkMissingPreReqs]);
 
     useEffect(() => {
+        // Normalize both for case-insensitive comparison
+        const normalizedTypical = typicalSem.map(sem => sem.toLowerCase());
+        const currentSem = props.semesterName.toLowerCase();
+        if (!normalizedTypical.includes(currentSem)) {
+            setMatchingSemester(false);
+        }
+        else {
+            setMatchingSemester(true);
+        }
+        
+    }, [typicalSem, props.semesterName, props.name]);
+
+    useEffect(() => {
         // Update missing prerequisites whenever courseData changes
         const getMissingCoReqs = async () => {
             const missing = await checkMissingCoReqs();
@@ -190,7 +208,9 @@ function Course(props) {
         e.dataTransfer.setData("currYear", props.yearName);
         e.dataTransfer.setData("courseID", courseID);
         e.dataTransfer.setData("courseCredits", credits);
-        e.dataTransfer.setData("workload", workload)
+        e.dataTransfer.setData("workload", workload);
+        e.dataTransfer.setData("typicalSem", typicalSem);
+
         //Drop handling is done in the semester component only
     }
     // Shows modal when details button is clicked, hides when Close button is clicked
@@ -219,10 +239,14 @@ function Course(props) {
                     workload: currCourse.workload,
                     attributes: currCourse.attributes,
                     preReqs: currCourse.preReqs,
-                    coReqs: currCourse.coReqs
+                    coReqs: currCourse.coReqs,
+                    typicalSem: currCourse.typicalSem
                 })
                 setCourseID(currCourse.id);
-            
+                setCredits(currCourse.credits);
+                setWorkload(currCourse.workload);
+                setTypicalSem(currCourse.typicalSem);
+                
                 // only shows modal if data exists
                 setShow(true);
             }
@@ -246,7 +270,7 @@ function Course(props) {
         >
 
             {/*Used for showing the popups for missing prereqs*/}
-            {!props.preUMBC &&(missingPreReqs.length > 0 || missingCoReqs.length> 0) ? (
+            {!props.preUMBC &&(missingPreReqs.length > 0 || missingCoReqs.length> 0 || !matchingSemester) ? (
                 //only show red text and popups if theres missing prereqs
                 <OverlayTrigger
                     placement="top"
@@ -262,6 +286,10 @@ function Course(props) {
                             
                             {missingCoReqs.length > 0 && (
                                 <div>Missing corequisite: {missingCoReqs.join(", ")}</div>
+                            )}
+
+                            {!matchingSemester && (
+                                <div>Our records indicate this course is not typically offered in the {props.semesterName}</div>
                             )}
                         </Tooltip>
                     }
@@ -306,7 +334,7 @@ function Course(props) {
                         <p className= "flex">Credits: {courseData.credits}</p>
                         <p className= "flex">Workload: {courseData.workload}</p>
                         <p className= "flex">Attributes: {courseData.attributes}</p>
-                        <p className= "flex">Prerequisites: {courseData.preReqs.join(", ")}</p>
+                        <p className="flex">Prerequisites: {courseData.preReqs.join(", ")}</p>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
