@@ -11,6 +11,15 @@ const sheetURL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=
 const sheetURLMajor = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv&sheet=${sheetName2}`;
 const sheetURLDepartments = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv&sheet=${sheetName3}`;
 
+majorData = [
+    {
+        name: 'Chemical Engineering - Traditional - B.S.',
+        credits: 101,
+        degreeType: 'B.S.',
+        required_courses: []
+    },
+]
+
 //grabs csv from google sheets
 fetch(sheetURL)
 .then((response) => response.text())
@@ -219,6 +228,9 @@ async function addMajorCSVToDB(objs){
     const majors = schemas.Majors;
     //const defaultData = await majors.find({}).exec();
 
+    // moved to avoid deleting new majors
+    await majors.deleteMany();
+    await majors.insertMany(majorData);
     //through each object from csv
     for(let i = 0; i < objs.length; ++i){
         let obj = objs[i];
