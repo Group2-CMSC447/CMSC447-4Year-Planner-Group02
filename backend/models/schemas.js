@@ -273,9 +273,9 @@ majorData = [
 ]
 async function addToDB(){
     await Courses.deleteMany();
-    await Majors.deleteMany();
+    //await Majors.deleteMany();
     //await //Courses.insertMany(courseData);
-    await Majors.insertMany(majorData);
+    //await Majors.insertMany(majorData);
     console.log("Data added to Mongo DB")
 }
 addToDB()
