@@ -1,5 +1,5 @@
 import './App.css';
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import Year from './components/Year'
 import CreditRange from './components/CreditRange'
 import MajorDropdown from './components/MajorDropdown'
@@ -8,6 +8,7 @@ import { v4 as uuid } from "uuid";
 import flagImage from './images/maryland-flag-header-1280x180-black-768x108.jpg';
 //import logoImage from './images/UMBC-primary-logo-CMYK-on-black.png'
 import logoImage from './images/test.png'
+import CheckRequirements from './components/CheckRequirements'
 //import LoadMajor from './components/LoadMajor';
 
 
@@ -43,8 +44,8 @@ function App() {
         return { min, max };
     }
     
-    const [majorName, setMajorName] = useState("Hello");
-    // const [majorList, setMajorList] = useState([])
+    const [majorName, setMajorName] = useState("No Major"); //default value for major name
+    const [showCheck, setShowCheck] = useState(false); //boolean for showing the check requirements button
 
     const onConfirmMajor = (value, confirmChoice, majorList) => {
         //Used for major dropdown and data population
@@ -53,7 +54,7 @@ function App() {
         console.log("Major name set to: " + majorName);
         let choiceTest = ""
         confirmChoice ? choiceTest = "Reset" : choiceTest = "maintain"
-        console.log("The Choice is:", choiceTest )
+        
 
         //confirmChoice ? resetSchedule(value) : addToSchedule(value)
 
@@ -96,18 +97,26 @@ function App() {
         }, []) //lets it know to only run once
 
     const loadMajorCourses = (newYearForMajor, selectedMajorName, majorList) =>{
-        console.log("inside of load Major Courses")        
-        const selectedMajorObject = majorList.find(major => major.name === selectedMajorName);
-        console.log("the found major is:", selectedMajorName, "the object selected is", selectedMajorObject.name)
-        const listOfMajorReqCourses = selectedMajorObject.required_courses;
-        for (let i = 0; i < listOfMajorReqCourses.length; i++){
-            const courseName = Object.keys(listOfMajorReqCourses[i]);
-            const defaultLocation = listOfMajorReqCourses[i][courseName[0]]
         
-            const course = courseObjects.find(object => object.id === courseName[0])
+        if (selectedMajorName !== "No Major"){        
+            const selectedMajorObject = majorList.find(major => major.name === selectedMajorName);
+            //console.log("the found major is:", selectedMajorName, "the object selected is", selectedMajorObject.name)
+            const listOfMajorReqCourses = selectedMajorObject.required_courses;
+            for (let i = 0; i < listOfMajorReqCourses.length; i++){
+                const courseName = Object.keys(listOfMajorReqCourses[i]);
+                const defaultLocation = listOfMajorReqCourses[i][courseName[0]]
+            
+                const course = courseObjects.find(object => object.id === courseName[0])
 
-            addToSemester(defaultLocation[0], defaultLocation[1], course.name, course.id, course.credits);
+                addToSemester(defaultLocation[0], defaultLocation[1], course.name, course.id, course.credits);
+            }
+            setShowCheck(true)
         }
+        else{
+            
+            setShowCheck(false)
+        }
+        
     }
 
     //Long winded callback function used at the semester level for drag and drop cleanup
@@ -276,6 +285,7 @@ function App() {
             (year) => year.name !== yearName
         ))
     }
+    
 
     return (
         <div className= "bg-umbcLightGray">
@@ -296,11 +306,23 @@ function App() {
 
                 <h3 className="text-left text-lg font-semibold">Planner Options:</h3>
                     <div className="flex justify-left item-center gap-4">
-                        <div className="">
+                        <div className="flex flex-col w-1/2">
                             <MajorDropdown onConfirm={onConfirmMajor}></MajorDropdown>
-                        </div>
                     
+                        </div>
+                        
                     </div>
+                {showCheck &&
+                (
+                    
+                     <div className="flex-auto">
+                    <CheckRequirements
+                        showCheck={showCheck}
+
+                    />
+                    </div>
+                )
+                }
                 <div className="flex-auto">
                         <CreditRange changeVals={changeVals}></CreditRange>
                 </div>

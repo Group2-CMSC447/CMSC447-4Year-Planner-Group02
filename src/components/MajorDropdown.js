@@ -16,19 +16,24 @@ function MajorDropdown({ onConfirm }) { //Takes a prop from semester which is an
     }
     const handleLeaveAsIs = () => {
         setIsModalOpen(false)
-        console.log("maintain")
+        
         //choice? console.log("True") : console.log("false")
         onConfirm(selectedValue, false, selectMajor)
     }
 
     useEffect(() => {
-        console.log(selectedValue);
       }, [selectedValue]);
 
     const handleConfirm = (e) => { //runs after clicking add in the modal
         if (e.target.value) { //ensures a course was actually clicked
+            if (e.target.value !== "No Major") { //ensures a course was actually clicked
             setSelectedValue(e.target.value)
             setIsModalOpen(true)
+            }
+            else{
+                setSelectedValue(e.target.value)
+                onConfirm("No Major", false, []) //if no course is selected then just pass the selected value as is
+            }
         }
     }
 
@@ -62,6 +67,7 @@ function MajorDropdown({ onConfirm }) { //Takes a prop from semester which is an
         //This is a prop created to get all courses from an api then create an option for each
         return (
             <select value={selectedValue} onChange={(e) => handleConfirm(e)}> {/* the value for the select gets set once the option is picked*/}
+                <option value="No Major" >No Major</option> {/* default option*/}
                 {
                     selectMajor?.map((item) => ( //The map function iterates through the array selectCourse as long as there is something in there
                         <option value={item.name}> {item.name} </option> //displays options by the courses.name, the value of the object is the objects.name and is passed to the value of selectedValue so it only has the string value
