@@ -80,8 +80,9 @@ function MajorDropdown({ onConfirm }) { //Takes a prop from semester which is an
     return (
         <>
             <div className="flex item-center gap-2">
-                <p className="text-center font-semibold text-black  mb-0">Select Major:</p> {/*Title*/}
+                <p className="text-center font-semibold text-black  mb-0">Pick A Major:</p> {/*Title*/}
                 <SelectInSearch /> {/* New Prop we created this is what gets the data from the database and lists the course objects fromt he data recieved from the database*/}
+                
                 {isModalOpen &&(
                     <>
                     <Modal
@@ -91,7 +92,7 @@ function MajorDropdown({ onConfirm }) { //Takes a prop from semester which is an
                     keyboard={false}
                     >
                     <Modal.Header closeButton>
-                    <Modal.Title>Add Course</Modal.Title>
+                    <Modal.Title>Load Default Major</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
     

@@ -87,7 +87,7 @@ async function csvToMajorObjects(csvText){
         //loop through each cell of a row
         for(let j = 0; j < row.length; ++j){
             //check if variable should be a number
-            if(columnNames[j] === "credits" || columnNames[j] === "mathCount" || columnNames[j] === "writingIntensive" || columnNames[j] === "socialSciences" || columnNames[j] === "sciences" || columnNames[j] === "english" || columnNames[j] === "artsAndHumanities" || columnNames[j] === "cultureCount" || columnNames[j] === "upperLevelCredits" || columnNames[j] === "majorElective"){
+            if(columnNames[j] === "credits" || columnNames[j] === "mathCount" || columnNames[j] === "writingIntensive" || columnNames[j] === "socialSciences" || columnNames[j] === "sciences" || columnNames[j] === "english" || columnNames[j] === "artsAndHumanities" || columnNames[j] === "cultureCount" || columnNames[j] === "upperLevelCredits" || columnNames[j] === "majorElective" || columnNames[j] === "language"){
                 curr[columnNames[j]] = Number(row[j]);
 
             //check for array parsing

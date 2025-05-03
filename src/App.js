@@ -1,5 +1,5 @@
 import './App.css';
-import { useState, useEffect, use } from "react";
+import { useState, useEffect } from "react";
 import Year from './components/Year'
 import CreditRange from './components/CreditRange'
 import MajorDropdown from './components/MajorDropdown'
@@ -54,9 +54,8 @@ function App() {
         console.log("Major name set to: " + majorName);
         let choiceTest = ""
         confirmChoice ? choiceTest = "Reset" : choiceTest = "maintain"
+        console.log("Choice test is: " + choiceTest)
         
-
-        //confirmChoice ? resetSchedule(value) : addToSchedule(value)
 
         if (confirmChoice) {
             setYears([
@@ -73,6 +72,7 @@ function App() {
 
     // holds course objects that api call returns
     const [courseObjects, setCourseObjects] = useState([]);
+    const [majorObject, setMajorObject] = useState(null);
     //Determine if courses are missing that are needed for this class to be taken
     //Must be called when courses are added /removed in the semester before the current one
     const axiosFetchCourses = async() =>{ //api call to get data [async = a function that can wait]
@@ -100,7 +100,8 @@ function App() {
         
         if (selectedMajorName !== "No Major"){        
             const selectedMajorObject = majorList.find(major => major.name === selectedMajorName);
-            //console.log("the found major is:", selectedMajorName, "the object selected is", selectedMajorObject.name)
+            console.log("the object selected is", selectedMajorObject)
+            setMajorObject(selectedMajorObject)
             const listOfMajorReqCourses = selectedMajorObject.required_courses;
             for (let i = 0; i < listOfMajorReqCourses.length; i++){
                 const courseName = Object.keys(listOfMajorReqCourses[i]);
@@ -108,8 +109,9 @@ function App() {
             
                 const course = courseObjects.find(object => object.id === courseName[0])
 
-                addToSemester(defaultLocation[0], defaultLocation[1], course.name, course.id, course.credits);
+                addToSemester(defaultLocation[0], defaultLocation[1], course.name, course.id, course.credits, course.workload, course.typicalSem, course.attributes);
             }
+
             setShowCheck(true)
         }
         else{
@@ -155,7 +157,7 @@ function App() {
 
     //Long winded callback function used at the semester level for drag and drop cleanup
     //Quite literally restructured the whole code just to implement this function
-    const addToSemester = (yearName, semesterName, courseName, ID, credits) => {
+    const addToSemester = (yearName, semesterName, courseName, ID, credits, workloadAmt, semesters, attributes) => {
         setYears((oldYears) =>
             //update current years
             oldYears.map((currYear) => {
@@ -171,7 +173,7 @@ function App() {
                             if (currSem.name === semesterName) {
                                 //Add course logic
                                 const oldCourses = currSem.courses;
-                                const newCourses = [...oldCourses, { name: courseName, courseID: ID, key: uuid(), prevCourses: getPrevCourses, credits: credits }];
+                                const newCourses = [...oldCourses, { name: courseName, courseID: ID, key: uuid(), prevCourses: getPrevCourses, credits: credits, workload: workloadAmt, typicalSem: semesters, attributes: attributes}];
                                 
                                 return {
                                     ...currSem,
@@ -308,7 +310,7 @@ function App() {
                     <div className="flex justify-left item-center gap-4">
                         <div className="flex flex-col w-1/2">
                             <MajorDropdown onConfirm={onConfirmMajor}></MajorDropdown>
-                    
+                        
                         </div>
                         
                     </div>
@@ -318,7 +320,8 @@ function App() {
                      <div className="flex-auto">
                     <CheckRequirements
                         showCheck={showCheck}
-
+                        majorObject={majorObject}
+                        years={years}
                     />
                     </div>
                 )
