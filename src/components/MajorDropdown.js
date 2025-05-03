@@ -8,17 +8,19 @@ function MajorDropdown({ onConfirm }) { //Takes a prop from semester which is an
     const [selectedValue, setSelectedValue] = useState("") //get the selected course
     const [isModalOpen, setIsModalOpen] = useState(false);
     
-    const handleCloseModal = () => setIsModalOpen(false); //when model has to close set show to false
-    
+    const handleCloseModal = () => {
+        onConfirm(selectedValue, false, selectMajor, false) //if no course is selected then just pass the selected value as is
+        setIsModalOpen(false); //when model has to close set show to false
+    }
     const handleReset = () => {
         setIsModalOpen(false)
-        onConfirm(selectedValue, true, selectMajor)
+        onConfirm(selectedValue, true, selectMajor, true)
     }
     const handleLeaveAsIs = () => {
         setIsModalOpen(false)
         
         //choice? console.log("True") : console.log("false")
-        onConfirm(selectedValue, false, selectMajor)
+        onConfirm(selectedValue, false, selectMajor, true)
     }
 
     useEffect(() => {
@@ -96,7 +98,14 @@ function MajorDropdown({ onConfirm }) { //Takes a prop from semester which is an
                     </Modal.Header>
                     <Modal.Body>
     
-                        Reset Schedule or Add Courses Ontop of Current Schedule
+                        Do you want to load a default template of your selected major? <br></br>
+                        You can choose to:
+                        <ol>
+                            <li>- Reset your current schedule and load the default</li>
+                            <li>- Add the defaulton top of your current schedule</li>
+                            <li>- Cancel and keep your current schedule by clicking the X above</li>
+                        </ol>
+
     
                     </Modal.Body>
                     <Modal.Footer>

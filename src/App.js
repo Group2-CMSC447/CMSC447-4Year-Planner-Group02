@@ -47,27 +47,40 @@ function App() {
     const [majorName, setMajorName] = useState("No Major"); //default value for major name
     const [showCheck, setShowCheck] = useState(false); //boolean for showing the check requirements button
 
-    const onConfirmMajor = (value, confirmChoice, majorList) => {
+    const onConfirmMajor = (value, confirmChoice, majorList, loadDeafult) => {
         //Used for major dropdown and data population
         setMajorName(value);
         // setMajorList(majorList)
         console.log("Major name set to: " + majorName);
-        let choiceTest = ""
-        confirmChoice ? choiceTest = "Reset" : choiceTest = "maintain"
-        console.log("Choice test is: " + choiceTest)
-        
+        if (loadDeafult) {
+            let choiceTest = ""
+            confirmChoice ? choiceTest = "Reset" : choiceTest = "maintain"
+            console.log("Choice test is: " + choiceTest)
+            
 
-        if (confirmChoice) {
-            setYears([
-                { name: "Before UMBC", preUMBC: true, semesters: [{ name: "Test Credit", courses: []}, { name: "Transfer Credit", courses: [] }] },
-                { name: "Year 1", preUMBC: false, semesters: [{ name: "Fall", courses: [] }, { name: "Spring", courses: [] }] },
-                { name: "Year 2", preUMBC: false, semesters: [{ name: "Fall", courses: [] }, { name: "Spring", courses: [] }] },
-                { name: "Year 3", preUMBC: false, semesters: [{ name: "Fall", courses: [] }, { name: "Spring", courses: [] }] },
-                { name: "Year 4", preUMBC: false, semesters: [{ name: "Fall", courses: [] }, { name: "Spring", courses: [] }] },
-            ])
+            if (confirmChoice) {
+                setYears([
+                    { name: "Before UMBC", preUMBC: true, semesters: [{ name: "Test Credit", courses: []}, { name: "Transfer Credit", courses: [] }] },
+                    { name: "Year 1", preUMBC: false, semesters: [{ name: "Fall", courses: [] }, { name: "Spring", courses: [] }] },
+                    { name: "Year 2", preUMBC: false, semesters: [{ name: "Fall", courses: [] }, { name: "Spring", courses: [] }] },
+                    { name: "Year 3", preUMBC: false, semesters: [{ name: "Fall", courses: [] }, { name: "Spring", courses: [] }] },
+                    { name: "Year 4", preUMBC: false, semesters: [{ name: "Fall", courses: [] }, { name: "Spring", courses: [] }] },
+                ])
 
-        } 
-        loadMajorCourses(years, value, majorList)
+            } 
+            loadMajorCourses(years, value, majorList)
+        }
+        else{
+            if (value !== "No Major"){
+                const selectedMajorObject = majorList.find(major => major.name === value);
+                
+                setMajorObject(selectedMajorObject)
+                setShowCheck(true)
+            }
+            else{
+                setShowCheck(false)
+            }
+        }
     }
 
     // holds course objects that api call returns
