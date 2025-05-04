@@ -4,12 +4,13 @@ import AccordionContext from 'react-bootstrap/AccordionContext';
 import { useAccordionButton } from 'react-bootstrap/AccordionButton';
 import Card from 'react-bootstrap/Card';
 import axios from 'axios';
-
+import FakeSemester from './FakeSemester';
+import { v4 as uuid } from 'uuid';
 
 const UMBC_BLACK = 'rgb(0, 0, 0)';
 const UMBC_GOLD = 'rgb(253, 181, 21)';
 
-function ContextAwareToggle({ children, eventKey, callback, years, countCurrentCredits, majorID }) {
+function ContextAwareToggle({ children, eventKey, callback, years, countCurrentCredits, majorID}) {
   const { activeEventKey } = useContext(AccordionContext);
 
   const decoratedOnClick = useAccordionButton(
@@ -31,13 +32,13 @@ function ContextAwareToggle({ children, eventKey, callback, years, countCurrentC
     let majorElectiveCredits = 0;
     const allCoursesSet = new Set();
 
-    console.log("insed of countCredits years is")
+    //console.log("insed of countCredits years is")
     years.forEach((year) => {
       
       year.semesters.forEach((semester) => {
         
         semester.courses.forEach((course) => {
-
+            console.log(course)
           totalCredits += course.credits || 0; // Add the credits of the course to the total
           mathCredits += course.attributes.includes("Math") ? 1 : 0; // Add math credits if the course has the attribute
           WICredits += course.attributes.includes("WI") ? 1 : 0; // Add writing intensive credits if the course has the attribute
@@ -83,7 +84,7 @@ function CheckRequirements({showCheck, majorObject, years}) {
   const neededCredits = [majorObject.credits, majorObject.mathCount, majorObject.writingIntensive, majorObject.socialSciences, majorObject.sciences, majorObject.english, majorObject.language, majorObject.artsAndHumanities, majorObject.cultureCount, majorObject.upperLevelCredits, majorObject.majorElective, majorObject.coreCourses.length]; // the number of credits needed for 
   
   const updateCurrentCredits = (currentCreditsList) => {
-    console.log("curentCreditsList", currentCreditsList)
+    //console.log("curentCreditsList", currentCreditsList)
     setCurrentCredits(currentCreditsList);
 
     // get core corses from majorObject and for each check if it is in the all current courses set populated within the countCredits function
@@ -99,8 +100,8 @@ function CheckRequirements({showCheck, majorObject, years}) {
       }
     })
     setMissingCourses(missingCoursesList); // update the missing courses state
-    console.log("missing courses", missingCoursesList) // log the missing courses
-    console.log("all courses", courseObjects) // log the set of all courses
+    //console.log("missing courses", missingCoursesList) // log the missing courses
+    //console.log("all courses", courseObjects) // log the set of all courses
   }
 
   const axiosFetchCourses = async() =>{ //api call to get data [async = a function that can wait]
@@ -193,18 +194,35 @@ function CheckRequirements({showCheck, majorObject, years}) {
                           
                           {/* Add the course year here */}
                           <div className="m-2 space-y-0.5">
-                          <div className="relative">
-                              <p className="text-lg font-semibold text-black">Missing Courses</p>
-                              
+                              <div className="relative">
 
-                          
+                                   {/*Basically, make a false semester object with no functionality displaying DRAGGABLE courses*/ }                       
+                                   <FakeSemester
+                                      courses={courseObjects
+                                        .filter(courseObj => {
+
+                                              return missingCourses.some(neededID => neededID === courseObj.id)
+
+                                            }
+                                        )
+                                            .map(
+                                                (course => ({
+                                                    name: course.name,
+                                                    courseID: course.id,
+                                                    key: uuid(),
+                                                    credits: course.credits || 0,
+                                                    workload: course.workload || 0,
+                                                    typicalSem: course.typicalSem || [],
+                                                    attributes: course.attributes || [],
+                                                    semesterName: "",
+                                                    yearName: "",
+                                                })))
+                                        }                            
+                                                                  
+                                       />
+
+                               </div>
                           </div>
-                          </div>
-
-                          {/* Idk change this ig */}
-
-                          
-                          
 
                           </div>
                           )}

@@ -321,6 +321,7 @@ function App() {
 
                 <h3 className="text-left text-lg font-semibold">Planner Options:</h3>
                     <div className="flex justify-left item-center gap-4">
+
                         <div className="flex flex-col w-1/2">
                             <MajorDropdown onConfirm={onConfirmMajor}></MajorDropdown>
                         
@@ -356,7 +357,7 @@ function App() {
                                 key={year.name}
                                 prevCourses={getPrevCourses}
                                 GetCreditRange={GetCreditRange}
-                                GetSemesterCourses = {getSemesterCourses}
+                                GetSemesterCourses={getSemesterCourses}
                             />
 
                         );

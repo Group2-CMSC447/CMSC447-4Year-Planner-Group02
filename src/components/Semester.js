@@ -20,7 +20,8 @@ function Semester(props) {
         const newCourses = [...courses, {
             name: newCourse, courseID: ID, key: uuid(),
             prevCourses: props.prevCourses, GetSemesterCourses: props.GetSemesterCourses,
-            credits: credits, workload: workloadAmt, typicalSem: semesters, attributes: attributes
+            credits: credits, workload: workloadAmt, typicalSem: semesters, attributes: attributes,
+            yearName:props.yearName, semesterName:name
         }];
         //CALLBACK FUNCTION
         props.updateSemester({ name: props.name, courses: newCourses, preUMBC: props.preUMBC  });
@@ -62,7 +63,7 @@ function Semester(props) {
         const typicalSem = e.dataTransfer.getData("typicalSem");
         const attributes = e.dataTransfer.getData("attributes");
         //Only add the course if the drag was successful and not to the same semester
-        if (courseName && !((fromYear === props.yearName) && (fromSem===props.name)) ){
+        if (courseName && (!((fromYear === props.yearName) && (fromSem === props.name)) || ((fromYear === "") && (fromSem === "")) )){
             //Add the copy
             addCourse(courseName, ID, credits, workload, typicalSem, attributes);
             //Remove the original
@@ -134,14 +135,22 @@ function Semester(props) {
                     {
                         courses.map((course, i) => { //iterates through courses and lists their name
                             return (
-                                <Course key={uuid()}
+                                <Course key={course.key}
                                     name={course.name}
-                                    semesterName={name}
+                                    courseID={course.courseID}
                                     prevCourses={props.prevCourses}
+                                    GetSemesterCourses={props.GetSemesterCourses}
                                     yearName={props.yearName}
+                                    semesterName={name}
                                     preUMBC={props.preUMBC}
                                     remove={() => removeCourse(i)}
-                                    GetSemesterCourses={props.GetSemesterCourses}
+                                    credits={course.credits}
+                                    workload={course.workload}
+                                    typicalSem={course.typicalSem}
+                                    attributes={course.attributes}
+
+                                
+                    
                                 />
 
                             );
