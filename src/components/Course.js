@@ -34,7 +34,7 @@ function Course(props) {
     //Must be called when courses are added /removed in the semester before the current one
     const axiosFetchCourses = async() =>{ //api call to get data [async = a function that can wait]
         try{
-            const res = await axios.get('http://localhost:4000/courses') //request data from our backend running on port 4000
+            const res = await axios.get('https://cmsc447-4year-planner-group02.onrender.com/courses') //request data from our backend running on port 4000
             if (res){
                 setSelectCourse(res.data) // set the select course array to whatever we got from api call
             }
@@ -46,7 +46,7 @@ function Course(props) {
     //grabs the course's pre reqs as specified by the database
     const fetchPreReqs = useCallback(async (courseName) => {
         try {
-            const response = await axios.get(`http://localhost:4000/courses`);
+            const response = await axios.get(`https://cmsc447-4year-planner-group02.onrender.com/courses`);
             const courseDetails = response.data;
             //grab the data about this current course
             let currCourse = courseDetails.find(item => item.name === props.name);
@@ -73,7 +73,7 @@ function Course(props) {
 
     const fetchCoReqs = useCallback(async (courseName) => {
         try {
-            const response = await axios.get(`http://localhost:4000/courses`);
+            const response = await axios.get(`https://cmsc447-4year-planner-group02.onrender.com/courses`);
             const courseDetails = response.data;
             //grab the data about this current course
             let currCourse = courseDetails.find(item => item.name === props.name);
@@ -221,6 +221,7 @@ function Course(props) {
     const openModal = () => {
         axiosFetchCourses() //function call to get actuall data from api
     }
+    // test
 
     
 

@@ -57,7 +57,7 @@ function MajorDropdown({ onConfirm }) { //Takes a prop from semester which is an
     //             NEED MAJOR BACKEND SUPPORT
     const axiosFetchMajors = async (processing) => { //api call to get data [async = a function that can wait]
         try {
-            const res = await axios.get('http://localhost:4000/majors') //request data from our backend running on port 4000
+            const res = await axios.get('https://cmsc447-4year-planner-group02.onrender.com/majors') //request data from our backend running on port 4000
             if (processing) {
                 setSelectMajor(res.data) // set the select course array to whatever we got from api call
             }
