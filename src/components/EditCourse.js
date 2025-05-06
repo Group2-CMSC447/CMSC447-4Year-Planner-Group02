@@ -36,7 +36,7 @@ function EditCourse({onConfirm}) { //Takes a prop from semester which is an on c
 
   const axiosFetchCourses = async(processing) =>{ //api call to get data [async = a function that can wait]
     try{
-        const res = await axios.get('http://localhost:4000/courses') //request data from our backend running on port 4000
+        const res = await axios.get('https://cmsc447-4year-planner-group02.onrender.com/courses') //request data from our backend running on port 4000
         if (processing){
           setSelectCourse(res.data) // set the select course array to whatever we got from api call
         }
@@ -46,7 +46,7 @@ function EditCourse({onConfirm}) { //Takes a prop from semester which is an on c
 
   const axiosFetchDepartments = async(processing) =>{ //api call to get data [async = a function that can wait]
     try{
-        const res = await axios.get('http://localhost:4000/departments') //request data from our backend running on port 4000
+        const res = await axios.get('https://cmsc447-4year-planner-group02.onrender.com/departments') //request data from our backend running on port 4000
         if (processing){
           setSelectDepartment(res.data) // set the select course array to whatever we got from api call
         }
