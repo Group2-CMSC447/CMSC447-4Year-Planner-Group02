@@ -8,6 +8,7 @@ import { v4 as uuid } from "uuid";
 import flagImage from './images/maryland-flag-header-1280x180-black-768x108.jpg';
 //import logoImage from './images/UMBC-primary-logo-CMYK-on-black.png'
 import logoImage from './images/test.png'
+import CheckRequirements from './components/CheckRequirements'
 //import LoadMajor from './components/LoadMajor';
 
 
@@ -43,35 +44,48 @@ function App() {
         return { min, max };
     }
     
-    const [majorName, setMajorName] = useState("Hello");
-    // const [majorList, setMajorList] = useState([])
+    const [majorName, setMajorName] = useState("No Major"); //default value for major name
+    const [showCheck, setShowCheck] = useState(false); //boolean for showing the check requirements button
 
-    const onConfirmMajor = (value, confirmChoice, majorList) => {
+    const onConfirmMajor = (value, confirmChoice, majorList, loadDeafult) => {
         //Used for major dropdown and data population
         setMajorName(value);
         // setMajorList(majorList)
         console.log("Major name set to: " + majorName);
-        let choiceTest = ""
-        confirmChoice ? choiceTest = "Reset" : choiceTest = "maintain"
-        console.log("The Choice is:", choiceTest )
+        if (loadDeafult) {
+            let choiceTest = ""
+            confirmChoice ? choiceTest = "Reset" : choiceTest = "maintain"
+            console.log("Choice test is: " + choiceTest)
+            
 
-        //confirmChoice ? resetSchedule(value) : addToSchedule(value)
+            if (confirmChoice) {
+                setYears([
+                    { name: "Before UMBC", preUMBC: true, semesters: [{ name: "Test Credit", courses: []}, { name: "Transfer Credit", courses: [] }] },
+                    { name: "Year 1", preUMBC: false, semesters: [{ name: "Fall", courses: [] }, { name: "Spring", courses: [] }] },
+                    { name: "Year 2", preUMBC: false, semesters: [{ name: "Fall", courses: [] }, { name: "Spring", courses: [] }] },
+                    { name: "Year 3", preUMBC: false, semesters: [{ name: "Fall", courses: [] }, { name: "Spring", courses: [] }] },
+                    { name: "Year 4", preUMBC: false, semesters: [{ name: "Fall", courses: [] }, { name: "Spring", courses: [] }] },
+                ])
 
-        if (confirmChoice) {
-            setYears([
-                { name: "Before UMBC", preUMBC: true, semesters: [{ name: "Test Credit", courses: []}, { name: "Transfer Credit", courses: [] }] },
-                { name: "Year 1", preUMBC: false, semesters: [{ name: "Fall", courses: [] }, { name: "Spring", courses: [] }] },
-                { name: "Year 2", preUMBC: false, semesters: [{ name: "Fall", courses: [] }, { name: "Spring", courses: [] }] },
-                { name: "Year 3", preUMBC: false, semesters: [{ name: "Fall", courses: [] }, { name: "Spring", courses: [] }] },
-                { name: "Year 4", preUMBC: false, semesters: [{ name: "Fall", courses: [] }, { name: "Spring", courses: [] }] },
-            ])
-
-        } 
-        loadMajorCourses(years, value, majorList)
+            } 
+            loadMajorCourses(years, value, majorList)
+        }
+        else{
+            if (value !== "No Major"){
+                const selectedMajorObject = majorList.find(major => major.name === value);
+                
+                setMajorObject(selectedMajorObject)
+                setShowCheck(true)
+            }
+            else{
+                setShowCheck(false)
+            }
+        }
     }
 
     // holds course objects that api call returns
     const [courseObjects, setCourseObjects] = useState([]);
+    const [majorObject, setMajorObject] = useState(null);
     //Determine if courses are missing that are needed for this class to be taken
     //Must be called when courses are added /removed in the semester before the current one
     const axiosFetchCourses = async() =>{ //api call to get data [async = a function that can wait]
@@ -96,18 +110,28 @@ function App() {
         }, []) //lets it know to only run once
 
     const loadMajorCourses = (newYearForMajor, selectedMajorName, majorList) =>{
-        console.log("inside of load Major Courses")        
-        const selectedMajorObject = majorList.find(major => major.name === selectedMajorName);
-        console.log("the found major is:", selectedMajorName, "the object selected is", selectedMajorObject.name)
-        const listOfMajorReqCourses = selectedMajorObject.required_courses;
-        for (let i = 0; i < listOfMajorReqCourses.length; i++){
-            const courseName = Object.keys(listOfMajorReqCourses[i]);
-            const defaultLocation = listOfMajorReqCourses[i][courseName[0]]
         
-            const course = courseObjects.find(object => object.id === courseName[0])
+        if (selectedMajorName !== "No Major"){        
+            const selectedMajorObject = majorList.find(major => major.name === selectedMajorName);
+            console.log("the object selected is", selectedMajorObject)
+            setMajorObject(selectedMajorObject)
+            const listOfMajorReqCourses = selectedMajorObject.required_courses;
+            for (let i = 0; i < listOfMajorReqCourses.length; i++){
+                const courseName = Object.keys(listOfMajorReqCourses[i]);
+                const defaultLocation = listOfMajorReqCourses[i][courseName[0]]
+            
+                const course = courseObjects.find(object => object.id === courseName[0])
 
-            addToSemester(defaultLocation[0], defaultLocation[1], course.name, course.id, course.credits);
+                addToSemester(defaultLocation[0], defaultLocation[1], course.name, course.id, course.credits, course.workload, course.typicalSem, course.attributes);
+            }
+
+            setShowCheck(true)
         }
+        else{
+            
+            setShowCheck(false)
+        }
+        
     }
 
     //Long winded callback function used at the semester level for drag and drop cleanup
@@ -146,7 +170,7 @@ function App() {
 
     //Long winded callback function used at the semester level for drag and drop cleanup
     //Quite literally restructured the whole code just to implement this function
-    const addToSemester = (yearName, semesterName, courseName, ID, credits) => {
+    const addToSemester = (yearName, semesterName, courseName, ID, credits, workloadAmt, semesters, attributes) => {
         setYears((oldYears) =>
             //update current years
             oldYears.map((currYear) => {
@@ -162,7 +186,7 @@ function App() {
                             if (currSem.name === semesterName) {
                                 //Add course logic
                                 const oldCourses = currSem.courses;
-                                const newCourses = [...oldCourses, { name: courseName, courseID: ID, key: uuid(), prevCourses: getPrevCourses, credits: credits }];
+                                const newCourses = [...oldCourses, { name: courseName, courseID: ID, key: uuid(), prevCourses: getPrevCourses, credits: credits, workload: workloadAmt, typicalSem: semesters, attributes: attributes}];
                                 
                                 return {
                                     ...currSem,
@@ -276,6 +300,7 @@ function App() {
             (year) => year.name !== yearName
         ))
     }
+    
 
     return (
         <div className= "bg-umbcLightGray">
@@ -296,11 +321,25 @@ function App() {
 
                 <h3 className="text-left text-lg font-semibold">Planner Options:</h3>
                     <div className="flex justify-left item-center gap-4">
-                        <div className="">
+
+                        <div className="flex flex-col w-1/2">
                             <MajorDropdown onConfirm={onConfirmMajor}></MajorDropdown>
+                        
                         </div>
-                    
+                        
                     </div>
+                {showCheck &&
+                (
+                    
+                     <div className="flex-auto">
+                    <CheckRequirements
+                        showCheck={showCheck}
+                        majorObject={majorObject}
+                        years={years}
+                    />
+                    </div>
+                )
+                }
                 <div className="flex-auto">
                         <CreditRange changeVals={changeVals}></CreditRange>
                 </div>
@@ -318,7 +357,7 @@ function App() {
                                 key={year.name}
                                 prevCourses={getPrevCourses}
                                 GetCreditRange={GetCreditRange}
-                                GetSemesterCourses = {getSemesterCourses}
+                                GetSemesterCourses={getSemesterCourses}
                             />
 
                         );

@@ -14,13 +14,14 @@ function Semester(props) {
     const difficultyForWarning = 10;
     const greaterThanDifficulty = difficulty >= difficultyForWarning;
     
-    const addCourse = (newCourse, ID, credits, workloadAmt, semesters) => { //newcourses is a prop sent to editCourses and it comes back witht e selected course name 
+    const addCourse = (newCourse, ID, credits, workloadAmt, semesters, attributes) => { //newcourses is a prop sent to editCourses and it comes back witht e selected course name 
         
         // get whats in courses and add a new course to it and the number of courses
         const newCourses = [...courses, {
             name: newCourse, courseID: ID, key: uuid(),
             prevCourses: props.prevCourses, GetSemesterCourses: props.GetSemesterCourses,
-            credits: credits, workload: workloadAmt, typicalSem: semesters
+            credits: credits, workload: workloadAmt, typicalSem: semesters, attributes: attributes,
+            yearName:props.yearName, semesterName:name
         }];
         //CALLBACK FUNCTION
         props.updateSemester({ name: props.name, courses: newCourses, preUMBC: props.preUMBC  });
@@ -60,10 +61,11 @@ function Semester(props) {
         const credits = (Number(e.dataTransfer.getData("courseCredits")));
         const workload = (Number(e.dataTransfer.getData("workload")));
         const typicalSem = e.dataTransfer.getData("typicalSem");
+        const attributes = e.dataTransfer.getData("attributes");
         //Only add the course if the drag was successful and not to the same semester
-        if (courseName && !((fromYear === props.yearName) && (fromSem===props.name)) ){
+        if (courseName && (!((fromYear === props.yearName) && (fromSem === props.name)) || ((fromYear === "") && (fromSem === "")) )){
             //Add the copy
-            addCourse(courseName, ID, credits, workload);
+            addCourse(courseName, ID, credits, workload, typicalSem, attributes);
             //Remove the original
             props.removeFromSemester(fromYear, fromSem, courseName, typicalSem);
         }
@@ -133,14 +135,22 @@ function Semester(props) {
                     {
                         courses.map((course, i) => { //iterates through courses and lists their name
                             return (
-                                <Course key={uuid()}
+                                <Course key={course.key}
                                     name={course.name}
-                                    semesterName={name}
+                                    courseID={course.courseID}
                                     prevCourses={props.prevCourses}
+                                    GetSemesterCourses={props.GetSemesterCourses}
                                     yearName={props.yearName}
+                                    semesterName={name}
                                     preUMBC={props.preUMBC}
                                     remove={() => removeCourse(i)}
-                                    GetSemesterCourses={props.GetSemesterCourses}
+                                    credits={course.credits}
+                                    workload={course.workload}
+                                    typicalSem={course.typicalSem}
+                                    attributes={course.attributes}
+
+                                
+                    
                                 />
 
                             );

@@ -18,7 +18,7 @@ function Course(props) {
         description:"N/A",
         credits: "N/A",
         workload:"N/A",
-        attributes: "N/A",
+        attributes: [],
         typicalSem: "N/A",
         preReqs: [],
         coReqs: []
@@ -333,7 +333,7 @@ function Course(props) {
                         {courseData.description}
                         <p className= "flex">Credits: {courseData.credits}</p>
                         <p className= "flex">Workload: {courseData.workload}</p>
-                        <p className= "flex">Attributes: {courseData.attributes}</p>
+                        <p className= "flex">Attributes: {courseData.attributes.join(", ")}</p>
                         <p className="flex">Prerequisites: {courseData.preReqs.join(", ")}</p>
                     </div>
                 </Modal.Body>

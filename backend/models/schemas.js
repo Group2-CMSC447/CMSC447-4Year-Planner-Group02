@@ -14,6 +14,7 @@ const coursesSchema = new Schema({
 });
 
 const majorSchema = new Schema({
+    acronym:{type:String},
     name: {type:String, required:true},
     credits: {type: Number},
     degreeType: {type:String},
@@ -23,6 +24,7 @@ const majorSchema = new Schema({
     socialSciences: {type: Number},
     sciences: {type: Number},
     english: {type: Number},
+    language: {type: Number},
     artsAndHumanities: {type: Number},
     cultureCount: {type: Number},
     upperLevelCredits: {type: Number},

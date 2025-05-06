@@ -8,27 +8,34 @@ function MajorDropdown({ onConfirm }) { //Takes a prop from semester which is an
     const [selectedValue, setSelectedValue] = useState("") //get the selected course
     const [isModalOpen, setIsModalOpen] = useState(false);
     
-    const handleCloseModal = () => setIsModalOpen(false); //when model has to close set show to false
-    
+    const handleCloseModal = () => {
+        onConfirm(selectedValue, false, selectMajor, false) //if no course is selected then just pass the selected value as is
+        setIsModalOpen(false); //when model has to close set show to false
+    }
     const handleReset = () => {
         setIsModalOpen(false)
-        onConfirm(selectedValue, true, selectMajor)
+        onConfirm(selectedValue, true, selectMajor, true)
     }
     const handleLeaveAsIs = () => {
         setIsModalOpen(false)
-        console.log("maintain")
+        
         //choice? console.log("True") : console.log("false")
-        onConfirm(selectedValue, false, selectMajor)
+        onConfirm(selectedValue, false, selectMajor, true)
     }
 
     useEffect(() => {
-        console.log(selectedValue);
       }, [selectedValue]);
 
     const handleConfirm = (e) => { //runs after clicking add in the modal
         if (e.target.value) { //ensures a course was actually clicked
+            if (e.target.value !== "No Major") { //ensures a course was actually clicked
             setSelectedValue(e.target.value)
             setIsModalOpen(true)
+            }
+            else{
+                setSelectedValue(e.target.value)
+                onConfirm("No Major", false, []) //if no course is selected then just pass the selected value as is
+            }
         }
     }
 
@@ -62,6 +69,7 @@ function MajorDropdown({ onConfirm }) { //Takes a prop from semester which is an
         //This is a prop created to get all courses from an api then create an option for each
         return (
             <select value={selectedValue} onChange={(e) => handleConfirm(e)}> {/* the value for the select gets set once the option is picked*/}
+                <option value="No Major" >No Major</option> {/* default option*/}
                 {
                     selectMajor?.map((item) => ( //The map function iterates through the array selectCourse as long as there is something in there
                         <option value={item.name}> {item.name} </option> //displays options by the courses.name, the value of the object is the objects.name and is passed to the value of selectedValue so it only has the string value
@@ -74,8 +82,9 @@ function MajorDropdown({ onConfirm }) { //Takes a prop from semester which is an
     return (
         <>
             <div className="flex item-center gap-2">
-                <p className="text-center font-semibold text-black  mb-0">Select Major:</p> {/*Title*/}
+                <p className="text-center font-semibold text-black  mb-0">Pick A Major:</p> {/*Title*/}
                 <SelectInSearch /> {/* New Prop we created this is what gets the data from the database and lists the course objects fromt he data recieved from the database*/}
+                
                 {isModalOpen &&(
                     <>
                     <Modal
@@ -85,11 +94,18 @@ function MajorDropdown({ onConfirm }) { //Takes a prop from semester which is an
                     keyboard={false}
                     >
                     <Modal.Header closeButton>
-                    <Modal.Title>Add Course</Modal.Title>
+                    <Modal.Title>Load Default Major</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
     
-                        Reset Schedule or Add Courses Ontop of Current Schedule
+                        Do you want to load a default template of your selected major? <br></br>
+                        You can choose to:
+                        <ol>
+                            <li>- Reset your current schedule and load the default</li>
+                            <li>- Add the defaulton top of your current schedule</li>
+                            <li>- Cancel and keep your current schedule by clicking the X above</li>
+                        </ol>
+
     
                     </Modal.Body>
                     <Modal.Footer>
