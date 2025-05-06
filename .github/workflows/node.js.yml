@@ -5,9 +5,9 @@ name: 4 Year Planner New Workflow
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "deployment" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "deployment" ]
 
 jobs:
   build:
