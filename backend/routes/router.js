@@ -11,15 +11,6 @@ const sheetURL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=
 const sheetURLMajor = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv&sheet=${sheetName2}`;
 const sheetURLDepartments = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv&sheet=${sheetName3}`;
 
-majorData = [
-    {
-        name: 'Chemical Engineering - Traditional - B.S.',
-        credits: 101,
-        degreeType: 'B.S.',
-        required_courses: []
-    },
-]
-
 //grabs csv from google sheets
 fetch(sheetURL)
 .then((response) => response.text())
