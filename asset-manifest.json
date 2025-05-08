@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/CMSC447-4Year-Planner-Group02/static/css/main.38695481.css",
-    "main.js": "/CMSC447-4Year-Planner-Group02/static/js/main.4f9665b4.js",
+    "main.js": "/CMSC447-4Year-Planner-Group02/static/js/main.ea060855.js",
     "static/js/488.3545f45c.chunk.js": "/CMSC447-4Year-Planner-Group02/static/js/488.3545f45c.chunk.js",
     "static/media/maryland-flag-header-1280x180-black-768x108.jpg": "/CMSC447-4Year-Planner-Group02/static/media/maryland-flag-header-1280x180-black-768x108.8a026d159dca127bd162.jpg",
     "static/media/test.png": "/CMSC447-4Year-Planner-Group02/static/media/test.3c97ec0c7e463ca3f035.png",
     "index.html": "/CMSC447-4Year-Planner-Group02/index.html",
     "main.38695481.css.map": "/CMSC447-4Year-Planner-Group02/static/css/main.38695481.css.map",
-    "main.4f9665b4.js.map": "/CMSC447-4Year-Planner-Group02/static/js/main.4f9665b4.js.map",
+    "main.ea060855.js.map": "/CMSC447-4Year-Planner-Group02/static/js/main.ea060855.js.map",
     "488.3545f45c.chunk.js.map": "/CMSC447-4Year-Planner-Group02/static/js/488.3545f45c.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.38695481.css",
-    "static/js/main.4f9665b4.js"
+    "static/js/main.ea060855.js"
   ]
 }
