@@ -230,7 +230,7 @@ async function addMajorCSVToDB(objs){
 
     // moved to avoid deleting new majors
     await majors.deleteMany();
-    await majors.insertMany(majorData);
+    //await majors.insertMany(majorData);
     //through each object from csv
     for(let i = 0; i < objs.length; ++i){
         let obj = objs[i];

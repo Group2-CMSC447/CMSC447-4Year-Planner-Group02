@@ -102,7 +102,7 @@ function MajorDropdown({ onConfirm }) { //Takes a prop from semester which is an
                         You can choose to:
                         <ol>
                             <li>- Reset your current schedule and load the default</li>
-                            <li>- Add the defaulton top of your current schedule</li>
+                            <li>- Add the default on top of your current schedule</li>
                             <li>- Cancel and keep your current schedule by clicking the X above</li>
                         </ol>
 
